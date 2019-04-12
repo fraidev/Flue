@@ -36,9 +36,8 @@ namespace FeedService
             });
 
             // configure jwt authentication
-            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Value);
-            var r = ConfigurationManager.ConnectionStrings;
-            Console.WriteLine(r);
+            
+            var key = Encoding.ASCII.GetBytes("THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING");
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

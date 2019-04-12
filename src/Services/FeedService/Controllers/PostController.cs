@@ -16,7 +16,7 @@ namespace FeedService.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class PostController : Controller
+    public class PostController : ControllerBase
     {
         private readonly IFeedRepository _feedRepository;
 
