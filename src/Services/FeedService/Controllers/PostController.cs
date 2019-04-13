@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using FeedService.Domain.Write.Aggregates;
 using FeedService.Domain.Write.Commands;
 using FeedService.Domain.Write.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +21,11 @@ namespace FeedService.Controllers
     [Route("api/[controller]")]
     public class PostController : ControllerBase
     {
-        private readonly IFeedRepository _feedRepository;
+        //private readonly IFeedRepository _feedRepository;
 
-        public PostController(IFeedRepository feedRepository)
+        public PostController()
         {
-            _feedRepository = feedRepository;
+         //   _feedRepository = feedRepository;
         }
         [HttpGet("Frost")]
         public IActionResult Frost()
@@ -41,13 +44,21 @@ namespace FeedService.Controllers
             return "value";
         }
 
+        /*[HttpGet("teste")]
+        public ActionResult<string> Get(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            tokenHandler.ReadToken(token);
+            user.Token = tokenHandler;
+        }*/
+
         // POST api/values
-        [HttpPost]
+        /*[HttpPost]
         public void CreatePost([FromBody] CreatePost cmd)
         {
             var aggregate = new FeedAggregate(cmd);
             _feedRepository.Save(aggregate);
-        }
+        }*/
 
         // PUT api/values/5
         [HttpPut("{id}")]

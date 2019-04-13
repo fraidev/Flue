@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -10,9 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
+using System.Threading.Tasks;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace FeedService
 {
@@ -28,22 +32,36 @@ namespace FeedService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors();
+            services.AddMvc();
 
-            services.AddSwaggerGen(c =>
+            /*services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "FeedService API", Description = "FeedService API" });
-            });
+            });*/
 
             // configure jwt authentication
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
             
-            var key = Encoding.ASCII.GetBytes("THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING");
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(x =>
             {
+                x.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        
+                        var userId = int.Parse(context.Principal.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
+                        
+                        return Task.CompletedTask;
+                    }
+                };
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
@@ -54,9 +72,9 @@ namespace FeedService
                     ValidateAudience = false
                 };
             });
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddMediatR(typeof(Startup));
-            services.AddScoped<IMediatorHandler, InMemoryBus>();
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            /*services.AddMediatR(typeof(Startup));
+            services.AddScoped<IMediatorHandler, InMemoryBus>();*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,12 +97,11 @@ namespace FeedService
             }
 
             app.UseHttpsRedirection();
-
-            app.UseMvc();
+/*
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core API"); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core API"); });*/
 
             app.UseAuthentication();
 
