@@ -10,10 +10,7 @@ namespace FeedService.Infrastructure.Persistence
     {
         public static ISessionFactory CreateSessionFactory(string connectionString)
         {
-            return Fluently.Configure()
-                .Database(MsSqlConfiguration.MsSql2012
-                    .ConnectionString(connectionString)
-                    .ShowSql())
+            return Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(connectionString).ShowSql())
 
                 .Mappings(m => m.FluentMappings
 
@@ -25,7 +22,26 @@ namespace FeedService.Infrastructure.Persistence
                     }))
 
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                // .Create(true, true)
+                 .Create(true, true) // tira isso dps
+                )
+
+                .BuildSessionFactory();
+        }
+        public static ISessionFactory CreateSessionFactoryInMemory()
+        {
+            return Fluently.Configure()
+                .Database(SQLiteConfiguration.Standard.InMemory().ShowSql())
+
+                .Mappings(m => m.FluentMappings
+
+                    .AddFromAssemblyOf<Program>()
+                    .Conventions.Setup(c =>
+                    {
+                        c.Add(DefaultLazy.Never());  // Acabar com os virtual
+                        //c.Add(DefaultCascade.All());
+                    }))
+
+                .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(true, true)
                 )
 
                 .BuildSessionFactory();
