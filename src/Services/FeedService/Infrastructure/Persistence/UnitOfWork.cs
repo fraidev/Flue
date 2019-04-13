@@ -8,21 +8,13 @@ namespace FeedService.Infrastructure.Persistence
     public interface IUnitOfWork
     {
         void Save<TEntity>(TEntity entity) where TEntity : class;
-        /*TEntity Merge<TEntity>(TEntity entity) where TEntity : class; */
         void Update(object entity);
         void SaveOrUpdate(object entity);
         void Delete(object entity);
-        /* void Delete(params object[] entities);
-         void Clear(); */
         void Flush();
         T GetById<T>(Guid id);
         IQueryable<T> Query<T>();
-        /* ISQLQuery CreateSqlQuery(string sql);
-         IQuery GetNamedQuery(string namedQuery);
-         object Get(Type type, object id);
-         IList List(Type t);*/
         bool Contains(object entity);
-        //        bool IsMapped(Type type);
     }
 
     public class UnitOfWork : IUnitOfWork

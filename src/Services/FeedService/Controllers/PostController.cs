@@ -21,11 +21,11 @@ namespace FeedService.Controllers
     [Route("api/[controller]")]
     public class PostController : ControllerBase
     {
-        //private readonly IFeedRepository _feedRepository;
+        private readonly IFeedRepository _feedRepository;
 
-        public PostController()
+        public PostController(IFeedRepository feedRepository)
         {
-         //   _feedRepository = feedRepository;
+            _feedRepository = feedRepository;
         }
         [HttpGet("Frost")]
         public IActionResult Frost()
@@ -44,21 +44,13 @@ namespace FeedService.Controllers
             return "value";
         }
 
-        /*[HttpGet("teste")]
-        public ActionResult<string> Get(string token)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            tokenHandler.ReadToken(token);
-            user.Token = tokenHandler;
-        }*/
-
         // POST api/values
-        /*[HttpPost]
+        [HttpPost]
         public void CreatePost([FromBody] CreatePost cmd)
         {
             var aggregate = new FeedAggregate(cmd);
             _feedRepository.Save(aggregate);
-        }*/
+        }
 
         // PUT api/values/5
         [HttpPut("{id}")]

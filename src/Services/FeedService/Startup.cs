@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 using System.Threading.Tasks;
+using FeedService.Domain.Write.Repositories;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Persistence;
@@ -35,10 +36,10 @@ namespace FeedService
             services.AddCors();
             services.AddMvc();
 
-            /*services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "FeedService API", Description = "FeedService API" });
-            });*/
+            });
 
             // configure jwt authentication
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -54,13 +55,7 @@ namespace FeedService
             {
                 x.Events = new JwtBearerEvents
                 {
-                    OnTokenValidated = context =>
-                    {
-                        
-                        var userId = int.Parse(context.Principal.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
-                        
-                        return Task.CompletedTask;
-                    }
+                    OnTokenValidated = context =>  Task.CompletedTask
                 };
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
@@ -72,9 +67,10 @@ namespace FeedService
                     ValidateAudience = false
                 };
             });
-            //services.AddScoped<IUnitOfWork, UnitOfWork>();
-            /*services.AddMediatR(typeof(Startup));
-            services.AddScoped<IMediatorHandler, InMemoryBus>();*/
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IFeedRepository, FeedRepository>();
+            services.AddMediatR(typeof(Startup));
+            services.AddScoped<IMediatorHandler, InMemoryBus>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,11 +93,10 @@ namespace FeedService
             }
 
             app.UseHttpsRedirection();
-/*
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core API"); });*/
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core API"); });
 
             app.UseAuthentication();
 
