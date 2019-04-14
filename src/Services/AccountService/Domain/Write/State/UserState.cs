@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace AccountService.Domain.Write.State
 {
-    public class User
+    public class UserState
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -10,5 +12,9 @@ namespace AccountService.Domain.Write.State
         public byte[] PasswordSalt { get; set; }
         public string Role { get; set; }
         public string Token { get; set; }
+        
+        public IList<UserState> Followers { get; set; } = new List<UserState>();
+        
+        public IList<UserState> Following { get; set; } = new List<UserState>();
     }
 }

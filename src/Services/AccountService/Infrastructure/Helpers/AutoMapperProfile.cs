@@ -8,8 +8,8 @@ namespace AccountService.Infrastructure.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserCommand>();
-            CreateMap<UserCommand, User>();
+            CreateMap<UserState, UserCommand>();
+            CreateMap<UserCommand, UserState>();
         }
     }
 }

@@ -56,7 +56,7 @@ namespace AccountService.Controllers
         public IActionResult Register([FromBody]UserCommand userCommand)
         {
             // map dto to entity
-            var user = _mapper.Map<User>(userCommand);
+            var user = _mapper.Map<UserState>(userCommand);
             user.Role = Role.User;
 
             try 
@@ -102,7 +102,7 @@ namespace AccountService.Controllers
         public IActionResult Update(int id, [FromBody]UserCommand userCommand)
         {
             // map dto to entity and set id
-            var user = _mapper.Map<User>(userCommand);
+            var user = _mapper.Map<UserState>(userCommand);
             user.Id = id;
 
             try 

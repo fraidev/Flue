@@ -13,11 +13,11 @@ namespace AccountService.Domain.Write.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        User Create(User user, string password);
-        void Update(User user, string password = null);
+        UserState Authenticate(string username, string password);
+        IEnumerable<UserState> GetAll();
+        UserState GetById(int id);
+        UserState Create(UserState userState, string password);
+        void Update(UserState userState, string password = null);
         void Delete(int id);
     }
 
@@ -32,7 +32,7 @@ namespace AccountService.Domain.Write.Services
             _context = context;
         }
 
-        public User Authenticate(string username, string password)
+        public UserState Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
@@ -68,55 +68,55 @@ namespace AccountService.Domain.Write.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<UserState> GetAll()
         {
             return _context.Users;
         }
 
-        public User GetById(int id)
+        public UserState GetById(int id)
         {
             return _context.Users.Find(id);
         }
 
-        public User Create(User user, string password)
+        public UserState Create(UserState userState, string password)
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            if (_context.Users.Any(x => x.Username == user.Username))
-                throw new AppException("Username \"" + user.Username + "\" is already taken");
+            if (_context.Users.Any(x => x.Username == userState.Username))
+                throw new AppException("Username \"" + userState.Username + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            userState.PasswordHash = passwordHash;
+            userState.PasswordSalt = passwordSalt;
 
-            _context.Users.Add(user);
+            _context.Users.Add(userState);
             _context.SaveChanges();
 
-            return user;
+            return userState;
         }
 
-        public void Update(User userParam, string password = null)
+        public void Update(UserState userStateParam, string password = null)
         {
-            var user = _context.Users.Find(userParam.Id);
+            var user = _context.Users.Find(userStateParam.Id);
 
             if (user == null)
                 throw new AppException("User not found");
 
-            if (userParam.Username != user.Username)
+            if (userStateParam.Username != user.Username)
             {
                 // username has changed so check if the new username is already taken
-                if (_context.Users.Any(x => x.Username == userParam.Username))
-                    throw new AppException("Username " + userParam.Username + " is already taken");
+                if (_context.Users.Any(x => x.Username == userStateParam.Username))
+                    throw new AppException("Username " + userStateParam.Username + " is already taken");
             }
 
             // update user properties
-            user.FirstName = userParam.FirstName;
-            user.LastName = userParam.LastName;
-            user.Username = userParam.Username;
+            user.FirstName = userStateParam.FirstName;
+            user.LastName = userStateParam.LastName;
+            user.Username = userStateParam.Username;
 
             // update password if it was entered
             if (!string.IsNullOrWhiteSpace(password))
