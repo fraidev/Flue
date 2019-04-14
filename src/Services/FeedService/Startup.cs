@@ -1,12 +1,7 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.Security.Claims;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +13,6 @@ using FeedService.Domain.Write.Repositories;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace FeedService
 {

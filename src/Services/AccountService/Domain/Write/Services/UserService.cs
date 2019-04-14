@@ -4,8 +4,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using AccountService.Domain.Write.Repositories;
 using AccountService.Domain.Write.State;
 using AccountService.Infrastructure.Helpers;
+using FluentNHibernate.Conventions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,21 +17,22 @@ namespace AccountService.Domain.Write.Services
     {
         UserState Authenticate(string username, string password);
         IEnumerable<UserState> GetAll();
-        UserState GetById(int id);
+        UserState GetById(Guid id);
         UserState Create(UserState userState, string password);
         void Update(UserState userState, string password = null);
-        void Delete(int id);
+        void Delete(Guid id);
+        void Follow(Guid id);
     }
 
     public class UserService : IUserService
     {
         private readonly AppSettings _appSettings;
-        private DataContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public UserService(IOptions<AppSettings> appSettings, DataContext context)
+        public UserService(IOptions<AppSettings> appSettings, IUserRepository userRepository)
         {
             _appSettings = appSettings.Value;
-            _context = context;
+            _userRepository = userRepository;
         }
 
         public UserState Authenticate(string username, string password)
@@ -37,7 +40,8 @@ namespace AccountService.Domain.Write.Services
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Users.SingleOrDefault(x => x.Username == username);
+            var user = _userRepository.GetByUser(username);
+            //var user = _context.Users.SingleOrDefault(x => x.Username == username);
 
             // check if username exists
             if (user == null)
@@ -70,12 +74,14 @@ namespace AccountService.Domain.Write.Services
 
         public IEnumerable<UserState> GetAll()
         {
-            return _context.Users;
+            return _userRepository.GetAll();
+            //return _context.Users;
         }
 
-        public UserState GetById(int id)
+        public UserState GetById(Guid id)
         {
-            return _context.Users.Find(id);
+            return _userRepository.GetById(id);
+            //return _context.Users.Find(id);
         }
 
         public UserState Create(UserState userState, string password)
@@ -84,7 +90,8 @@ namespace AccountService.Domain.Write.Services
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            if (_context.Users.Any(x => x.Username == userState.Username))
+            //if (_context.Users.Any(x => x.Username == userState.Username))
+            if(_userRepository.GetByUser(userState.Username).IsAny())  
                 throw new AppException("Username \"" + userState.Username + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
@@ -93,15 +100,18 @@ namespace AccountService.Domain.Write.Services
             userState.PasswordHash = passwordHash;
             userState.PasswordSalt = passwordSalt;
 
-            _context.Users.Add(userState);
-            _context.SaveChanges();
+            //_context.Users.Add(userState);
+            //_context.SaveChanges();
+            
+            _userRepository.Save(userState);
 
             return userState;
         }
 
         public void Update(UserState userStateParam, string password = null)
         {
-            var user = _context.Users.Find(userStateParam.Id);
+            //var user = _context.Users.Find(userStateParam.Id);
+            var user = _userRepository.GetById(userStateParam.Id);
 
             if (user == null)
                 throw new AppException("User not found");
@@ -109,7 +119,8 @@ namespace AccountService.Domain.Write.Services
             if (userStateParam.Username != user.Username)
             {
                 // username has changed so check if the new username is already taken
-                if (_context.Users.Any(x => x.Username == userStateParam.Username))
+                //if (_context.Users.Any(x => x.Username == userStateParam.Username))
+                if(_userRepository.GetByUser(userStateParam.Username).IsAny())  
                     throw new AppException("Username " + userStateParam.Username + " is already taken");
             }
 
@@ -128,18 +139,33 @@ namespace AccountService.Domain.Write.Services
                 user.PasswordSalt = passwordSalt;
             }
 
-            _context.Users.Update(user);
-            _context.SaveChanges();
+            //_context.Users.Update(user);
+            //_context.SaveChanges();
+            
+            _userRepository.Update(user);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
-            var user = _context.Users.Find(id);
+            /*var user = _context.Users.Find(id);
             if (user != null)
             {
                 _context.Users.Remove(user);
                 _context.SaveChanges();
+            }*/
+
+            var user = _userRepository.GetById(id);
+            if (user != null)
+            {
+                _userRepository.Delete(user);
             }
+        }
+
+        public void Follow(Guid id)
+        {
+            /*(ClaimsIdentity)User.Identity)
+            User.
+            _userRepository.get*/
         }
 
         // private helper methods

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AccountService.Domain.Write.Repositories;
 using AccountService.Domain.Write.Services;
 using AccountService.Infrastructure.Helpers;
+using AccountService.Infrastructure.Persistence;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -57,7 +59,7 @@ namespace AccountService
                         OnTokenValidated = context =>
                         {
                             var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                            var userId = int.Parse(context.Principal.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
+                            var userId = Guid.Parse(context.Principal.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
                             var user = userService.GetById(userId);
                             if (user == null)
                             {
@@ -79,6 +81,8 @@ namespace AccountService
                 });
             
             // configure DI for application services
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
         }
 

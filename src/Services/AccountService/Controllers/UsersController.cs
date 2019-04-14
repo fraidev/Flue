@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -51,6 +52,21 @@ namespace AccountService.Controllers
             });
         }
 
+        [HttpPost("Follow/{id}")]
+        public IActionResult Follow(Guid id)
+        {
+            var claim = ((ClaimsIdentity)User.Identity);
+            var userId = Guid.Parse(claim.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
+
+            var user = _userService.GetById(userId);
+            var follow = _userService.GetById(id);
+            
+            user.Followers.Add(follow);
+            
+            _userService.Update(user);
+            return Ok();
+        }
+
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody]UserCommand userCommand)
@@ -91,7 +107,7 @@ namespace AccountService.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(Guid id)
         {
             var user =  _userService.GetById(id);
             var userDto = _mapper.Map<UserCommand>(user);
@@ -99,7 +115,7 @@ namespace AccountService.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]UserCommand userCommand)
+        public IActionResult Update(Guid id, [FromBody]UserCommand userCommand)
         {
             // map dto to entity and set id
             var user = _mapper.Map<UserState>(userCommand);
@@ -119,7 +135,7 @@ namespace AccountService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Guid id)
         {
             _userService.Delete(id);
             return Ok();
