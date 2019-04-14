@@ -1,0 +1,3 @@
+rootProject.name = 'FiostApp'
+
+include ':app'
