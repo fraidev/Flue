@@ -1,6 +1,6 @@
 namespace AccountService.Dtos
 {
-    public class UserDto
+    public class UserCommand
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

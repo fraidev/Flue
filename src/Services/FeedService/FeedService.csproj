@@ -18,7 +18,6 @@
   <ItemGroup>
     <Folder Include="Domain\Read\Models\" />
     <Folder Include="Domain\Read\Repositories\" />
-    <Folder Include="Infrastructure\Persistence\Maps\Read" />
     <Folder Include="Infrastructure\Security\" />
   </ItemGroup>
 

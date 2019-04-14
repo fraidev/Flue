@@ -20,11 +20,13 @@ namespace FeedService.Domain.Write.Aggregates
         
         public FeedAggregate(PostState state)
         {
+            Id = Guid.NewGuid();
             State = state;
         }
         
         public FeedAggregate(CreatePost cmd)
         {
+            Id = Guid.NewGuid();
             State = new PostState()
             {
                 Id = cmd.Id,

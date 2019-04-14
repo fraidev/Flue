@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 using System.Threading.Tasks;
+using FeedService.Domain.Read.Repositories;
 using FeedService.Domain.Write.Repositories;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.CQRS;
@@ -69,6 +70,7 @@ namespace FeedService
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IFeedRepository, FeedRepository>();
+            services.AddScoped<IPostReadRepository, PostReadRepository>();
             services.AddMediatR(typeof(Startup));
             services.AddScoped<IMediatorHandler, InMemoryBus>();
         }

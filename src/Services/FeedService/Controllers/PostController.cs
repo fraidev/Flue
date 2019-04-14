@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using FeedService.Domain.Read.Repositories;
 using FeedService.Domain.Write.Aggregates;
 using FeedService.Domain.Write.Commands;
 using FeedService.Domain.Write.Repositories;
@@ -22,13 +23,16 @@ namespace FeedService.Controllers
     public class PostController : ControllerBase
     {
         private readonly IFeedRepository _feedRepository;
+        private readonly IPostReadRepository _postReadRepository;
 
-        public PostController(IFeedRepository feedRepository)
+        public PostController(IFeedRepository feedRepository, IPostReadRepository postReadRepository)
         {
             _feedRepository = feedRepository;
+            _postReadRepository = postReadRepository;
         }
-        [HttpGet("Frost")]
-        public IActionResult Frost()
+        
+        [HttpGet("Identity")]
+        public IActionResult Identity()
         {
             var claim = ((ClaimsIdentity)User.Identity);
             var nameIdentifier = claim.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault();
@@ -36,15 +40,25 @@ namespace FeedService.Controllers
             var name = claim.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault();
             return Ok(nameIdentifier + role + name);
         }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        
+        [HttpGet("Frosts")]
+        public IActionResult GetFrosts()
         {
-            return "value";
+            return Ok(_postReadRepository.GetFrosts());
+        }
+        
+        [HttpGet("Fires")]
+        public IActionResult GetFires()
+        {
+            return Ok(_postReadRepository.GetFires());
         }
 
-        // POST api/values
+        [HttpGet("{id}")]
+        public IActionResult GetPostById(Guid id)
+        {
+            return Ok(_postReadRepository.GetById(id));
+        }
+
         [HttpPost]
         public void CreatePost([FromBody] CreatePost cmd)
         {
@@ -52,13 +66,11 @@ namespace FeedService.Controllers
             _feedRepository.Save(aggregate);
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

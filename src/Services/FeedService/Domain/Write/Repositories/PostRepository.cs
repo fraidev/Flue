@@ -34,8 +34,7 @@ namespace FeedService.Domain.Write.Repositories
 
         public void Delete(Guid id)
         {
-            var retval = GetById(id);
-            _unitOfWork.Delete(retval);
+            _unitOfWork.Delete(GetById(id));
             _unitOfWork.Flush();
         }
         

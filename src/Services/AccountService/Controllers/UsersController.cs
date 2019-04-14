@@ -33,9 +33,9 @@ namespace AccountService.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]UserDto userDto)
+        public IActionResult Authenticate([FromBody]UserCommand userCommand)
         {
-            var user = _userService.Authenticate(userDto.Username, userDto.Password);
+            var user = _userService.Authenticate(userCommand.Username, userCommand.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -52,16 +52,16 @@ namespace AccountService.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]UserDto userDto)
+        public IActionResult Register([FromBody]UserCommand userCommand)
         {
             // map dto to entity
-            var user = _mapper.Map<User>(userDto);
+            var user = _mapper.Map<User>(userCommand);
             user.Role = Role.User;
 
             try 
             {
                 // save 
-                _userService.Create(user, userDto.Password);
+                _userService.Create(user, userCommand.Password);
                 return Ok();
             } 
             catch(AppException ex)
@@ -85,7 +85,7 @@ namespace AccountService.Controllers
         public IActionResult GetAll()
         {
             var users =  _userService.GetAll();
-            var userDtos = _mapper.Map<IList<UserDto>>(users);
+            var userDtos = _mapper.Map<IList<UserCommand>>(users);
             return Ok(userDtos);
         }
 
@@ -93,21 +93,21 @@ namespace AccountService.Controllers
         public IActionResult GetById(int id)
         {
             var user =  _userService.GetById(id);
-            var userDto = _mapper.Map<UserDto>(user);
+            var userDto = _mapper.Map<UserCommand>(user);
             return Ok(userDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]UserDto userDto)
+        public IActionResult Update(int id, [FromBody]UserCommand userCommand)
         {
             // map dto to entity and set id
-            var user = _mapper.Map<User>(userDto);
+            var user = _mapper.Map<User>(userCommand);
             user.Id = id;
 
             try 
             {
                 // save 
-                _userService.Update(user, userDto.Password);
+                _userService.Update(user, userCommand.Password);
                 return Ok();
             } 
             catch(AppException ex)
