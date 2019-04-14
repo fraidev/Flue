@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using AccountService.Dtos;
-using AccountService.Entities;
-using AccountService.Helpers;
+using AccountService.Domain.Write.Commands;
+using AccountService.Domain.Write.Entities;
+using AccountService.Domain.Write.Services;
+using AccountService.Domain.Write.State;
+using AccountService.Infrastructure.Helpers;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Services;
 
 namespace AccountService.Controllers
 {

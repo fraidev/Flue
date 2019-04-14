@@ -1,4 +1,4 @@
-namespace AccountService.Dtos
+namespace AccountService.Domain.Write.Commands
 {
     public class UserCommand
     {

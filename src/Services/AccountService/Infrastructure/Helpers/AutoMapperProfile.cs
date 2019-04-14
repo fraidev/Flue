@@ -1,8 +1,8 @@
-using AccountService.Dtos;
-using AccountService.Entities;
+using AccountService.Domain.Write.Commands;
+using AccountService.Domain.Write.State;
 using AutoMapper;
 
-namespace AccountService.Helpers
+namespace AccountService.Infrastructure.Helpers
 {
     public class AutoMapperProfile : Profile
     {

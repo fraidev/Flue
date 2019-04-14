@@ -1,4 +1,4 @@
-namespace AccountService.Entities
+namespace AccountService.Domain.Write.Entities
 {
     public class Role
     {

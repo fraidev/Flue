@@ -1,7 +1,7 @@
-using AccountService.Entities;
+using AccountService.Domain.Write.State;
 using Microsoft.EntityFrameworkCore;
 
-namespace AccountService.Helpers
+namespace AccountService.Infrastructure.Helpers
 {
     public class DataContext : DbContext
     {

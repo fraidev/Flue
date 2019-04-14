@@ -1,4 +1,4 @@
-namespace AccountService.Entities
+namespace AccountService.Domain.Write.State
 {
     public class User
     {

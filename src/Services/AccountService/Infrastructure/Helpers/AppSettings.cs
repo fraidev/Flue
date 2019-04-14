@@ -1,4 +1,4 @@
-namespace AccountService.Helpers
+namespace AccountService.Infrastructure.Helpers
 {
     public class AppSettings
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace AccountService.Helpers
+namespace AccountService.Infrastructure.Helpers
 {
     public class AppException: Exception
     {

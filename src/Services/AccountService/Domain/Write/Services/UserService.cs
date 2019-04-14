@@ -4,12 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using AccountService.Entities;
-using AccountService.Helpers;
+using AccountService.Domain.Write.State;
+using AccountService.Infrastructure.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace WebApi.Services
+namespace AccountService.Domain.Write.Services
 {
     public interface IUserService
     {
