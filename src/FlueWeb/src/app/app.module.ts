@@ -11,6 +11,8 @@ import { LoginComponent } from './applications/login/login.component';
 import { RegisterComponent } from './applications/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { GamesComponent } from './applications/games/games.component';
+import { FeedCardComponent } from './applications/feed/feed-card/feed-card.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { HttpClientModule } from '@angular/common/http';
     FeedComponent,
     ChatComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    GamesComponent,
+    FeedCardComponent
   ],
   imports: [
     BrowserModule,

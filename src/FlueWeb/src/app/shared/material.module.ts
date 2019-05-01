@@ -36,7 +36,7 @@ import { MatButtonModule, MatCheckboxModule, MatSidenavModule, MatTooltipModule,
     MatPaginatorModule,
     MatListModule,
     MatChipsModule,
-    MatTreeModule
+    MatTreeModule,
   ],
   exports: [
       CommonModule,
