@@ -19,7 +19,7 @@ namespace FeedService.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]s")]
     public class PostController : ControllerBase
     {
         private readonly IFeedRepository _feedRepository;
@@ -41,18 +41,12 @@ namespace FeedService.Controllers
             return Ok(nameIdentifier + role + name);
         }
         
-        [HttpGet("Frosts")]
+        [HttpGet("")]
         public IActionResult GetFrosts()
         {
-            return Ok(_postReadRepository.GetFrosts());
+            return Ok(_postReadRepository.GetAll());
         }
         
-        [HttpGet("Fires")]
-        public IActionResult GetFires()
-        {
-            return Ok(_postReadRepository.GetFires());
-        }
-
         [HttpGet("{id}")]
         public IActionResult GetPostById(Guid id)
         {

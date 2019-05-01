@@ -22,8 +22,8 @@ namespace AccountService.Infrastructure.Persistence
                     }))
 
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                    .Create(true, false))
-                    .BuildSessionFactory();
+                    .Execute(true, false,false))
+                .BuildSessionFactory();
         }
         public static ISessionFactory CreateSessionFactoryInMemory()
         {

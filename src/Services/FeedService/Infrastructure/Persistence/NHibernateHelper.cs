@@ -22,9 +22,7 @@ namespace FeedService.Infrastructure.Persistence
                     }))
 
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                 .Create(true, true) // tira isso dps
-                )
-
+                    .Execute(true, true,false))
                 .BuildSessionFactory();
         }
         public static ISessionFactory CreateSessionFactoryInMemory()

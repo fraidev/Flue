@@ -8,8 +8,7 @@ namespace FeedService.Domain.Read.Repositories
 {
     public interface IPostReadRepository
     {
-        IQueryable<PostModel> GetFrosts();
-        IQueryable<PostModel> GetFires();
+        IQueryable<PostModel> GetAll();
         PostModel GetById(Guid id);
     }
     
@@ -21,14 +20,9 @@ namespace FeedService.Domain.Read.Repositories
         {
             _unitOfWork = unitOfWork;
         }
-        public IQueryable<PostModel> GetFrosts()
+        public IQueryable<PostModel> GetAll()
         {
-            return _unitOfWork.Query<PostModel>().Where(x => x.OnFire == false);
-        }
-
-        public IQueryable<PostModel> GetFires()
-        {
-            return _unitOfWork.Query<PostModel>().Where(x => x.OnFire);
+            return _unitOfWork.Query<PostModel>();
         }
 
         public PostModel GetById(Guid id)

@@ -8,7 +8,7 @@ namespace AccountService.Infrastructure.Persistence.Maps
         public UserStateMap()
         {
             Table("[User]");
-            Id(x => x.Id, "UserId").GeneratedBy.Assigned();
+            Id(x => x.Id, "UserId").GeneratedBy.GuidComb();
             Map(x => x.FirstName);
             Map(x => x.LastName);
             Map(x => x.Username);

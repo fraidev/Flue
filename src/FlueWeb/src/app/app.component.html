@@ -1,0 +1,15 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<mat-toolbar color="primary" *ngIf="currentUser">
+  <mat-toolbar-row>
+    <button mat-button color="secondary" routerLink="/">Home</button>
+    <button mat-button color="secondary" routerLink="/chat">Chat</button>
+    <button mat-button color="secondary" routerLink="/chat">Games</button>
+    <button mat-button color="secondary" (click)="logout()">Logout</button>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div style="text-align:center">
+  <router-outlet></router-outlet>
+</div>

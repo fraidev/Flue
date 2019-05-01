@@ -12,7 +12,6 @@ namespace FeedService.Infrastructure.Persistence.Maps.Read
             Id(x => x.Id).GeneratedBy.Assigned();;
             Map(x => x.Text);
             Map(x => x.UserId);
-            Map(x => x.OnFire);
 
             HasMany(x => x.Comments)
                 .Inverse()
