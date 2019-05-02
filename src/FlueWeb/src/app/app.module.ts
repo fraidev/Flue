@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { GamesComponent } from './applications/games/games.component';
 import { FeedCardComponent } from './applications/feed/feed-card/feed-card.component';
+import { FeedBoxComponent } from './applications/feed/feed-box/feed-box.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FeedCardComponent } from './applications/feed/feed-card/feed-card.compo
     LoginComponent,
     RegisterComponent,
     GamesComponent,
-    FeedCardComponent
+    FeedCardComponent,
+    FeedBoxComponent
   ],
   imports: [
     BrowserModule,

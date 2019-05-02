@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -18,6 +18,10 @@ export class AuthenticationService {
 
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
+    }
+
+    public get currentUserHeader(): HttpHeaders {
+        return new HttpHeaders({ Authorization: 'Bearer ' + this.currentUserValue.token });
     }
 
     login(username: string, password: string) {

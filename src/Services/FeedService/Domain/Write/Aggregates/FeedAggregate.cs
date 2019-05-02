@@ -29,10 +29,9 @@ namespace FeedService.Domain.Write.Aggregates
             Id = Guid.NewGuid();
             State = new PostState()
             {
-                Id = cmd.Id,
+                Id = Id,
                 UserId = cmd.UserId,
                 Text = cmd.Text,
-                OnFire = cmd.OnFire,
                 Comments = new List<CommentState>()
             };
         }

@@ -8,10 +8,9 @@ namespace FeedService.Infrastructure.Persistence.Maps.Write
         public PostStateMap()
         {
             Table("Post");
-            Id(x => x.Id, "PostId").GeneratedBy.Assigned();;
+            Id(x => x.Id, "PostId").GeneratedBy.Assigned();
             Map(x => x.Text);
             Map(x => x.UserId);
-            Map(x => x.OnFire);
 
             HasMany(x => x.Comments)
                 .Inverse()

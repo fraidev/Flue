@@ -9,7 +9,7 @@ namespace FeedService.Infrastructure.Persistence.Maps.Read
         {
             ReadOnly();
             Table("Post");
-            Id(x => x.Id).GeneratedBy.Assigned();;
+            Id(x => x.Id,"PostId").GeneratedBy.GuidComb();
             Map(x => x.Text);
             Map(x => x.UserId);
 

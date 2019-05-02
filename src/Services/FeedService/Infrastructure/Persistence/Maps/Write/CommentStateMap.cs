@@ -8,7 +8,7 @@ namespace FeedService.Infrastructure.Persistence.Maps.Write
         public CommentStateMap()
         {
             Table("Comment");
-            Id(x => x.Id).GeneratedBy.Assigned();;
+            Id(x => x.Id).GeneratedBy.GuidComb();
             Map(x => x.Text);
             Map(x => x.UserId);
             References(x => x.CommentReply, "PostId");

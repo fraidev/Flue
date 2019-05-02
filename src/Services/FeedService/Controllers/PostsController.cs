@@ -19,13 +19,13 @@ namespace FeedService.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]s")]
-    public class PostController : ControllerBase
+    [Route("api/[controller]")]
+    public class PostsController : ControllerBase
     {
         private readonly IFeedRepository _feedRepository;
         private readonly IPostReadRepository _postReadRepository;
 
-        public PostController(IFeedRepository feedRepository, IPostReadRepository postReadRepository)
+        public PostsController(IFeedRepository feedRepository, IPostReadRepository postReadRepository)
         {
             _feedRepository = feedRepository;
             _postReadRepository = postReadRepository;
@@ -42,7 +42,7 @@ namespace FeedService.Controllers
         }
         
         [HttpGet("")]
-        public IActionResult GetFrosts()
+        public IActionResult GetAll()
         {
             return Ok(_postReadRepository.GetAll());
         }
@@ -54,8 +54,10 @@ namespace FeedService.Controllers
         }
 
         [HttpPost]
-        public void CreatePost([FromBody] CreatePost cmd)
+        public void Post([FromBody] CreatePost cmd)
         {
+            cmd.UserId = Guid.Parse(((ClaimsIdentity) User.Identity).Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+                .Select(c => c.Value).SingleOrDefault());
             var aggregate = new FeedAggregate(cmd);
             _feedRepository.Save(aggregate);
         }

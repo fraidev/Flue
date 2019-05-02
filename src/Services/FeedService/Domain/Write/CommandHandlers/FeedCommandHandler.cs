@@ -31,7 +31,6 @@ namespace FeedService.Domain.Write.CommandHandlers
                 {
                     Id = request.Id,
                     Text = request.Text,
-                    OnFire = request.OnFire,
                     UserId = request.UserId
                 };
                 _feedRepository.Save(new FeedAggregate(state));
