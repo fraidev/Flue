@@ -47,6 +47,12 @@ namespace FeedService.Controllers
             return Ok(_postReadRepository.GetAll());
         }
         
+        [HttpGet("Inbox")]
+        public IActionResult Inbox()
+        {
+            return Ok(_postReadRepository.GetAll());
+        }
+        
         [HttpGet("{id}")]
         public IActionResult GetPostById(Guid id)
         {

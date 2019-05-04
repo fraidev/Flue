@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-feed-card',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./feed-card.component.scss']
 })
 export class FeedCardComponent implements OnInit {
+  @Input() private content: any;
 
   constructor() { }
 

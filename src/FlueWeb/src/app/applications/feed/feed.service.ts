@@ -16,6 +16,12 @@ export class FeedService {
     });
   }
 
+  public getInbox(): Observable<any> {
+    return this.http.get(environment.feedApiUrl + `posts/Inbox/`, {
+      headers: this.authenticationService.currentUserHeader
+    });
+  }
+
   public indentity(): Observable<any> {
     return this.http.get(environment.feedApiUrl + `posts/Identity/`, {
       headers: this.authenticationService.currentUserHeader

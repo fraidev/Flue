@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FeedService } from './feed.service';
 
 @Component({
   selector: 'app-feed',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeedComponent implements OnInit {
   public title = 'Feed';
-  constructor() { }
+  public cards: any[];
+  constructor(private feedService: FeedService) {
+  }
 
   ngOnInit() {
+    this.feedService.getInbox().subscribe(x => this.cards = x);
   }
 
 }
