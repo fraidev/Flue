@@ -1,0 +1,12 @@
+<mat-card class="example-card" style="width:70vh;">
+  <mat-card-header>
+    <img mat-card-avatar class="example-header-image" src="{{img}}" alt="Photo of a Shiba Inu">
+    <mat-card-title class="title">{{content.firstName || "Anonymus"}} {{content.lastName || "Anonymus"}} </mat-card-title>
+    <mat-card-subtitle class="subtitle">@{{content.username || "Anonymus"}}</mat-card-subtitle>
+    <span class="example-spacer"></span>
+    <button mat-button (click)="follow()">Seguir</button>
+  </mat-card-header>
+  <mat-card-actions>
+  </mat-card-actions>
+</mat-card>
+<br/>
