@@ -1,3 +1,3 @@
-export * from './alert.service';
-export * from './authentication.service';
-export * from './user.service';
+export { AlertService } from './alert.service';
+export { AuthenticationService } from './authentication.service';
+export { UserService } from './user.service';

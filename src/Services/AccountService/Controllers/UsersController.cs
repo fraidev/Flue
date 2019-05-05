@@ -60,11 +60,40 @@ namespace AccountService.Controllers
 
             var user = _userService.GetById(userId);
             var follow = _userService.GetById(id);
-            
-            user.Followers.Add(follow);
+
+            if (user.Following.Contains(follow))
+            {
+                throw new Exception("Esse usuario já esta sendo seguido");
+            };
+
+            user.Following.Add(follow);
             
             _userService.Update(user);
             return Ok();
+        }
+
+        [HttpGet("Followers/{id}")]
+        public IActionResult Followers(Guid id)
+        {
+            var userId = Guid.Parse(((ClaimsIdentity)User.Identity).Claims
+                .Where(c => c.Type == ClaimTypes.NameIdentifier)
+                .Select(c => c.Value).SingleOrDefault());
+
+            var user = _userService.GetById(userId);
+
+            var followers = _userService.GetAll().Where(x => x.Following.Contains(user));
+            return Ok(followers);
+        }
+
+        [HttpGet("Following/{id}")]
+        public IActionResult Following(Guid id)
+        {
+            var userId = Guid.Parse(((ClaimsIdentity)User.Identity).Claims
+                .Where(c => c.Type == ClaimTypes.NameIdentifier)
+                .Select(c => c.Value).SingleOrDefault());
+
+            var user = _userService.GetById(userId);
+            return Ok(user.Following);
         }
 
         [AllowAnonymous]
@@ -98,7 +127,7 @@ namespace AccountService.Controllers
         }
         
         [HttpGet]
-        [Authorize(Roles = Role.Admin)]
+//        [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
         {
             var users =  _userService.GetAll();

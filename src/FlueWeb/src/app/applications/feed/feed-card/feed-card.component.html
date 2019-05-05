@@ -1,10 +1,11 @@
-<mat-card class="example-card" style=" width:70vh;">
+<mat-card class="example-card" style="width:70vh;">
     <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+      <!-- <img mat-card-avatar class="example-header-image" src="{{content.profilePicture}} | " alt="Photo of a Shiba Inu"> -->
+      <img mat-card-avatar class="example-header-image" src="{{img}}" alt="Photo of a Shiba Inu">
+      <mat-card-title>{{content.name || "Anonymus"}} </mat-card-title>
+      <mat-card-subtitle>{{content.user || "@Anonymus"}}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <img mat-card-image *ngIf="content.midia" src="{{content.midia}}" alt="Photo of a Shiba Inu">
     <mat-card-content>
       <p>
         {{ content.text }}
@@ -12,7 +13,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
+      <button mat-button>Comment</button>
     </mat-card-actions>
   </mat-card>
   <br/>

@@ -23,7 +23,7 @@ alter table Follows  drop constraint FK_D52173BA
     )
 
     create table Follows (
-        FollowersId UNIQUEIDENTIFIER not null,
+        FollowingId UNIQUEIDENTIFIER not null,
        UserId UNIQUEIDENTIFIER not null
     )
 
@@ -34,5 +34,5 @@ alter table Follows  drop constraint FK_D52173BA
 
     alter table Follows
         add constraint FK_D52173BA
-        foreign key (FollowersId)
+        foreign key (FollowingId)
         references [User]

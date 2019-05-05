@@ -21,10 +21,10 @@ namespace AccountService.Infrastructure.Persistence.Maps
                 .KeyColumns.Add("UserId")
                 .Cascade.AllDeleteOrphan();*/
             
-            HasManyToMany(x => x.Followers)
+            HasManyToMany(x => x.Following)
                 .Cascade.All()
                 //.Inverse()
-                .ParentKeyColumn("FollowersId")
+                .ParentKeyColumn("FollowingId")
                 .ChildKeyColumn("UserId")
                 .Table("Follows");
             

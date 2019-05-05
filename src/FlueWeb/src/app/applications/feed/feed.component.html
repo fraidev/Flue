@@ -1,10 +1,2 @@
-<div class="container row">
-  <div class="item">
-    <app-feed-box></app-feed-box>
-    <app-feed-card [content]="card" *ngFor="let card of cards"></app-feed-card>
-  </div>
-  <div class="item">
-    Você
-    Amigos
-  </div>
-</div>
+<app-feed-box></app-feed-box>
+<app-feed-card [content]="card" *ngFor="let card of cards"></app-feed-card>

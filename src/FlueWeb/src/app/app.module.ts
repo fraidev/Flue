@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { GamesComponent } from './applications/games/games.component';
 import { FeedCardComponent } from './applications/feed/feed-card/feed-card.component';
 import { FeedBoxComponent } from './applications/feed/feed-box/feed-box.component';
+import { UsersComponent } from './applications/users/users.component';
+import { UserCardComponent } from './applications/users/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { FeedBoxComponent } from './applications/feed/feed-box/feed-box.componen
     RegisterComponent,
     GamesComponent,
     FeedCardComponent,
-    FeedBoxComponent
+    FeedBoxComponent,
+    UsersComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,

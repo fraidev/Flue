@@ -38,7 +38,7 @@ namespace AccountService.Domain.Write.Repositories
         {
             return _unitOfWork.Query<UserState>();
         }
-
+        
         public void Save(UserState userState)
         {
             _unitOfWork.Save(userState);

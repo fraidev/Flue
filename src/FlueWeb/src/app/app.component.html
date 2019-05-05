@@ -2,13 +2,22 @@
   <mat-toolbar-row>
     <button mat-button color="secondary" routerLink="/">Home</button>
     <button mat-button color="secondary" routerLink="/chat">Chat</button>
+    <button mat-button color="secondary" routerLink="/users">Users</button>
     <button mat-button color="secondary" routerLink="/games">Games</button>
+    <span class="example-spacer"></span>
     <button mat-button color="secondary" (click)="logout()">Logout</button>
   </mat-toolbar-row>
 </mat-toolbar>
-<!--The content below is only a placeholder and can be replaced.-->
 <div flex class="main">
-  <perfect-scrollbar>
-    <router-outlet></router-outlet>
+  <perfect-scrollbar >
+    <div class="container row">
+      <div class="item">
+        <router-outlet></router-outlet>
+      </div>
+      <div class="item" *ngIf="currentUser">
+        Você
+        Amigos
+      </div>
+    </div>
   </perfect-scrollbar>
 </div>
