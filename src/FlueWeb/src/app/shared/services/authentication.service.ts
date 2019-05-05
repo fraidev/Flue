@@ -24,8 +24,8 @@ export class AuthenticationService {
         return new HttpHeaders({ Authorization: 'Bearer ' + this.currentUserValue.token });
     }
 
-    login(username: string, password: string) {
-        let cmd = new User();
+    public login(username: string, password: string) {
+        const cmd = new User();
         cmd.username = username;
         cmd.password = password;
         return this.http.post<any>(environment.accountApiUrl + `users/authenticate`, cmd)
@@ -41,7 +41,7 @@ export class AuthenticationService {
             }));
     }
 
-    logout() {
+    public logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);

@@ -14,10 +14,12 @@ export class UsersComponent implements OnInit {
   constructor(private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // this.userService.getAll().subscribe(x => this.users = x);
     this.route.params.subscribe(val => {
       this.searchText = val.searchText;
-      console.log(this.searchText);
+      this.userService.getUsers(val.searchText).subscribe(x => {
+        this.users = x;
+        console.log(this.users);
+      });
     });
   }
 }

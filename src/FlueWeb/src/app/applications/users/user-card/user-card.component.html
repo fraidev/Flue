@@ -4,7 +4,8 @@
     <mat-card-title class="title">{{content.firstName || "Anonymus"}} {{content.lastName || "Anonymus"}} </mat-card-title>
     <mat-card-subtitle class="subtitle">@{{content.username || "Anonymus"}}</mat-card-subtitle>
     <span class="example-spacer"></span>
-    <button mat-button (click)="follow()">Seguir</button>
+    <button mat-button *ngIf="!following" (click)="follow()">Seguir</button>
+    <button mat-button *ngIf="following" (click)="unfollow()">Deixar de seguir</button>
   </mat-card-header>
   <mat-card-actions>
   </mat-card-actions>

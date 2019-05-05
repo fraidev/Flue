@@ -72,28 +72,49 @@ namespace AccountService.Controllers
             return Ok();
         }
 
-        [HttpGet("Followers/{id}")]
-        public IActionResult Followers(Guid id)
+        [HttpPost("Unfollow/{id}")]
+        public IActionResult Unfollow(Guid id)
         {
-            var userId = Guid.Parse(((ClaimsIdentity)User.Identity).Claims
-                .Where(c => c.Type == ClaimTypes.NameIdentifier)
-                .Select(c => c.Value).SingleOrDefault());
+            var claim = ((ClaimsIdentity)User.Identity);
+            var userId = Guid.Parse(claim.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
 
             var user = _userService.GetById(userId);
+            var follow = _userService.GetById(id);
 
-            var followers = _userService.GetAll().Where(x => x.Following.Contains(user));
-            return Ok(followers);
+            if (!user.Following.Contains(follow))
+            {
+                throw new Exception("Esse não está sendo seguido");
+            };
+
+            user.Following.Remove(follow);
+            
+            _userService.Update(user);
+            return Ok();
         }
 
-        [HttpGet("Following/{id}")]
-        public IActionResult Following(Guid id)
+        [HttpGet("Followers")]
+        public IActionResult Followers()
         {
             var userId = Guid.Parse(((ClaimsIdentity)User.Identity).Claims
                 .Where(c => c.Type == ClaimTypes.NameIdentifier)
                 .Select(c => c.Value).SingleOrDefault());
 
             var user = _userService.GetById(userId);
-            return Ok(user.Following);
+            var followers = _userService.GetAll().Where(x => x.Following.Contains(user));
+            var userDtos = _mapper.Map<IList<UserCommand>>(followers);
+            return Ok(userDtos);
+        }
+
+        [HttpGet("Following")]
+        public IActionResult Following()
+        {
+            var userId = Guid.Parse(((ClaimsIdentity)User.Identity).Claims
+                .Where(c => c.Type == ClaimTypes.NameIdentifier)
+                .Select(c => c.Value).SingleOrDefault());
+
+            var user = _userService.GetById(userId);
+            var userDtos = _mapper.Map<IList<UserCommand>>(user.Following);
+            return Ok(userDtos);
         }
 
         [AllowAnonymous]
@@ -127,13 +148,23 @@ namespace AccountService.Controllers
         }
         
         [HttpGet]
-//        [Authorize(Roles = Role.Admin)]
+        public IActionResult GetUsers(string searchText)
+        {
+            searchText = searchText.ToLower();
+            var users =  _userService.GetAll().Where(x => x.FullName.Contains(searchText)
+                || x.Username.ToLower().Contains(searchText));
+            var userDtos = _mapper.Map<IList<UserCommand>>(users);
+            return Ok(userDtos);
+        }
+        
+        /*[HttpGet]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
         {
             var users =  _userService.GetAll();
             var userDtos = _mapper.Map<IList<UserCommand>>(users);
             return Ok(userDtos);
-        }
+        }*/
 
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)

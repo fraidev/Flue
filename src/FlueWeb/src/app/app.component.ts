@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from './shared/services';
+import { AuthenticationService, UserService } from './shared/services';
 import { User } from './shared/models';
 
 @Component({
@@ -8,13 +8,17 @@ import { User } from './shared/models';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public searchText = '';
   currentUser: User;
   title = 'FlueWeb';
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService, private userService: UserService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
+
+  ngOnInit(): void {
+    this.userService.configure();
   }
 
   public search() {
