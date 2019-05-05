@@ -9,17 +9,20 @@ import { User } from './shared/models';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  public searchText = '';
   currentUser: User;
   title = 'FlueWeb';
 
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService
-) {
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-}
-  logout() {
-      this.authenticationService.logout();
-      this.router.navigate(['/login']);
+  }
+
+  public search() {
+    this.router.navigate(['/users', this.searchText]);
+  }
+
+  private logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

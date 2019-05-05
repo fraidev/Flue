@@ -2,8 +2,10 @@
   <mat-toolbar-row>
     <button mat-button color="secondary" routerLink="/">Home</button>
     <button mat-button color="secondary" routerLink="/chat">Chat</button>
-    <button mat-button color="secondary" routerLink="/users">Users</button>
     <button mat-button color="secondary" routerLink="/games">Games</button>
+    <span class="medium-spacer"></span>
+    <input matInput class="search-bar" [(ngModel)]="searchText" placeholder="Pesquisar Usuarios" value="">
+    <button mat-button color="secondary"  (click)="search()">Pesquisar</button>
     <span class="example-spacer"></span>
     <button mat-button color="secondary" (click)="logout()">Logout</button>
   </mat-toolbar-row>

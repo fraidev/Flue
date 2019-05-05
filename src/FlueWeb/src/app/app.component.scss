@@ -30,7 +30,17 @@
 .small-spacer {
     padding: 0 14px;
 }
+
+.medium-spacer {
+    padding: 0 10%;
+}
   
 .example-spacer {
     flex: 1 1 auto;
+}
+
+.search-bar {
+	background: white;
+	color: black;
+	max-width: 20%;
 }
