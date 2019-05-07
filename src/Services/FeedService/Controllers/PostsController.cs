@@ -50,6 +50,11 @@ namespace FeedService.Controllers
         [HttpGet("Inbox")]
         public IActionResult Inbox()
         {
+            var userId = Guid.Parse(((ClaimsIdentity) User.Identity).Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
+                .Select(c => c.Value).SingleOrDefault());
+            
+            // Meus seguidores
+            
             return Ok(_postReadRepository.GetAll());
         }
         

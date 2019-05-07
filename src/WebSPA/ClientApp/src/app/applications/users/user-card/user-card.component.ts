@@ -19,7 +19,6 @@ export class UserCardComponent implements OnInit {
     this.following = this.userService.cotainsFollowing(this.content.id);
   }
 
-
   private getAvatar() {
     this.img = this.content.profilePicture ? this.content.profilePicture : `/assets/img/profile.png`;
   }

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountService", "src\Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedService", "src\Services\FeedService\FeedService.csproj", "{AD0EF9C4-95ED-4B19-BC68-1DB0D550DF6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSPA", "src\WebSPA\WebSPA.csproj", "{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AD0EF9C4-95ED-4B19-BC68-1DB0D550DF6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD0EF9C4-95ED-4B19-BC68-1DB0D550DF6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD0EF9C4-95ED-4B19-BC68-1DB0D550DF6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
