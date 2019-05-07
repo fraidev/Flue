@@ -20,6 +20,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace AccountService
 {
@@ -84,6 +86,7 @@ namespace AccountService
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddSingleton<RabbitListener>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,8 +116,81 @@ namespace AccountService
             });*/
 
             app.UseAuthentication();
+            
+            
+            app.UseRabbitListener();
+
 
             app.UseMvc();
         }
     }
+        
+        public static class ApplicationBuilderExtentions
+        {
+            //the simplest way to store a single long-living object, just for example.
+            private static RabbitListener _listener { get; set; }
+
+            public static IApplicationBuilder UseRabbitListener(this IApplicationBuilder app)
+            {
+                _listener = app.ApplicationServices.GetService<RabbitListener>();
+
+                var lifetime = app.ApplicationServices.GetService<IApplicationLifetime>();
+
+                lifetime.ApplicationStarted.Register(OnStarted);
+
+                //press Ctrl+C to reproduce if your app runs in Kestrel as a console app
+                lifetime.ApplicationStopping.Register(OnStopping);
+
+                return app;
+            }
+
+            private static void OnStarted()
+            {
+                _listener.Register();
+            }
+
+            private static void OnStopping()
+            {
+                _listener.Deregister();    
+            }
+        }
+        
+        public class RabbitListener
+        {
+            /*ConnectionFactory factory { get; set; }
+            IConnection connection { get; set; }
+            IModel channel { get; set; }
+
+            public RabbitListener()
+            {
+                this.factory = new ConnectionFactory() { HostName = "localhost" };
+                this.connection = factory.CreateConnection();
+                this.channel = connection.CreateModel();
+            }*/
+            
+            public void Register()
+            {
+                for (int i = 0; i < int.MaxValue; i++)
+                {
+                    Console.WriteLine(i);
+                }
+                
+                /*channel.QueueDeclare(queue: "hello", durable: false, exclusive: false, autoDelete: false, arguments: null);
+
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, ea) =>
+                {
+                    var body = ea.Body;
+                    var message = Encoding.UTF8.GetString(body);
+                    int m = 0;
+                };
+                channel.BasicConsume(queue: "hello", autoAck: true, consumer: consumer);*/
+            }
+
+            public void Deregister()
+            {
+                Console.WriteLine("ACABOU");
+                /*this.connection.Close();*/
+            }
+        }
 }
