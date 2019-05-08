@@ -4,13 +4,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using FluentNHibernate.Conventions;
-using IdentityService.Domain.Write.Repositories;
-using IdentityService.Domain.Write.State;
+using IdentityService.Domain.Repositories;
+using IdentityService.Domain.State;
 using IdentityService.Infrastructure.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IdentityService.Domain.Write.Services
+namespace IdentityService.Domain.Services
 {
     public interface IUserService
     {
@@ -59,7 +59,7 @@ namespace IdentityService.Domain.Write.Services
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Role, user.Role),
-                    new Claim(ClaimTypes.Name, user.FirstName + user.LastName)
+                    new Claim(ClaimTypes.Name, user.Username)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -124,8 +124,8 @@ namespace IdentityService.Domain.Write.Services
             }
 
             // update user properties
-            user.FirstName = userStateParam.FirstName;
-            user.LastName = userStateParam.LastName;
+            /*user.FirstName = userStateParam.FirstName;
+            user.LastName = userStateParam.LastName;*/
             user.Username = userStateParam.Username;
 
             // update password if it was entered

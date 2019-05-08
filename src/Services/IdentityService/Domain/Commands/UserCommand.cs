@@ -1,6 +1,6 @@
 using System;
 
-namespace IdentityService.Domain.Write.Commands
+namespace IdentityService.Domain.Commands
 {
     public class UserCommand
     {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using IdentityService.Domain.Write.State;
+using IdentityService.Domain.State;
 using IdentityService.Infrastructure.Persistence;
 
-namespace IdentityService.Domain.Write.Repositories
+namespace IdentityService.Domain.Repositories
 {
     public interface IUserRepository
     {

@@ -1,4 +1,4 @@
-namespace IdentityService.Domain.Write.Entities
+namespace IdentityService.Domain.Entities
 {
     public class Role
     {

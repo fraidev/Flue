@@ -1,6 +1,6 @@
 using AutoMapper;
-using IdentityService.Domain.Write.Commands;
-using IdentityService.Domain.Write.State;
+using IdentityService.Domain.Commands;
+using IdentityService.Domain.State;
 
 namespace IdentityService.Infrastructure.Helpers
 {

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
-using IdentityService.Domain.Write.Commands;
-using IdentityService.Domain.Write.Entities;
-using IdentityService.Domain.Write.Services;
-using IdentityService.Domain.Write.State;
+using IdentityService.Domain.Commands;
+using IdentityService.Domain.Entities;
+using IdentityService.Domain.Services;
+using IdentityService.Domain.State;
+using IdentityService.Infrastructure.Broker;
 using IdentityService.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,13 +47,13 @@ namespace IdentityService.Controllers
             return Ok(new {
                 Id = user.Id,
                 Username = user.Username,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                /*FirstName = user.FirstName,
+                LastName = user.LastName,*/
                 Token = user.Token
             });
         }
 
-        [HttpPost("Follow/{id}")]
+/*        [HttpPost("Follow/{id}")]
         public IActionResult Follow(Guid id)
         {
             var claim = ((ClaimsIdentity)User.Identity);
@@ -70,9 +71,9 @@ namespace IdentityService.Controllers
             
             _userService.Update(user);
             return Ok();
-        }
+        }*/
 
-        [HttpPost("Unfollow/{id}")]
+/*        [HttpPost("Unfollow/{id}")]
         public IActionResult Unfollow(Guid id)
         {
             var claim = ((ClaimsIdentity)User.Identity);
@@ -90,9 +91,9 @@ namespace IdentityService.Controllers
             
             _userService.Update(user);
             return Ok();
-        }
+        }*/
 
-        [HttpGet("Followers")]
+        /*[HttpGet("Followers")]
         public IActionResult Followers()
         {
             var userId = Guid.Parse(((ClaimsIdentity)User.Identity).Claims
@@ -103,9 +104,9 @@ namespace IdentityService.Controllers
             var followers = _userService.GetAll().Where(x => x.Following.Contains(user));
             var userDtos = _mapper.Map<IList<UserCommand>>(followers);
             return Ok(userDtos);
-        }
+        }*/
 
-        [HttpGet("Following")]
+/*        [HttpGet("Following")]
         public IActionResult Following()
         {
             var userId = Guid.Parse(((ClaimsIdentity)User.Identity).Claims
@@ -115,7 +116,7 @@ namespace IdentityService.Controllers
             var user = _userService.GetById(userId);
             var userDtos = _mapper.Map<IList<UserCommand>>(user.Following);
             return Ok(userDtos);
-        }
+        }*/
 
         [AllowAnonymous]
         [HttpPost("register")]
@@ -129,6 +130,12 @@ namespace IdentityService.Controllers
             {
                 // save 
                 _userService.Create(user, userCommand.Password);
+
+                var f = new MessageBroker();
+                var r = f.Call("30");
+                Console.WriteLine(r);
+                f.Close();
+                
                 return Ok();
             } 
             catch(AppException ex)
@@ -147,7 +154,7 @@ namespace IdentityService.Controllers
             return Ok(email);
         }
         
-        [HttpGet]
+/*        [HttpGet]
         public IActionResult GetUsers(string searchText)
         {
             searchText = searchText.ToLower();
@@ -155,7 +162,7 @@ namespace IdentityService.Controllers
                 || x.Username.ToLower().Contains(searchText));
             var userDtos = _mapper.Map<IList<UserCommand>>(users);
             return Ok(userDtos);
-        }
+        }*/
         
         /*[HttpGet]
         [Authorize(Roles = Role.Admin)]

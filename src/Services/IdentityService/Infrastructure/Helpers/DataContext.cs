@@ -1,4 +1,4 @@
-using IdentityService.Domain.Write.State;
+using IdentityService.Domain.State;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityService.Infrastructure.Helpers

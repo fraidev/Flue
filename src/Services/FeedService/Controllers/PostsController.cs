@@ -69,7 +69,7 @@ namespace FeedService.Controllers
             _feedRepository.Save(aggregate);
 
             var f = new MessageBroker();
-                var r = f.Call("30");
+            var r = f.Call("30");
             Console.WriteLine(r);
             f.Close();
         }

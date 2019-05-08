@@ -4,9 +4,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using IdentityService.Domain.Write.Repositories;
-using IdentityService.Domain.Write.Services;
+using IdentityService.Domain.Repositories;
+using IdentityService.Domain.Services;
 using IdentityService.Infrastructure.Helpers;
+using IdentityService.Infrastructure.Middlewares;
 using IdentityService.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -103,87 +104,11 @@ namespace IdentityService
 
             app.UseHttpsRedirection();
 
-           /* app.UseRouter(routes =>
-            {
-                routes.MapControllers();
-            });*/
-
             app.UseAuthentication();
             
-            
             app.UseRabbitListener();
-
 
             app.UseMvc();
         }
     }
-        
-        public static class ApplicationBuilderExtentions
-        {
-            //the simplest way to store a single long-living object, just for example.
-            private static RabbitListener _listener { get; set; }
-
-            public static IApplicationBuilder UseRabbitListener(this IApplicationBuilder app)
-            {
-                _listener = app.ApplicationServices.GetService<RabbitListener>();
-
-                var lifetime = app.ApplicationServices.GetService<IApplicationLifetime>();
-
-                lifetime.ApplicationStarted.Register(OnStarted);
-
-                //press Ctrl+C to reproduce if your app runs in Kestrel as a console app
-                lifetime.ApplicationStopping.Register(OnStopping);
-
-                return app;
-            }
-
-            private static void OnStarted()
-            {
-                _listener.Register();
-            }
-
-            private static void OnStopping()
-            {
-                _listener.Deregister();    
-            }
-        }
-        
-        public class RabbitListener
-        {
-            /*ConnectionFactory factory { get; set; }
-            IConnection connection { get; set; }
-            IModel channel { get; set; }
-
-            public RabbitListener()
-            {
-                this.factory = new ConnectionFactory() { HostName = "localhost" };
-                this.connection = factory.CreateConnection();
-                this.channel = connection.CreateModel();
-            }*/
-            
-            public void Register()
-            {
-                /*for (int i = 0; i < int.MaxValue; i++)
-                {
-                    Console.WriteLine(i);
-                }*/
-                
-                /*channel.QueueDeclare(queue: "hello", durable: false, exclusive: false, autoDelete: false, arguments: null);
-
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
-                {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    int m = 0;
-                };
-                channel.BasicConsume(queue: "hello", autoAck: true, consumer: consumer);*/
-            }
-
-            public void Deregister()
-            {
-                Console.WriteLine("ACABOU");
-                /*this.connection.Close();*/
-            }
-        }
 }

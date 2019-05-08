@@ -20,10 +20,4 @@
     <PackageReference Include="FluentNHibernate" Version="2.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\Read" />
-    <Folder Include="Domain\Write\Aggregates" />
-    <Folder Include="Infrastructure\Broker" />
-  </ItemGroup>
-
 </Project>

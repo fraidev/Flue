@@ -12,6 +12,7 @@ using FeedService.Domain.Read.Repositories;
 using FeedService.Domain.Write.Repositories;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.CQRS;
+using FeedService.Infrastructure.Middlewares;
 using FeedService.Infrastructure.Persistence;
 
 namespace FeedService
@@ -67,6 +68,7 @@ namespace FeedService
             services.AddScoped<IPostReadRepository, PostReadRepository>();
             services.AddMediatR(typeof(Startup));
             services.AddScoped<IMediatorHandler, InMemoryBus>();
+            services.AddSingleton<RabbitListener>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,6 +97,8 @@ namespace FeedService
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core API"); });
 
             app.UseAuthentication();
+            
+            app.UseRabbitListener();
 
             app.UseMvc();
         }
