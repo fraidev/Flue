@@ -1,5 +1,11 @@
+using System;
+using System.Globalization;
+using System.Threading.Tasks;
+using FeedService.Infrastructure.CQRS;
+using FlueShared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FeedService.Infrastructure.Middlewares
@@ -7,11 +13,11 @@ namespace FeedService.Infrastructure.Middlewares
     public static class ApplicationBuilderExtensions
     {
         //the simplest way to store a single long-living object, just for example.
-        private static RabbitListener _listener { get; set; }
+        private static RabbitListener Listener { get; set; }
 
         public static IApplicationBuilder UseRabbitListener(this IApplicationBuilder app)
         {
-            _listener = app.ApplicationServices.GetService<RabbitListener>();
+            Listener = app.ApplicationServices.GetService<RabbitListener>();
 
             var lifetime = app.ApplicationServices.GetService<IApplicationLifetime>();
 
@@ -25,12 +31,12 @@ namespace FeedService.Infrastructure.Middlewares
 
         private static void OnStarted()
         {
-            _listener.Register();
+            Listener.Register();
         }
 
         private static void OnStopping()
         {
-            _listener.Deregister();    
+            Listener.Deregister();    
         }
     }
 }

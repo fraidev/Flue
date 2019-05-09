@@ -1,6 +1,7 @@
 using System;
 using FeedService.Domain.Write.States;
 using FeedService.Infrastructure.CQRS;
+using FlueShared.CQRS;
 
 namespace FeedService.Domain.Write.Commands
 {

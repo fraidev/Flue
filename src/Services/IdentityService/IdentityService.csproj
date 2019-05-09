@@ -20,4 +20,8 @@
     <PackageReference Include="FluentNHibernate" Version="2.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\FlueShared\FlueShared.csproj" />
+  </ItemGroup>
+
 </Project>

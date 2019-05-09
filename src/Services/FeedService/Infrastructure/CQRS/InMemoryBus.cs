@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using FlueShared.CQRS;
 using MediatR;
 
 namespace FeedService.Infrastructure.CQRS

@@ -6,6 +6,8 @@ using FeedService.Domain.Write.Aggregates;
 using FeedService.Domain.Write.Commands;
 using FeedService.Domain.Write.Repositories;
 using FeedService.Infrastructure.Broker;
+using FeedService.Infrastructure.CQRS;
+using FlueShared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,11 +22,13 @@ namespace FeedService.Controllers
     {
         private readonly IFeedRepository _feedRepository;
         private readonly IPostReadRepository _postReadRepository;
+        private readonly IMediatorHandler _mediatorHandler;
 
-        public PostsController(IFeedRepository feedRepository, IPostReadRepository postReadRepository)
+        public PostsController(IFeedRepository feedRepository, IPostReadRepository postReadRepository, IMediatorHandler mediatorHandler)
         {
             _feedRepository = feedRepository;
             _postReadRepository = postReadRepository;
+            _mediatorHandler = mediatorHandler;
         }
         
         [HttpGet("Identity")]
@@ -63,15 +67,18 @@ namespace FeedService.Controllers
         [HttpPost]
         public void Post([FromBody] CreatePost cmd)
         {
+//            var cm = new CreateUserCommand();
+//            cm.UserId = new Guid();
+//            _mediatorHandler.SendCommand(cm);
             cmd.UserId = Guid.Parse(((ClaimsIdentity) User.Identity).Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
                 .Select(c => c.Value).SingleOrDefault());
             var aggregate = new FeedAggregate(cmd);
             _feedRepository.Save(aggregate);
-
-            var f = new MessageBroker();
-            var r = f.Call("30");
-            Console.WriteLine(r);
-            f.Close();
+//
+//            var f = new MessageBroker();
+//            var r = f.Call("30");
+//            Console.WriteLine(r);
+//            f.Close();
         }
 
         [HttpPut("{id}")]

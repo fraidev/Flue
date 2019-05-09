@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
+using FlueShared;
 using IdentityService.Domain.Commands;
 using IdentityService.Domain.Entities;
 using IdentityService.Domain.Services;
@@ -12,6 +13,7 @@ using IdentityService.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace IdentityService.Controllers
 {
@@ -132,9 +134,14 @@ namespace IdentityService.Controllers
                 _userService.Create(user, userCommand.Password);
 
                 var f = new MessageBroker();
-                var r = f.Call("30");
+                var cmd = new CreateUserCommand();
+                cmd.UserId = new Guid();
+                var jsonCmd = JsonConvert.SerializeObject(cmd);
+                var r = f.Call(jsonCmd);
                 Console.WriteLine(r);
                 f.Close();
+                
+                //Create a Person
                 
                 return Ok();
             } 

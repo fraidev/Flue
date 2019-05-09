@@ -1,6 +1,6 @@
 using System;
 
-namespace FeedService.Infrastructure.CQRS
+namespace FlueShared.CQRS
 {
     public class Command: Message
     {

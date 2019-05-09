@@ -1,9 +1,11 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FeedService.Domain.Write.Aggregates;
 using FeedService.Domain.Write.Commands;
 using FeedService.Domain.Write.Repositories;
 using FeedService.Domain.Write.States;
+using FlueShared;
 using MediatR;
 
 namespace FeedService.Domain.Write.CommandHandlers
@@ -16,7 +18,8 @@ namespace FeedService.Domain.Write.CommandHandlers
             IRequestHandler<DeletePosts>,
             IRequestHandler<AddComment>,
             IRequestHandler<UpdateComment>,
-            IRequestHandler<DeleteComments>
+            IRequestHandler<DeleteComments>,
+            IRequestHandler<CreateUserCommand>
         {
             private readonly IFeedRepository _feedRepository;
     
@@ -60,6 +63,12 @@ namespace FeedService.Domain.Write.CommandHandlers
             public Task<Unit> Handle(DeleteComments request, CancellationToken cancellationToken)
             {
                 throw new System.NotImplementedException();
+            }
+
+            public Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+            {
+                Console.WriteLine("Batata doce");
+                return Unit.Task;
             }
         }
     }

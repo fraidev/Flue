@@ -26,7 +26,7 @@ namespace IdentityService.Infrastructure.Middlewares
             {
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
-                int m = 0;
+//                var m = 0;
             };
             channel.BasicConsume(queue: "hello", autoAck: true, consumer: consumer);
         }

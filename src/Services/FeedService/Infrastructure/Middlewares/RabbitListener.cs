@@ -1,5 +1,9 @@
 using System;
 using System.Text;
+using FeedService.Infrastructure.CQRS;
+using FlueShared.CQRS;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -7,12 +11,14 @@ namespace FeedService.Infrastructure.Middlewares
 {
     public class RabbitListener
     {
+        private readonly IMediatorHandler _mediatorHandler;
         ConnectionFactory factory { get; set; }
         IConnection connection { get; set; }
         IModel channel { get; set; }
 
-        public RabbitListener()
+        public RabbitListener(IMediatorHandler mediatorHandler)
         {
+            _mediatorHandler = mediatorHandler;
             this.factory = new ConnectionFactory() { HostName = "localhost" };
             this.connection = factory.CreateConnection();
             this.channel = connection.CreateModel();
@@ -39,9 +45,19 @@ namespace FeedService.Infrastructure.Middlewares
                 try
                 {
                     var message = Encoding.UTF8.GetString(body);
-                    int n = int.Parse(message);
-                    Console.WriteLine(" [.] fib({0})", message);
-                    response = (n + 1).ToString();
+                    var m = JObject.Parse(message);
+                    var t = m["MessageType"].ToString();
+
+                    var tf = Type.GetType(t);
+                    
+                    
+                    var cmdJson = JsonConvert.DeserializeObject(message, tf);
+                    
+                    
+                    _mediatorHandler.SendCommand(cmdJson);
+//                    int n = int.Parse(message);
+                    Console.WriteLine(" [.] fib({0})", cmdJson);
+                    response = cmdJson.ToString();
                 }
                 catch (Exception e)
                 {

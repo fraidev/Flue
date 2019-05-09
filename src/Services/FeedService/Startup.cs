@@ -67,8 +67,8 @@ namespace FeedService
             services.AddScoped<IFeedRepository, FeedRepository>();
             services.AddScoped<IPostReadRepository, PostReadRepository>();
             services.AddMediatR(typeof(Startup));
-            services.AddScoped<IMediatorHandler, InMemoryBus>();
-            services.AddSingleton<RabbitListener>();
+            services.AddTransient<IMediatorHandler, InMemoryBus>();
+            services.AddSingleton(x => new RabbitListener(x.GetService<IMediatorHandler>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
