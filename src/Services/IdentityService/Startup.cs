@@ -8,7 +8,6 @@ using IdentityService.Domain.Repositories;
 using IdentityService.Domain.Services;
 using IdentityService.Infrastructure.Broker;
 using IdentityService.Infrastructure.Helpers;
-using IdentityService.Infrastructure.Middlewares;
 using IdentityService.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -78,11 +77,11 @@ namespace IdentityService
                 });
             
             // configure DI for application services
+            services.AddSingleton<INHibernateFactory, NHibernateFactory>(x => new NHibernateFactory(appSettings.ConnectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMessageBroker, MessageBroker>();
-            services.AddSingleton<RabbitListener>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,8 +106,6 @@ namespace IdentityService
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
-            
-            app.UseRabbitListener();
 
             app.UseMvc();
         }

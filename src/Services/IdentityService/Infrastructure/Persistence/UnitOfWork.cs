@@ -19,13 +19,11 @@ namespace IdentityService.Infrastructure.Persistence
 
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IConfiguration _configuration;
         private readonly ISession _session;
 
-        public UnitOfWork(IConfiguration configuration)
+        public UnitOfWork(INHibernateFactory nHibernateFactory)
         {
-            _configuration = configuration;
-            _session = NHibernateHelper.CreateSessionFactory(_configuration.GetSection("ConnectionStrings").Value).OpenSession();
+            _session = nHibernateFactory.GetSession();
             _session.BeginTransaction();
         }
 

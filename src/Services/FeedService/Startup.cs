@@ -42,7 +42,6 @@ namespace FeedService
             // configure jwt authentication
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-            
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
@@ -66,14 +65,12 @@ namespace FeedService
                 };
             });
             services.AddMediatR(typeof(Startup));
+            services.AddSingleton<INHibernateFactory, NHibernateFactory>(x => new NHibernateFactory(appSettings.ConnectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IFeedRepository, FeedRepository>();
             services.AddScoped<IPostReadRepository, PostReadRepository>();
             services.AddScoped<IMediatorHandler, InMemoryBus>();
             services.AddScoped<PostCommandHandler>();
-//            var _mediator = (IMediator)serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IMediator));
-//            services.AddSingleton(x => new RabbitListener(x.GetService<IMediatorHandler>()));
-//            services.AddSingleton(x => new RabbitListener());
             services.AddHostedService<ConsumeRabbitListenerService>();
             services.AddScoped<IRabbitListenerService, RabbitListenerService>();
         }

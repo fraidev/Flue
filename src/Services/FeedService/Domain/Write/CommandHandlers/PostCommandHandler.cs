@@ -28,13 +28,7 @@ namespace FeedService.Domain.Write.CommandHandlers
 
         public Task<Unit> Handle(CreatePost request, CancellationToken cancellationToken)
         {
-            var state = new PostState()
-            {
-                Id = request.Id,
-                Text = request.Text,
-                UserId = request.UserId
-            };
-            _feedRepository.Save(new FeedAggregate(state));
+            _feedRepository.Save(new FeedAggregate(request));
             return Unit.Task;
         }
 

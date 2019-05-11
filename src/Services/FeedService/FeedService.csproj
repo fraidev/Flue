@@ -15,13 +15,7 @@
     <PackageReference Include="RabbitMQ.Client" Version="6.0.0-pre3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Domain\Read\Models\" />
-    <Folder Include="Domain\Read\Repositories\" />
-    <Folder Include="Infrastructure\Security\" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\FlueShared\FlueShared.csproj" />
   </ItemGroup>

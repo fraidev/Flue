@@ -67,13 +67,10 @@ namespace FeedService.Controllers
         public void Post([FromBody] CreatePost cmd)
         {
 //            var cm = new CreateUserCommand {UserId = new Guid()};
-            _mediatorHandler.SendCommand(cmd);
-            
             
             cmd.UserId = Guid.Parse(((ClaimsIdentity) User.Identity).Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
                 .Select(c => c.Value).SingleOrDefault());
-            var aggregate = new FeedAggregate(cmd);
-            _feedRepository.Save(aggregate);
+            _mediatorHandler.SendCommand(cmd);
 //
 //            var f = new MessageBroker();
 //            var r = f.Call("30");

@@ -4,7 +4,7 @@ using FluentNHibernate.Conventions.Helpers;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 
-namespace IdentityService.Infrastructure.Persistence
+namespace FeedService.Infrastructure.Persistence
 {
     public interface INHibernateFactory
     {
