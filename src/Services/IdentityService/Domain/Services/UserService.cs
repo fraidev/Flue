@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FeedService.Domain.Write.Commands;
 using FluentNHibernate.Conventions;
+using FlueShared;
 using IdentityService.Domain.Repositories;
 using IdentityService.Domain.State;
+using IdentityService.Infrastructure.Broker;
 using IdentityService.Infrastructure.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace IdentityService.Domain.Services
 {
@@ -27,11 +31,13 @@ namespace IdentityService.Domain.Services
     {
         private readonly AppSettings _appSettings;
         private readonly IUserRepository _userRepository;
+        private readonly IMessageBroker _messageBroker;
 
-        public UserService(IOptions<AppSettings> appSettings, IUserRepository userRepository)
+        public UserService(IOptions<AppSettings> appSettings, IUserRepository userRepository, IMessageBroker messageBroker)
         {
             _appSettings = appSettings.Value;
             _userRepository = userRepository;
+            _messageBroker = messageBroker;
         }
 
         public UserState Authenticate(string username, string password)
@@ -103,6 +109,19 @@ namespace IdentityService.Domain.Services
             //_context.SaveChanges();
             
             _userRepository.Save(userState);
+            
+            //Create a Person
+            var cmd = new CreateUserCommand()
+            {
+                UserId = userState.Id
+            };
+            
+            var wrapper = new WrapperCommand(cmd);
+            
+            
+            var cmdJson = JsonConvert.SerializeObject(wrapper);
+            var response = _messageBroker.Call(cmdJson);
+            _messageBroker.Close();
 
             return userState;
         }

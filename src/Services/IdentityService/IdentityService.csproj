@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\FlueShared\FlueShared.csproj" />
+    <ProjectReference Include="..\FeedService\FeedService.csproj" />
   </ItemGroup>
 
 </Project>

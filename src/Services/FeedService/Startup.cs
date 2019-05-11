@@ -9,11 +9,13 @@ using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 using System.Threading.Tasks;
 using FeedService.Domain.Read.Repositories;
+using FeedService.Domain.Write.CommandHandlers;
 using FeedService.Domain.Write.Repositories;
 using FeedService.Infrastructure;
+using FeedService.Infrastructure.Broker;
 using FeedService.Infrastructure.CQRS;
-using FeedService.Infrastructure.Middlewares;
 using FeedService.Infrastructure.Persistence;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace FeedService
 {
@@ -63,12 +65,17 @@ namespace FeedService
                     ValidateAudience = false
                 };
             });
+            services.AddMediatR(typeof(Startup));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IFeedRepository, FeedRepository>();
             services.AddScoped<IPostReadRepository, PostReadRepository>();
-            services.AddMediatR(typeof(Startup));
-            services.AddTransient<IMediatorHandler, InMemoryBus>();
-            services.AddSingleton(x => new RabbitListener(x.GetService<IMediatorHandler>()));
+            services.AddScoped<IMediatorHandler, InMemoryBus>();
+            services.AddScoped<PostCommandHandler>();
+//            var _mediator = (IMediator)serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IMediator));
+//            services.AddSingleton(x => new RabbitListener(x.GetService<IMediatorHandler>()));
+//            services.AddSingleton(x => new RabbitListener());
+            services.AddHostedService<ConsumeRabbitListenerService>();
+            services.AddScoped<IRabbitListenerService, RabbitListenerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,7 +105,7 @@ namespace FeedService
 
             app.UseAuthentication();
             
-            app.UseRabbitListener();
+//            app.UseRabbitListener();
 
             app.UseMvc();
         }

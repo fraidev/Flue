@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
-using FlueShared;
 using IdentityService.Domain.Commands;
 using IdentityService.Domain.Entities;
 using IdentityService.Domain.Services;
@@ -44,7 +43,7 @@ namespace IdentityService.Controllers
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
-
+            
             // return basic user info (without password) and token to store client side
             return Ok(new {
                 Id = user.Id,
@@ -132,17 +131,6 @@ namespace IdentityService.Controllers
             {
                 // save 
                 _userService.Create(user, userCommand.Password);
-
-                var f = new MessageBroker();
-                var cmd = new CreateUserCommand();
-                cmd.UserId = new Guid();
-                var jsonCmd = JsonConvert.SerializeObject(cmd);
-                var r = f.Call(jsonCmd);
-                Console.WriteLine(r);
-                f.Close();
-                
-                //Create a Person
-                
                 return Ok();
             } 
             catch(AppException ex)

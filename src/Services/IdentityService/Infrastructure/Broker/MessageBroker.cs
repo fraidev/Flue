@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Text;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -8,8 +9,9 @@ namespace IdentityService.Infrastructure.Broker
 {
     public interface IMessageBroker
     {
-//        void Send();
-//        void Receive();
+        string CallJson(object json);
+        string Call(string message);
+        void Close();
     }
     
     public class MessageBroker: IMessageBroker
@@ -47,21 +49,18 @@ namespace IdentityService.Infrastructure.Broker
             };
         }
 
+        public string CallJson(object obj)
+        {
+            return Call(JsonConvert.SerializeObject(obj));
+        }
+
         public string Call(string message)
         {
             var messageBytes = Encoding.UTF8.GetBytes(message);
-            _channel.BasicPublish(
-                exchange: "",
-                routingKey: "rpc_queue",
-                basicProperties: _props,
-                body: messageBytes);
-
-            _channel.BasicConsume(
-                consumer: _consumer,
-                queue: _replyQueueName,
-                autoAck: true);
-
-            return _respQueue.Take(); ;
+            
+            _channel.BasicPublish("","rpc_queue", _props, messageBytes);
+            _channel.BasicConsume(consumer: _consumer, queue: _replyQueueName, autoAck: true);
+            return _respQueue.Take();
         }
 
         public void Close()

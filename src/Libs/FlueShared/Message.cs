@@ -1,16 +1,18 @@
 using System;
 using MediatR;
 
-namespace FeedService.Infrastructure.CQRS
+namespace FlueShared
 {
     public class Message : IRequest
     {
         public string MessageType { get; protected set; }
+        public Type Type { get; protected set; }
         public Guid AggregateId { get; protected set; }
 
         protected Message()
         {
-            MessageType = GetType().Name;
+            Type = GetType();
+            MessageType = Type.Name;
         }
     }
 }

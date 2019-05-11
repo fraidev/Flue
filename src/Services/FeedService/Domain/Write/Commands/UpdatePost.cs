@@ -1,6 +1,5 @@
-using System;
 using FeedService.Infrastructure.CQRS;
-using FlueShared.CQRS;
+using FlueShared;
 
 namespace FeedService.Domain.Write.Commands
 {

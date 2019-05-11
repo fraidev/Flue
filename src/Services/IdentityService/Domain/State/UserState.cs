@@ -5,6 +5,10 @@ namespace IdentityService.Domain.State
 {
     public class UserState
     {
+        public UserState()
+        {
+            Id = Guid.NewGuid();
+        }
         public Guid Id { get; set; }
 /*      public string FirstName { get; set; }
         public string LastName { get; set; }

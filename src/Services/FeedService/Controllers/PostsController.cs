@@ -7,7 +7,6 @@ using FeedService.Domain.Write.Commands;
 using FeedService.Domain.Write.Repositories;
 using FeedService.Infrastructure.Broker;
 using FeedService.Infrastructure.CQRS;
-using FlueShared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,9 +66,10 @@ namespace FeedService.Controllers
         [HttpPost]
         public void Post([FromBody] CreatePost cmd)
         {
-//            var cm = new CreateUserCommand();
-//            cm.UserId = new Guid();
-//            _mediatorHandler.SendCommand(cm);
+//            var cm = new CreateUserCommand {UserId = new Guid()};
+            _mediatorHandler.SendCommand(cmd);
+            
+            
             cmd.UserId = Guid.Parse(((ClaimsIdentity) User.Identity).Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
                 .Select(c => c.Value).SingleOrDefault());
             var aggregate = new FeedAggregate(cmd);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using IdentityService.Domain.Repositories;
 using IdentityService.Domain.Services;
+using IdentityService.Infrastructure.Broker;
 using IdentityService.Infrastructure.Helpers;
 using IdentityService.Infrastructure.Middlewares;
 using IdentityService.Infrastructure.Persistence;
@@ -80,6 +81,7 @@ namespace IdentityService
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMessageBroker, MessageBroker>();
             services.AddSingleton<RabbitListener>();
         }
 

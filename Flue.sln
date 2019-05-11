@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSPA", "src\WebSPA\WebSPA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "src\Services\IdentityService\IdentityService.csproj", "{DA1B76DF-AF8A-4123-B5DD-C22D8B3530C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlueShared", "src\Libs\FlueShared\FlueShared.csproj", "{4EF12C27-52B3-449B-BF83-E41454D6CC4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlueShared", "src\Libs\FlueShared\FlueShared.csproj", "{1EEE1D1C-69A2-4A69-941A-426232AB109C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{DA1B76DF-AF8A-4123-B5DD-C22D8B3530C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA1B76DF-AF8A-4123-B5DD-C22D8B3530C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA1B76DF-AF8A-4123-B5DD-C22D8B3530C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4EF12C27-52B3-449B-BF83-E41454D6CC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4EF12C27-52B3-449B-BF83-E41454D6CC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4EF12C27-52B3-449B-BF83-E41454D6CC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4EF12C27-52B3-449B-BF83-E41454D6CC4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EEE1D1C-69A2-4A69-941A-426232AB109C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EEE1D1C-69A2-4A69-941A-426232AB109C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EEE1D1C-69A2-4A69-941A-426232AB109C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EEE1D1C-69A2-4A69-941A-426232AB109C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
