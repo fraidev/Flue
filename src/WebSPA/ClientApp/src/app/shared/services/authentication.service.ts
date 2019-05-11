@@ -28,7 +28,7 @@ export class AuthenticationService {
         const cmd = new User();
         cmd.username = username;
         cmd.password = password;
-        return this.http.post<any>(environment.accountApiUrl + `users/authenticate`, cmd)
+        return this.http.post<any>(environment.accountApiUrl + `identify/authenticate`, cmd)
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {

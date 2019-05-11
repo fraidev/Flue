@@ -69,8 +69,11 @@ namespace FeedService
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IFeedRepository, FeedRepository>();
             services.AddScoped<IPostReadRepository, PostReadRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserReadRepository, UserReadRepository>();
             services.AddScoped<IMediatorHandler, InMemoryBus>();
             services.AddScoped<PostCommandHandler>();
+            services.AddScoped<UserCommandHandler>();
             services.AddHostedService<ConsumeRabbitListenerService>();
             services.AddScoped<IRabbitListenerService, RabbitListenerService>();
         }

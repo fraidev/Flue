@@ -11,19 +11,13 @@ export class FeedService {
   }
 
   public createPost(post: any): Observable<any> {
-    return this.http.post(environment.feedApiUrl + `posts/`, post, {
+    return this.http.post(environment.feedApiUrl + `identify/`, post, {
       headers: this.authenticationService.currentUserHeader
     });
   }
 
   public getInbox(): Observable<any> {
     return this.http.get(environment.feedApiUrl + `posts/Inbox/`, {
-      headers: this.authenticationService.currentUserHeader
-    });
-  }
-
-  public indentity(): Observable<any> {
-    return this.http.get(environment.feedApiUrl + `posts/Identity/`, {
       headers: this.authenticationService.currentUserHeader
     });
   }

@@ -1,4 +1,4 @@
-namespace IdentityService.Domain.Entities
+namespace FlueShared.Entities
 {
     public class Role
     {

@@ -7,6 +7,7 @@ using FeedService.Domain.Write.Commands;
 using FeedService.Domain.Write.Repositories;
 using FeedService.Infrastructure.Broker;
 using FeedService.Infrastructure.CQRS;
+using FeedService.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,8 +50,7 @@ namespace FeedService.Controllers
         [HttpGet("Inbox")]
         public IActionResult Inbox()
         {
-            var userId = Guid.Parse(((ClaimsIdentity) User.Identity).Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
-                .Select(c => c.Value).SingleOrDefault());
+            this.GetIdentify();
             
             // Meus seguidores
             
@@ -68,8 +68,7 @@ namespace FeedService.Controllers
         {
 //            var cm = new CreateUserCommand {UserId = new Guid()};
             
-            cmd.UserId = Guid.Parse(((ClaimsIdentity) User.Identity).Claims.Where(c => c.Type == ClaimTypes.NameIdentifier)
-                .Select(c => c.Value).SingleOrDefault());
+            cmd.UserId = this.GetIdentify();
             _mediatorHandler.SendCommand(cmd);
 //
 //            var f = new MessageBroker();

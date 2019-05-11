@@ -1,36 +1,46 @@
 using System;
 using FeedService.Domain.Write.Aggregates;
 using FeedService.Domain.Write.States;
+using FeedService.Infrastructure.Persistence;
 
 namespace FeedService.Domain.Write.Repositories
 {
-    public interface IPersonRepository
+    public interface IUserRepository
     {
-        PersonState GetById(Guid id);
-        void Save(FeedAggregate feedAggregate);
+        UserState GetById(Guid id);
+        void Save(UserAggregate userAggregate);
         void Delete(Guid id);
-        void Update(PersonAggregate feedAggregate);
+        void Update(UserAggregate userAggregate);
     }
-    public class PersonRepository: IPersonRepository
+    public class UserRepository: IUserRepository
     {
-        public PersonState GetById(Guid id)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UserRepository(IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+        }
+        public UserState GetById(Guid id)
+        {
+            return _unitOfWork.GetById<UserState>(id);
         }
 
-        public void Save(FeedAggregate feedAggregate)
+        public void Save(UserAggregate userAggregate)
         {
-            throw new NotImplementedException();
+            _unitOfWork.Save(userAggregate.GetState());
+//            _unitOfWork.Flush();
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            _unitOfWork.Delete(GetById(id));
+//            _unitOfWork.Flush();
         }
 
-        public void Update(PersonAggregate feedAggregate)
+        public void Update(UserAggregate userAggregate)
         {
-            throw new NotImplementedException();
+            _unitOfWork.Update(userAggregate.GetState());
+//            _unitOfWork.Flush();
         }
     }
 }

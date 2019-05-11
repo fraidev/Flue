@@ -16,8 +16,7 @@ namespace FeedService.Domain.Write.CommandHandlers
         IRequestHandler<DeletePosts>,
         IRequestHandler<AddComment>,
         IRequestHandler<UpdateComment>,
-        IRequestHandler<DeleteComments>,
-        IRequestHandler<CreateUserCommand>
+        IRequestHandler<DeleteComments>
     {
         private readonly IFeedRepository _feedRepository;
 
@@ -55,12 +54,6 @@ namespace FeedService.Domain.Write.CommandHandlers
         public Task<Unit> Handle(DeleteComments request, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
-        }
-        
-        public Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
-        {
-            Console.WriteLine("Batata doce");
-            return Unit.Task;
         }
     }
 }

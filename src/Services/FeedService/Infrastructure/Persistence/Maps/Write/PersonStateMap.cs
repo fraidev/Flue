@@ -3,14 +3,14 @@ using FluentNHibernate.Mapping;
 
 namespace FeedService.Infrastructure.Persistence.Maps.Write
 {
-    public class PersonStateMap: ClassMap<PersonState>
+    public class PersonStateMap: ClassMap<UserState>
     {
         public PersonStateMap()
         {
-            Table("[Person]");
-            Id(x => x.Id, "PersonId").GeneratedBy.GuidComb();
-            Map(x => x.FirstName);
-            Map(x => x.LastName);
+            Table("[User]");
+            Id(x => x.UserId, "UserId").GeneratedBy.GuidComb();
+            Map(x => x.IdentifyId).Not.Nullable();
+            Map(x => x.Name);
             Map(x => x.Email);
             
             HasManyToMany(x => x.Following)

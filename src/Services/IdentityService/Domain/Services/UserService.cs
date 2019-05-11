@@ -113,7 +113,7 @@ namespace IdentityService.Domain.Services
             //Create a Person
             var cmd = new CreateUserCommand()
             {
-                UserId = userState.Id
+                IdentifierId = userState.Id
             };
             
             var wrapper = new WrapperCommand(cmd);

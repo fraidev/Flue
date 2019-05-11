@@ -69,14 +69,14 @@ export class UserService {
     }
 
     public register(user: User) {
-        return this.http.post(environment.accountApiUrl + `users/register`, user);
+        return this.http.post(environment.accountApiUrl + `identify/register`, user);
     }
 
     public update(user: User) {
-        return this.http.put(environment.accountApiUrl + `users/` + user.id, user);
+        return this.http.put(environment.accountApiUrl + `identify/` + user.id, user);
     }
 
     public delete(id: number) {
-        return this.http.delete(environment.accountApiUrl + `users/` + id);
+        return this.http.delete(environment.accountApiUrl + `identify/` + id);
     }
 }

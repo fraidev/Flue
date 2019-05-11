@@ -1,8 +1,8 @@
 using System;
 
-namespace IdentityService.Domain.Commands
+namespace IdentityService.Domain.Models
 {
-    public class UserCommand
+    public class Identifier
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
