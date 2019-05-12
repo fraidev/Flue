@@ -27,6 +27,7 @@ namespace FeedService.Domain.Write.Aggregates
             {
                 PersonId = Id,
                 UserId = cmd.IdentifierId,
+                Username = cmd.Username,
                 Name = cmd.Name,
                 Email = cmd.Email,
                 Following = new List<PersonState>()

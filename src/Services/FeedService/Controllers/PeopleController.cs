@@ -80,7 +80,7 @@ namespace FeedService.Controllers
         }
         
         [HttpGet]
-        public IActionResult GetUsers(string searchText)
+        public IActionResult GetPeople(string searchText)
         {
             searchText = searchText.ToLower();
             var people =  _personReadRepository.GetAll().Where(x => x.Name.Contains(searchText)

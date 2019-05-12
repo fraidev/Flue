@@ -1,7 +1,5 @@
-
 using System;
 using System.Text;
-using FeedService.Domain.Write.Commands;
 using FeedService.Infrastructure.CQRS;
 using FlueShared;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace FeedService
+namespace FeedService.Infrastructure.Broker
 {
     internal interface IRabbitListenerService
     {

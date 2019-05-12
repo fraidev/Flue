@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService, UserService } from './shared/services';
+import { AuthenticationService, PersonService } from './shared/services';
 import { User } from './shared/models';
 
 @Component({
@@ -13,12 +13,12 @@ export class AppComponent implements OnInit {
   currentUser: User;
   title = 'FlueWeb';
 
-  constructor(private router: Router, private authenticationService: AuthenticationService, private userService: UserService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService, private personService: PersonService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
   ngOnInit(): void {
-    this.userService.configure();
+    this.personService.configure();
   }
 
   public search() {

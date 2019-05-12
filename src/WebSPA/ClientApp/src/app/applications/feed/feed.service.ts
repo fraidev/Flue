@@ -11,7 +11,7 @@ export class FeedService {
   }
 
   public createPost(post: any): Observable<any> {
-    return this.http.post(environment.feedApiUrl + `identify/`, post, {
+    return this.http.post(environment.feedApiUrl + `posts/`, post, {
       headers: this.authenticationService.currentUserHeader
     });
   }

@@ -116,6 +116,7 @@ namespace IdentityService.Domain.Services
             var cmd = new CreatePersonCommand()
             {
                 IdentifierId = identifierState.UserId,
+                Username =  userCommand.Username,
                 Name = userCommand.Name,
                 Email = userCommand.Email
             };

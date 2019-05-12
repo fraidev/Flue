@@ -7,7 +7,7 @@ namespace FeedService.Infrastructure.Persistence.Maps.Read
     {
         public PersonModelMap()
         {
-            
+            ReadOnly();
             Table("[Person]");
             Id(x => x.PersonId).GeneratedBy.GuidComb();
             Map(x => x.UserId).Not.Nullable();
