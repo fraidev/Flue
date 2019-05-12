@@ -6,48 +6,48 @@ using FlueShared;
 
 namespace FeedService.Domain.Write.Aggregates
 {
-    public class UserAggregate:IBaseAggregate<UserState>
+    public class PersonAggregate:IBaseAggregate<PersonState>
     {
         public Guid Id { get; }
-        private UserState State { get; set; }
+        private PersonState State { get; set; }
         
         
         #region Constructors
         
-        public UserAggregate(UserState state)
+        public PersonAggregate(PersonState state)
         {
             Id = Guid.NewGuid();
             State = state;
         }
         
-        public UserAggregate(CreateUserCommand cmd)
+        public PersonAggregate(CreatePersonCommand cmd)
         {
             Id = Guid.NewGuid();
-            State = new UserState()
+            State = new PersonState()
             {
-                UserId = Id,
-                IdentifyId = cmd.IdentifierId,
+                PersonId = Id,
+                UserId = cmd.IdentifierId,
                 Name = cmd.Name,
                 Email = cmd.Email,
-                Following = new List<UserState>()
+                Following = new List<PersonState>()
             };
         }
         
         #endregion
         
-        public UserState GetState()
+        public PersonState GetState()
         {
             return State;
         }
 
-        public void Follow(UserState userState)
+        public void Follow(PersonState personState)
         {
-            GetState().Following.Add(userState);
+            GetState().Following.Add(personState);
         }
 
-        public void Unfollow(UserState userState)
+        public void Unfollow(PersonState personState)
         {
-            GetState().Following.Remove(userState);
+            GetState().Following.Remove(personState);
         }
     }
 }

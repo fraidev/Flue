@@ -6,29 +6,29 @@ using FeedService.Infrastructure.Persistence;
 
 namespace FeedService.Domain.Read.Repositories
 {
-    public interface IUserReadRepository
+    public interface IPersonReadRepository
     {
-        IEnumerable<UserModel> GetAll();
-        UserModel GetById(Guid id);
+        IEnumerable<PersonModel> GetAll();
+        PersonModel GetById(Guid id);
     }
     
-    public class UserReadRepository: IUserReadRepository
+    public class PersonReadRepository: IPersonReadRepository
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserReadRepository(IUnitOfWork unitOfWork)
+        public PersonReadRepository(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
         
-        public IEnumerable<UserModel> GetAll()
+        public IEnumerable<PersonModel> GetAll()
         {
-            return _unitOfWork.Query<UserModel>();
+            return _unitOfWork.Query<PersonModel>();
         }
 
-        public UserModel GetById(Guid id)
+        public PersonModel GetById(Guid id)
         {
-            return _unitOfWork.GetById<UserModel>(id);
+            return _unitOfWork.GetById<PersonModel>(id);
         }
     }
 }

@@ -21,19 +21,19 @@ namespace FeedService.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class PeopleController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUserReadRepository _userReadRepository;
+        private readonly IPersonRepository _personRepository;
+        private readonly IPersonReadRepository _personReadRepository;
         private readonly IMediatorHandler _mediatorHandler;
         private readonly AppSettings _appSettings;
 
-        public UsersController(IOptions<AppSettings> appSettings, 
-            IUserRepository userRepository, IUserReadRepository userReadRepository,
+        public PeopleController(IOptions<AppSettings> appSettings, 
+            IPersonRepository personRepository, IPersonReadRepository personReadRepository,
             IMediatorHandler mediatorHandler)
         {
-            _userRepository = userRepository;
-            _userReadRepository = userReadRepository;
+            _personRepository = personRepository;
+            _personReadRepository = personReadRepository;
             _mediatorHandler = mediatorHandler;
             _appSettings = appSettings.Value;
         }
@@ -41,9 +41,9 @@ namespace FeedService.Controllers
         [HttpPost("Follow/{id}")]
         public IActionResult Follow(Guid id)
         {
-            var cmd = new FollowUserCommand()
+            var cmd = new FollowPersonCommand()
             {
-                UserId = this.GetIdentify(),
+                PersonId = this.GetIdentify(),
                 FollowId = id
             };
             _mediatorHandler.SendCommand(cmd);
@@ -53,10 +53,9 @@ namespace FeedService.Controllers
         [HttpPost("Unfollow/{id}")]
         public IActionResult Unfollow(Guid id)
         {
-            
-            var cmd = new UnfollowUserCommand()
+            var cmd = new UnfollowPersonCommand()
             {
-                UserId = this.GetIdentify(),
+                PersonId = this.GetIdentify(),
                 UnfollowId = id
             };
             _mediatorHandler.SendCommand(cmd);
@@ -66,8 +65,8 @@ namespace FeedService.Controllers
         [HttpGet("Followers")]
         public IActionResult Followers()
         {
-            var user = _userReadRepository.GetById(this.GetIdentify());
-            var followers = _userReadRepository.GetAll().Where(x => x.Following.Contains(user));
+            var user = _personReadRepository.GetById(this.GetIdentify());
+            var followers = _personReadRepository.GetAll().Where(x => x.Following.Contains(user));
 //            var userDtos = _mapper.Map<IList<UserCommand>>(followers);
             return Ok(followers);
         }
@@ -75,7 +74,7 @@ namespace FeedService.Controllers
         [HttpGet("Following")]
         public IActionResult Following()
         {
-            var following = _userReadRepository.GetById(this.GetIdentify()).Following;
+            var following = _personReadRepository.GetById(this.GetIdentify()).Following;
 //            var userDtos = _mapper.Map<IList<UserCommand>>(user.Following);
             return Ok(following);
         }
@@ -84,21 +83,19 @@ namespace FeedService.Controllers
         public IActionResult GetUsers(string searchText)
         {
             searchText = searchText.ToLower();
-            var users =  _userReadRepository.GetAll().Where(x => x.Name.Contains(searchText)
+            var people =  _personReadRepository.GetAll().Where(x => x.Name.Contains(searchText)
                 || x.Username.ToLower().Contains(searchText));
 //            var userDtos = _mapper.Map<IList<UserCommand>>(users);
-            return Ok(users);
+            return Ok(people);
         }
         
         [HttpGet]
         [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
         {
-            var users = _userReadRepository.GetAll();
+            var people = _personReadRepository.GetAll();
 //            var userDtos = _mapper.Map<IList<UserCommand>>(users);
-            return Ok(users);
+            return Ok(people);
         }
-
-        
     }
 }

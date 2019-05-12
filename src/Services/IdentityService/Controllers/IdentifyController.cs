@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
 using FlueShared.Entities;
-using IdentityService.Domain.Models;
+using IdentityService.Domain.Command;
 using IdentityService.Domain.Services;
 using IdentityService.Domain.State;
 using IdentityService.Infrastructure.Helpers;
@@ -34,16 +34,16 @@ namespace IdentityService.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]Identifier identifier)
+        public IActionResult Authenticate([FromBody]UserCommand userCommand)
         {
-            var user = _userService.Authenticate(identifier.Username, identifier.Password);
+            var user = _userService.Authenticate(userCommand.Username, userCommand.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
             
             // return basic user info (without password) and token to store client side
             return Ok(new {
-                Id = user.Id,
+                Id = user.UserId,
                 Username = user.Username,
                 /*FirstName = user.FirstName,
                 LastName = user.LastName,*/
@@ -53,16 +53,12 @@ namespace IdentityService.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]Identifier identifier)
+        public IActionResult Register([FromBody]UserCommand userCommand)
         {
-            // map dto to entity
-            var user = _mapper.Map<UserState>(identifier);
-            user.Role = Role.User;
-
             try 
             {
                 // save 
-                _userService.Create(user, identifier.Password);
+                _userService.Create(userCommand, userCommand.Password);
                 return Ok();
             } 
             catch(AppException ex)
@@ -85,21 +81,21 @@ namespace IdentityService.Controllers
         public IActionResult GetById(Guid id)
         {
             var user =  _userService.GetById(id);
-            var userDto = _mapper.Map<Identifier>(user);
+            var userDto = _mapper.Map<UserCommand>(user);
             return Ok(userDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(Guid id, [FromBody]Identifier identifier)
+        public IActionResult Update(Guid id, [FromBody]UserCommand userCommand)
         {
             // map dto to entity and set id
-            var user = _mapper.Map<UserState>(identifier);
-            user.Id = id;
+            var user = _mapper.Map<User>(userCommand);
+            user.UserId = id;
 
             try 
             {
                 // save 
-                _userService.Update(user, identifier.Password);
+                _userService.Update(user, userCommand.Password);
                 return Ok();
             } 
             catch(AppException ex)

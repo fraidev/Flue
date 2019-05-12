@@ -8,12 +8,12 @@ namespace IdentityService.Domain.Repositories
 {
     public interface IUserRepository
     {
-        UserState GetById(Guid id);
-        UserState GetByUser(string id);
-        IEnumerable<UserState> GetAll();
-        void Save(UserState userState);
-        void Update(UserState userState);
-        void Delete(UserState userState);
+        User GetById(Guid id);
+        User GetByUser(string id);
+        IEnumerable<User> GetAll();
+        void Save(User user);
+        void Update(User user);
+        void Delete(User user);
     }
     public class UserRepository: IUserRepository
     {
@@ -24,34 +24,34 @@ namespace IdentityService.Domain.Repositories
             _unitOfWork = unitOfWork;
         }
 
-        public UserState GetById(Guid id)
+        public User GetById(Guid id)
         {
-            return _unitOfWork.GetById<UserState>(id);
+            return _unitOfWork.GetById<User>(id);
         }
 
-        public UserState GetByUser(string username)
+        public User GetByUser(string username)
         {
-            return _unitOfWork.Query<UserState>().FirstOrDefault(x => x.Username == username);
+            return _unitOfWork.Query<User>().FirstOrDefault(x => x.Username == username);
         }
 
-        public IEnumerable<UserState> GetAll()
+        public IEnumerable<User> GetAll()
         {
-            return _unitOfWork.Query<UserState>();
+            return _unitOfWork.Query<User>();
         }
         
-        public void Save(UserState userState)
+        public void Save(User user)
         {
-            _unitOfWork.Save(userState);
+            _unitOfWork.Save(user);
         }
 
-        public void Update(UserState userState)
+        public void Update(User user)
         {
-            _unitOfWork.Update(userState);
+            _unitOfWork.Update(user);
         }
 
-        public void Delete(UserState userState)
+        public void Delete(User user)
         {
-            _unitOfWork.Delete(userState);
+            _unitOfWork.Delete(user);
         }
     }
 }

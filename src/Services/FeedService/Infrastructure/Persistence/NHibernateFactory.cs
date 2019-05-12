@@ -36,7 +36,7 @@ namespace FeedService.Infrastructure.Persistence
                     }))
 
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                    .Execute(true, false,false))
+                    .Execute(true, true,false))
                 .BuildSessionFactory();
         }
 

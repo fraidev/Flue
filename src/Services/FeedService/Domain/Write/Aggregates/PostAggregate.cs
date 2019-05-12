@@ -7,7 +7,7 @@ using FeedService.Infrastructure.CQRS;
 
 namespace FeedService.Domain.Write.Aggregates
 {
-    public class FeedAggregate:IBaseAggregate<PostState>
+    public class PostAggregate:IBaseAggregate<PostState>
     {
         #region Properties
 
@@ -18,19 +18,19 @@ namespace FeedService.Domain.Write.Aggregates
 
         #region Constructors
         
-        public FeedAggregate(PostState state)
+        public PostAggregate(PostState state)
         {
             Id = Guid.NewGuid();
             State = state;
         }
         
-        public FeedAggregate(CreatePost cmd)
+        public PostAggregate(CreatePost cmd)
         {
             Id = Guid.NewGuid();
             State = new PostState()
             {
-                Id = Id,
-                UserId = cmd.UserId,
+                PostId = Id,
+                PersonId = cmd.PersonId,
                 Text = cmd.Text,
                 Comments = new List<CommentState>()
             };
@@ -61,7 +61,7 @@ namespace FeedService.Domain.Write.Aggregates
             {
                 Id = cmd.Id,
                 Text = cmd.Text,
-                UserId = cmd.UserId,
+                PersonId = cmd.PersonId,
                 CommentReply = cmd.CommentReply
             });
         }

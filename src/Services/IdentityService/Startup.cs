@@ -40,7 +40,6 @@ namespace IdentityService
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
             
-            
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
@@ -54,8 +53,11 @@ namespace IdentityService
                     {
                         OnTokenValidated = context =>
                         {
-                            var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                            var userId = Guid.Parse(context.Principal.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
+                            var userService = context.HttpContext.RequestServices
+                                .GetRequiredService<IUserService>();
+                            var userId = Guid.Parse(context.Principal.Claims
+                                .Where(c => c.Type == ClaimTypes.NameIdentifier)
+                                .Select(c => c.Value).SingleOrDefault());
                             var user = userService.GetById(userId);
                             if (user == null)
                             {
@@ -77,7 +79,8 @@ namespace IdentityService
                 });
             
             // configure DI for application services
-            services.AddSingleton<INHibernateFactory, NHibernateFactory>(x => new NHibernateFactory(appSettings.ConnectionString));
+            services.AddSingleton<INHibernateFactory, NHibernateFactory>
+                (x => new NHibernateFactory(appSettings.ConnectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();

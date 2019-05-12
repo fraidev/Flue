@@ -68,7 +68,7 @@ namespace FeedService.Controllers
         {
 //            var cm = new CreateUserCommand {UserId = new Guid()};
             
-            cmd.UserId = this.GetIdentify();
+            cmd.PersonId = this.GetIdentify();
             _mediatorHandler.SendCommand(cmd);
 //
 //            var f = new MessageBroker();

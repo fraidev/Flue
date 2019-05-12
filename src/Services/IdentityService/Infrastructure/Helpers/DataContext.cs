@@ -7,6 +7,6 @@ namespace IdentityService.Infrastructure.Helpers
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<UserState> Users { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

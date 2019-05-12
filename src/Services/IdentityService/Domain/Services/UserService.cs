@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
 using FeedService.Domain.Write.Commands;
 using FluentNHibernate.Conventions;
 using FlueShared;
+using FlueShared.Entities;
+using IdentityService.Domain.Command;
 using IdentityService.Domain.Repositories;
 using IdentityService.Domain.State;
 using IdentityService.Infrastructure.Broker;
@@ -18,13 +21,12 @@ namespace IdentityService.Domain.Services
 {
     public interface IUserService
     {
-        UserState Authenticate(string username, string password);
-        IEnumerable<UserState> GetAll();
-        UserState GetById(Guid id);
-        UserState Create(UserState userState, string password);
-        void Update(UserState userState, string password = null);
+        User Authenticate(string username, string password);
+        IEnumerable<User> GetAll();
+        User GetById(Guid id);
+        User Create(UserCommand identifyState, string password);
+        void Update(User user, string password = null);
         void Delete(Guid id);
-        void Follow(Guid id);
     }
 
     public class UserService : IUserService
@@ -32,21 +34,23 @@ namespace IdentityService.Domain.Services
         private readonly AppSettings _appSettings;
         private readonly IUserRepository _userRepository;
         private readonly IMessageBroker _messageBroker;
+        private readonly IMapper _mapper;
 
-        public UserService(IOptions<AppSettings> appSettings, IUserRepository userRepository, IMessageBroker messageBroker)
+        public UserService(IOptions<AppSettings> appSettings, IUserRepository userRepository, 
+            IMessageBroker messageBroker, IMapper mapper)
         {
             _appSettings = appSettings.Value;
             _userRepository = userRepository;
             _messageBroker = messageBroker;
+            _mapper = mapper;
         }
 
-        public UserState Authenticate(string username, string password)
+        public User Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
             var user = _userRepository.GetByUser(username);
-            //var user = _context.Users.SingleOrDefault(x => x.Username == username);
 
             // check if username exists
             if (user == null)
@@ -61,9 +65,9 @@ namespace IdentityService.Domain.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                Subject = new ClaimsIdentity(new []
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                     new Claim(ClaimTypes.Role, user.Role),
                     new Claim(ClaimTypes.Name, user.Username)
                 }),
@@ -77,75 +81,67 @@ namespace IdentityService.Domain.Services
             return user;
         }
 
-        public IEnumerable<UserState> GetAll()
+        public IEnumerable<User> GetAll()
         {
             return _userRepository.GetAll();
-            //return _context.Users;
         }
 
-        public UserState GetById(Guid id)
+        public User GetById(Guid id)
         {
             return _userRepository.GetById(id);
-            //return _context.Users.Find(id);
         }
 
-        public UserState Create(UserState userState, string password)
+        public User Create(UserCommand userCommand, string password)
         {
+            // map dto to entity
+            var identifierState = _mapper.Map<User>(userCommand);
+            identifierState.Role = Role.User;
+            
             // validation
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            //if (_context.Users.Any(x => x.Username == userState.Username))
-            if(_userRepository.GetByUser(userState.Username).IsAny())  
-                throw new AppException("Username \"" + userState.Username + "\" is already taken");
+            if(_userRepository.GetByUser(identifierState.Username).IsAny())  
+                throw new AppException("Username \"" + identifierState.Username + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            userState.PasswordHash = passwordHash;
-            userState.PasswordSalt = passwordSalt;
-
-            //_context.Users.Add(userState);
-            //_context.SaveChanges();
+            identifierState.PasswordHash = passwordHash;
+            identifierState.PasswordSalt = passwordSalt;
             
-            _userRepository.Save(userState);
+            _userRepository.Save(identifierState);
             
             //Create a Person
-            var cmd = new CreateUserCommand()
+            var cmd = new CreatePersonCommand()
             {
-                IdentifierId = userState.Id
+                IdentifierId = identifierState.UserId,
+                Name = userCommand.Name,
+                Email = userCommand.Email
             };
             
             var wrapper = new WrapperCommand(cmd);
-            
-            
             var cmdJson = JsonConvert.SerializeObject(wrapper);
             var response = _messageBroker.Call(cmdJson);
             _messageBroker.Close();
 
-            return userState;
+            return identifierState;
         }
 
-        public void Update(UserState userStateParam, string password = null)
+        public void Update(User userParam, string password = null)
         {
-            //var user = _context.Users.Find(userStateParam.Id);
-            var user = _userRepository.GetById(userStateParam.Id);
+            var user = _userRepository.GetById(userParam.UserId);
 
             if (user == null)
                 throw new AppException("User not found");
 
-            if (userStateParam.Username != user.Username)
+            if (userParam.Username != user.Username)
             {
-                // username has changed so check if the new username is already taken
-                //if (_context.Users.Any(x => x.Username == userStateParam.Username))
-                if(_userRepository.GetByUser(userStateParam.Username).IsAny())  
-                    throw new AppException("Username " + userStateParam.Username + " is already taken");
+                if(_userRepository.GetByUser(userParam.Username).IsAny())  
+                    throw new AppException("Username " + userParam.Username + " is already taken");
             }
-
-            // update user properties
-            /*user.FirstName = userStateParam.FirstName;
-            user.LastName = userStateParam.LastName;*/
-            user.Username = userStateParam.Username;
+            
+            user.Username = userParam.Username;
 
             // update password if it was entered
             if (!string.IsNullOrWhiteSpace(password))
@@ -156,38 +152,19 @@ namespace IdentityService.Domain.Services
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
             }
-
-            //_context.Users.Update(user);
-            //_context.SaveChanges();
             
             _userRepository.Update(user);
         }
 
         public void Delete(Guid id)
         {
-            /*var user = _context.Users.Find(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-                _context.SaveChanges();
-            }*/
-
             var user = _userRepository.GetById(id);
             if (user != null)
             {
                 _userRepository.Delete(user);
             }
         }
-
-        public void Follow(Guid id)
-        {
-            /*(ClaimsIdentity)User.Identity)
-            User.
-            _userRepository.get*/
-        }
-
-        // private helper methods
-
+        
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");

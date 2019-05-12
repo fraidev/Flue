@@ -8,9 +8,9 @@ namespace FeedService.Domain.Write.Repositories
     public interface IFeedRepository
     {
         PostState GetById(Guid id);
-        void Save(FeedAggregate spellbookAggregate);
+        void Save(PostAggregate spellbookAggregate);
         void Delete(Guid id);
-        void Update(FeedAggregate spellbookAggregate);
+        void Update(PostAggregate spellbookAggregate);
     }
 
     public class FeedRepository: IFeedRepository
@@ -26,7 +26,7 @@ namespace FeedService.Domain.Write.Repositories
             return _unitOfWork.GetById<PostState>(id);
         }
     
-        public void Save(FeedAggregate spellbookAggregate)
+        public void Save(PostAggregate spellbookAggregate)
         {
             _unitOfWork.Save(spellbookAggregate.GetState());
             _unitOfWork.Flush();
@@ -38,7 +38,7 @@ namespace FeedService.Domain.Write.Repositories
             _unitOfWork.Flush();
         }
         
-        public void Update(FeedAggregate spellbookAggregate)
+        public void Update(PostAggregate spellbookAggregate)
         {
             var state = spellbookAggregate.GetState();
             _unitOfWork.Update(state);

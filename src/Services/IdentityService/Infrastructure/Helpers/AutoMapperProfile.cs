@@ -1,5 +1,5 @@
 using AutoMapper;
-using IdentityService.Domain.Models;
+using IdentityService.Domain.Command;
 using IdentityService.Domain.State;
 
 namespace IdentityService.Infrastructure.Helpers
@@ -8,8 +8,8 @@ namespace IdentityService.Infrastructure.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<UserState, Identifier>();
-            CreateMap<Identifier, UserState>();
+            CreateMap<User, UserCommand>();
+            CreateMap<UserCommand, User>();
         }
     }
 }

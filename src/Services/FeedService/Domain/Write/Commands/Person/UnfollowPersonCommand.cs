@@ -3,9 +3,9 @@ using FlueShared;
 
 namespace FeedService.Domain.Write.Commands.User
 {
-    public class UnfollowUserCommand: Command
+    public class UnfollowPersonCommand: Command
     {
-        public Guid UserId { get; set; }
+        public Guid PersonId { get; set; }
         public Guid UnfollowId { get; set; }
     }
 }

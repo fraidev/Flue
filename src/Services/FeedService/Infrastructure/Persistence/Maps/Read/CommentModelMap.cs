@@ -11,7 +11,7 @@ namespace FeedService.Infrastructure.Persistence.Maps.Read
             Table("Comment");
             Id(x => x.Id).GeneratedBy.GuidComb();
             Map(x => x.Text);
-            Map(x => x.UserId);
+            Map(x => x.PersonId);
             References(x => x.CommentReply, "PostId");
         }
     }

@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedService", "src\Services\FeedService\FeedService.csproj", "{AD0EF9C4-95ED-4B19-BC68-1DB0D550DF6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSPA", "src\WebSPA\WebSPA.csproj", "{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSPA", "src\WebSPA\WebSPA.csproj", "{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "src\Services\IdentityService\IdentityService.csproj", "{DA1B76DF-AF8A-4123-B5DD-C22D8B3530C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService", "src\Services\IdentityService\IdentityService.csproj", "{DA1B76DF-AF8A-4123-B5DD-C22D8B3530C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlueShared", "src\Libs\FlueShared\FlueShared.csproj", "{1EEE1D1C-69A2-4A69-941A-426232AB109C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlueShared", "src\Libs\FlueShared\FlueShared.csproj", "{1EEE1D1C-69A2-4A69-941A-426232AB109C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,29 +5,29 @@ using FeedService.Infrastructure.Persistence;
 
 namespace FeedService.Domain.Write.Repositories
 {
-    public interface IUserRepository
+    public interface IPersonRepository
     {
-        UserState GetById(Guid id);
-        void Save(UserAggregate userAggregate);
+        PersonState GetById(Guid id);
+        void Save(PersonAggregate personAggregate);
         void Delete(Guid id);
-        void Update(UserAggregate userAggregate);
+        void Update(PersonAggregate personAggregate);
     }
-    public class UserRepository: IUserRepository
+    public class PersonRepository: IPersonRepository
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserRepository(IUnitOfWork unitOfWork)
+        public PersonRepository(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public UserState GetById(Guid id)
+        public PersonState GetById(Guid id)
         {
-            return _unitOfWork.GetById<UserState>(id);
+            return _unitOfWork.GetById<PersonState>(id);
         }
 
-        public void Save(UserAggregate userAggregate)
+        public void Save(PersonAggregate personAggregate)
         {
-            _unitOfWork.Save(userAggregate.GetState());
+            _unitOfWork.Save(personAggregate.GetState());
 //            _unitOfWork.Flush();
         }
 
@@ -37,9 +37,9 @@ namespace FeedService.Domain.Write.Repositories
 //            _unitOfWork.Flush();
         }
 
-        public void Update(UserAggregate userAggregate)
+        public void Update(PersonAggregate personAggregate)
         {
-            _unitOfWork.Update(userAggregate.GetState());
+            _unitOfWork.Update(personAggregate.GetState());
 //            _unitOfWork.Flush();
         }
     }

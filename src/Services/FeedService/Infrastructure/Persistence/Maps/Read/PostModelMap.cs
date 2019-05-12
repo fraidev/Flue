@@ -11,7 +11,7 @@ namespace FeedService.Infrastructure.Persistence.Maps.Read
             Table("Post");
             Id(x => x.Id,"PostId").GeneratedBy.GuidComb();
             Map(x => x.Text);
-            Map(x => x.UserId);
+            Map(x => x.PersonId);
 
             HasMany(x => x.Comments)
                 .Inverse()

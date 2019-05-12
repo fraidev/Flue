@@ -1,12 +1,13 @@
-using FeedService.Domain.Write.States;
+using FeedService.Domain.Read.Models;
 using FluentNHibernate.Mapping;
 
-namespace FeedService.Infrastructure.Persistence.Maps.Write
+namespace FeedService.Infrastructure.Persistence.Maps.Read
 {
-    public class PersonStateMap: ClassMap<PersonState>
+    public class PersonModelMap: ClassMap<PersonModel>
     {
-        public PersonStateMap()
+        public PersonModelMap()
         {
+            
             Table("[Person]");
             Id(x => x.PersonId).GeneratedBy.GuidComb();
             Map(x => x.UserId).Not.Nullable();
@@ -20,6 +21,7 @@ namespace FeedService.Infrastructure.Persistence.Maps.Write
                 .ParentKeyColumn("FollowingId")
                 .ChildKeyColumn("PersonId")
                 .Table("Follows");
+            
         }
     }
 }
