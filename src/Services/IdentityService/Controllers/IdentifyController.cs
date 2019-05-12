@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
-using FlueShared.Entities;
 using IdentityService.Domain.Command;
 using IdentityService.Domain.Services;
 using IdentityService.Domain.State;

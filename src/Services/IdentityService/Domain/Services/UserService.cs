@@ -4,7 +4,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
-using FeedService.Domain.Write.Commands;
 using FluentNHibernate.Conventions;
 using FlueShared;
 using FlueShared.Entities;

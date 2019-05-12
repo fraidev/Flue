@@ -10,6 +10,7 @@ namespace FeedService.Domain.Read.Repositories
     {
         IEnumerable<PersonModel> GetAll();
         PersonModel GetById(Guid id);
+        PersonModel GetByUserId(Guid id);
     }
     
     public class PersonReadRepository: IPersonReadRepository
@@ -29,6 +30,11 @@ namespace FeedService.Domain.Read.Repositories
         public PersonModel GetById(Guid id)
         {
             return _unitOfWork.GetById<PersonModel>(id);
+        }
+
+        public PersonModel GetByUserId(Guid userId)
+        {
+            return _unitOfWork.Query<PersonModel>().FirstOrDefault(x => x.UserId == userId);
         }
     }
 }

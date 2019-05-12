@@ -15,6 +15,7 @@ using FeedService.Infrastructure;
 using FeedService.Infrastructure.Broker;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Persistence;
+using NHibernate;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace FeedService
@@ -65,8 +66,8 @@ namespace FeedService
                 };
             });
             services.AddMediatR(typeof(Startup));
-            services.AddSingleton<INHibernateFactory, NHibernateFactory>(x => new NHibernateFactory(appSettings.ConnectionString));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<ISessionFactory>(x => new NHibernateFactory(appSettings.ConnectionString).CreateSessionFactory());
+            services.AddScoped<IUnitOfWork, UnitOfWork>(x => new UnitOfWork(x.GetService<ISessionFactory>().OpenSession()));
             services.AddScoped<IFeedRepository, FeedRepository>();
             services.AddScoped<IPostReadRepository, PostReadRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();

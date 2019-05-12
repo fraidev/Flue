@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
 using NHibernate;
 
 namespace FeedService.Infrastructure.Persistence
@@ -21,9 +20,9 @@ namespace FeedService.Infrastructure.Persistence
     {
         private readonly ISession _session;
 
-        public UnitOfWork(INHibernateFactory nHibernateFactory)
+        public UnitOfWork(ISession session)
         {
-            _session = nHibernateFactory.GetSession();
+            _session = session;
             _session.BeginTransaction();
         }
 

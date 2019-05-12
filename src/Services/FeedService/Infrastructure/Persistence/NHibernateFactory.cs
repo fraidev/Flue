@@ -19,7 +19,8 @@ namespace FeedService.Infrastructure.Persistence
         public NHibernateFactory(string connectionString)
         {
             ConnectionString = connectionString;
-            Session = CreateSessionFactory().OpenSession();
+//            Session = CreateSessionFactory().OpenSession();
+//            Session.FlushMode = FlushMode.Auto;
         }
         
         public ISessionFactory CreateSessionFactory()
@@ -36,7 +37,7 @@ namespace FeedService.Infrastructure.Persistence
                     }))
 
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                    .Execute(true, true,false))
+                    .Execute(true, false,false))
                 .BuildSessionFactory();
         }
 

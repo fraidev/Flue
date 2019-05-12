@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using NHibernate;
 
 namespace IdentityService
 {
@@ -79,9 +80,8 @@ namespace IdentityService
                 });
             
             // configure DI for application services
-            services.AddSingleton<INHibernateFactory, NHibernateFactory>
-                (x => new NHibernateFactory(appSettings.ConnectionString));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<ISessionFactory>(x => new NHibernateFactory(appSettings.ConnectionString).CreateSessionFactory());
+            services.AddScoped<IUnitOfWork, UnitOfWork>(x => new UnitOfWork(x.GetService<ISessionFactory>().OpenSession()));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMessageBroker, MessageBroker>();

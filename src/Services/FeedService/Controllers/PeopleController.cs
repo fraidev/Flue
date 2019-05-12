@@ -23,16 +23,14 @@ namespace FeedService.Controllers
     [Route("api/[controller]")]
     public class PeopleController : ControllerBase
     {
-        private readonly IPersonRepository _personRepository;
         private readonly IPersonReadRepository _personReadRepository;
         private readonly IMediatorHandler _mediatorHandler;
         private readonly AppSettings _appSettings;
 
         public PeopleController(IOptions<AppSettings> appSettings, 
-            IPersonRepository personRepository, IPersonReadRepository personReadRepository,
+            IPersonReadRepository personReadRepository,
             IMediatorHandler mediatorHandler)
         {
-            _personRepository = personRepository;
             _personReadRepository = personReadRepository;
             _mediatorHandler = mediatorHandler;
             _appSettings = appSettings.Value;
@@ -65,17 +63,16 @@ namespace FeedService.Controllers
         [HttpGet("Followers")]
         public IActionResult Followers()
         {
-            var user = _personReadRepository.GetById(this.GetIdentify());
+            var user = _personReadRepository.GetByUserId(this.GetIdentify());
             var followers = _personReadRepository.GetAll().Where(x => x.Following.Contains(user));
-//            var userDtos = _mapper.Map<IList<UserCommand>>(followers);
             return Ok(followers);
         }
 
         [HttpGet("Following")]
         public IActionResult Following()
         {
-            var following = _personReadRepository.GetById(this.GetIdentify()).Following;
-//            var userDtos = _mapper.Map<IList<UserCommand>>(user.Following);
+            var user = _personReadRepository.GetByUserId(this.GetIdentify());
+            var following = user?.Following;
             return Ok(following);
         }
         
@@ -83,18 +80,16 @@ namespace FeedService.Controllers
         public IActionResult GetPeople(string searchText)
         {
             searchText = searchText.ToLower();
-            var people =  _personReadRepository.GetAll().Where(x => x.Name.Contains(searchText)
+            var people =  _personReadRepository.GetAll().Where(x => x.Name.ToLower().Contains(searchText)
                 || x.Username.ToLower().Contains(searchText));
-//            var userDtos = _mapper.Map<IList<UserCommand>>(users);
             return Ok(people);
         }
-        
-        [HttpGet]
+//        
+        [HttpGet("GetAll")]
         [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
         {
             var people = _personReadRepository.GetAll();
-//            var userDtos = _mapper.Map<IList<UserCommand>>(users);
             return Ok(people);
         }
     }

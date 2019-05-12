@@ -21,9 +21,9 @@ namespace IdentityService.Infrastructure.Persistence
     {
         private readonly ISession _session;
 
-        public UnitOfWork(INHibernateFactory nHibernateFactory)
+        public UnitOfWork(ISession session)
         {
-            _session = nHibernateFactory.GetSession();
+            _session = session;
             _session.BeginTransaction();
         }
 
