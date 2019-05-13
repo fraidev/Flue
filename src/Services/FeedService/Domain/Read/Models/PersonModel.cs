@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace FeedService.Domain.Read.Models
 {
@@ -10,6 +11,7 @@ namespace FeedService.Domain.Read.Models
         public string Name { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
+        [JsonIgnore]
         public IList<PersonModel> Following { get; set; } = new List<PersonModel>();
     }
 }

@@ -13,7 +13,6 @@ export class FeedComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.feedService.getInbox().subscribe(x => this.cards = x);
+    this.feedService.getMyFeed().subscribe(x => this.cards = x);
   }
-
 }

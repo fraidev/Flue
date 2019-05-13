@@ -20,13 +20,13 @@ namespace FeedService.Controllers
     [Route("api/[controller]")]
     public class PostsController : ControllerBase
     {
-        private readonly IFeedRepository _feedRepository;
+        private readonly IPersonReadRepository _personReadRepository;
         private readonly IPostReadRepository _postReadRepository;
         private readonly IMediatorHandler _mediatorHandler;
 
-        public PostsController(IFeedRepository feedRepository, IPostReadRepository postReadRepository, IMediatorHandler mediatorHandler)
+        public PostsController(IPersonReadRepository personReadRepository, IPostReadRepository postReadRepository, IMediatorHandler mediatorHandler)
         {
-            _feedRepository = feedRepository;
+            _personReadRepository = personReadRepository;
             _postReadRepository = postReadRepository;
             _mediatorHandler = mediatorHandler;
         }
@@ -47,14 +47,13 @@ namespace FeedService.Controllers
             return Ok(_postReadRepository.GetAll());
         }
         
-        [HttpGet("Inbox")]
-        public IActionResult Inbox()
+        [HttpGet("Feed")]
+        public IActionResult GetMyFeed()
         {
-            this.GetIdentify();
+            var me = _personReadRepository.GetByUserId(this.GetUserId());
+            var feed = _postReadRepository.GetMyFeed(me);
             
-            // Meus seguidores
-            
-            return Ok(_postReadRepository.GetAll());
+            return Ok(feed);
         }
         
         [HttpGet("{id}")]
@@ -66,15 +65,8 @@ namespace FeedService.Controllers
         [HttpPost]
         public void Post([FromBody] CreatePost cmd)
         {
-//            var cm = new CreateUserCommand {UserId = new Guid()};
-            
-            cmd.PersonId = this.GetIdentify();
+            cmd.PersonId = _personReadRepository.GetByUserId(this.GetUserId()).PersonId;
             _mediatorHandler.SendCommand(cmd);
-//
-//            var f = new MessageBroker();
-//            var r = f.Call("30");
-//            Console.WriteLine(r);
-//            f.Close();
         }
 
         [HttpPut("{id}")]

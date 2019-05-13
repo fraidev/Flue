@@ -10,6 +10,7 @@ namespace FeedService.Domain.Read.Repositories
     {
         IQueryable<PostModel> GetAll();
         PostModel GetById(Guid id);
+        IEnumerable<PostModel> GetMyFeed(PersonModel personModel);
     }
     
     public class PostReadRepository: IPostReadRepository
@@ -23,6 +24,11 @@ namespace FeedService.Domain.Read.Repositories
         public IQueryable<PostModel> GetAll()
         {
             return _unitOfWork.Query<PostModel>();
+        }
+        public IEnumerable<PostModel> GetMyFeed(PersonModel personModel)
+        {
+            var followersPersonId = personModel.Following.Select(x => x.PersonId);
+            return _unitOfWork.Query<PostModel>().Where(x => followersPersonId.Contains(x.PersonId));
         }
 
         public PostModel GetById(Guid id)

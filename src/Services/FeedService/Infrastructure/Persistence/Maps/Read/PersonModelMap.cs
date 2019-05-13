@@ -1,3 +1,4 @@
+using System.Linq;
 using FeedService.Domain.Read.Models;
 using FluentNHibernate.Mapping;
 
@@ -17,7 +18,7 @@ namespace FeedService.Infrastructure.Persistence.Maps.Read
             
             HasManyToMany(x => x.Following)
                 .Cascade.All()
-                //.Inverse()
+//                .Inverse()
                 .ParentKeyColumn("FollowingId")
                 .ChildKeyColumn("PersonId")
                 .Table("Follows");

@@ -7,7 +7,7 @@ namespace FeedService.Infrastructure.Extensions
 {
     public static class ControllerBaseExtensions
     {
-        public static Guid GetIdentify(this ControllerBase controllerBase)
+        public static Guid GetUserId(this ControllerBase controllerBase)
         {
             return Guid.Parse(((ClaimsIdentity)controllerBase.User.Identity)
                 .Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());

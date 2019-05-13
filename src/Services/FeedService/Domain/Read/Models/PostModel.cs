@@ -6,7 +6,7 @@ namespace FeedService.Domain.Read.Models
 {
     public class PostModel
     {
-        public Guid Id { get; set; }
+        public Guid PostId { get; set; }
         public Guid PersonId { get; set; }
         public string Text { get; set; }
         public bool Deleted { get; set; }

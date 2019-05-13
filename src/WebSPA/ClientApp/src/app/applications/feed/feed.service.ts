@@ -16,8 +16,8 @@ export class FeedService {
     });
   }
 
-  public getInbox(): Observable<any> {
-    return this.http.get(environment.feedApiUrl + `posts/Inbox/`, {
+  public getMyFeed(): Observable<any> {
+    return this.http.get(environment.feedApiUrl + `posts/Feed/`, {
       headers: this.authenticationService.currentUserHeader
     });
   }

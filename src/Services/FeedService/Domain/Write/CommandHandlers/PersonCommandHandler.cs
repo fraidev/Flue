@@ -42,7 +42,7 @@ namespace FeedService.Domain.Write.CommandHandlers
                 throw new Exception("Esse usuario já esta sendo seguido");
             };
             var aggregate = new PersonAggregate(user);
-            aggregate.Follow(user);
+            aggregate.Follow(follow);
             
             _personRepository.Update(aggregate);
 
@@ -59,7 +59,7 @@ namespace FeedService.Domain.Write.CommandHandlers
                 throw new Exception("Esse não está sendo seguido");
             };
             var aggregate = new PersonAggregate(user);
-            aggregate.Follow(user);
+            aggregate.Follow(unfollow);
             
             _personRepository.Update(aggregate);
 

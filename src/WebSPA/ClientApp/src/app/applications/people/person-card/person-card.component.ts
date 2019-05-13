@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PersonService } from 'src/app/shared/services';
+import { PeopleService } from 'src/app/shared/services';
+import { Person } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-person-card',
@@ -7,16 +8,16 @@ import { PersonService } from 'src/app/shared/services';
   styleUrls: ['./person-card.component.scss']
 })
 export class PersonCardComponent implements OnInit {
-  @Input() private content: any;
+  @Input() private content: Person;
   public img: string;
   public following: boolean;
 
-  constructor(private personService: PersonService) { }
+  constructor(private peopleService: PeopleService) { }
 
   ngOnInit() {
     console.log(this.content);
     this.getAvatar();
-    this.following = this.personService.cotainsFollowing(this.content.personId);
+    this.following = this.peopleService.cotainsFollowing(this.content.personId);
   }
 
   private getAvatar() {
@@ -24,12 +25,12 @@ export class PersonCardComponent implements OnInit {
   }
 
   private follow() {
-    this.personService.follow(this.content.personId);
+    this.peopleService.follow(this.content.personId);
     this.following = true;
   }
 
   private unfollow() {
-    this.personService.unfollow(this.content.personId);
+    this.peopleService.unfollow(this.content.personId);
     this.following = false;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonService } from 'src/app/shared/services';
 import { ActivatedRoute } from '@angular/router';
 import { Person } from 'src/app/shared/models';
+import { PeopleService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-people',
@@ -12,12 +12,12 @@ export class PeopleComponent implements OnInit {
   public people: Person[];
   searchText = '';
 
-  constructor(private personService: PersonService, private route: ActivatedRoute) { }
+  constructor(private peopleService: PeopleService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe(val => {
       this.searchText = val.searchText;
-      this.personService.getPeople(val.searchText).subscribe(x => {
+      this.peopleService.getPeople(val.searchText).subscribe(x => {
         this.people = x;
         console.log(this.people);
       });

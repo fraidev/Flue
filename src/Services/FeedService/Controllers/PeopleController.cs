@@ -39,9 +39,10 @@ namespace FeedService.Controllers
         [HttpPost("Follow/{id}")]
         public IActionResult Follow(Guid id)
         {
+            var person = _personReadRepository.GetByUserId(this.GetUserId());
             var cmd = new FollowPersonCommand()
             {
-                PersonId = this.GetIdentify(),
+                PersonId = person.PersonId,
                 FollowId = id
             };
             _mediatorHandler.SendCommand(cmd);
@@ -51,9 +52,10 @@ namespace FeedService.Controllers
         [HttpPost("Unfollow/{id}")]
         public IActionResult Unfollow(Guid id)
         {
+            var person = _personReadRepository.GetByUserId(this.GetUserId());
             var cmd = new UnfollowPersonCommand()
             {
-                PersonId = this.GetIdentify(),
+                PersonId = person.PersonId,
                 UnfollowId = id
             };
             _mediatorHandler.SendCommand(cmd);
@@ -63,7 +65,7 @@ namespace FeedService.Controllers
         [HttpGet("Followers")]
         public IActionResult Followers()
         {
-            var user = _personReadRepository.GetByUserId(this.GetIdentify());
+            var user = _personReadRepository.GetByUserId(this.GetUserId());
             var followers = _personReadRepository.GetAll().Where(x => x.Following.Contains(user));
             return Ok(followers);
         }
@@ -71,7 +73,7 @@ namespace FeedService.Controllers
         [HttpGet("Following")]
         public IActionResult Following()
         {
-            var user = _personReadRepository.GetByUserId(this.GetIdentify());
+            var user = _personReadRepository.GetByUserId(this.GetUserId());
             var following = user?.Following;
             return Ok(following);
         }
