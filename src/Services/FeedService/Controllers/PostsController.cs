@@ -53,6 +53,8 @@ namespace FeedService.Controllers
             var me = _personReadRepository.GetByUserId(this.GetUserId());
             var feed = _postReadRepository.GetMyFeed(me);
             
+//            var feedWithMe = 
+            
             return Ok(feed);
         }
         
