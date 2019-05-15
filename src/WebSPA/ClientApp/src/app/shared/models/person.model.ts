@@ -1,8 +1,10 @@
 export class Person {
-    personId: any;
-    userId: any;
-    username: string;
-    name: string;
-    email: string;
-    profilePicture: any;
+    public personId: any;
+    public userId: any;
+    public username: string;
+    public name: string;
+    public description: string;
+    public email: string;
+    public following: Person[];
+    public profilePicture: any;
 }

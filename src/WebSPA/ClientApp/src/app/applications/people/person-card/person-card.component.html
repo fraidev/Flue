@@ -1,7 +1,7 @@
 <mat-card class="example-card" style="width:70vh;">
   <mat-card-header>
     <img mat-card-avatar class="example-header-image" src="{{img}}" alt="Photo of a Shiba Inu">
-    <mat-card-title class="title">{{content.firstName || "Anonymus"}} {{content.lastName || "Anonymus"}} </mat-card-title>
+    <mat-card-title class="title">{{content.name || "Anonymus"}}</mat-card-title>
     <mat-card-subtitle class="subtitle">@{{content.username || "Anonymus"}}</mat-card-subtitle>
     <span class="example-spacer"></span>
     <button mat-button *ngIf="!following" (click)="follow()">Seguir</button>

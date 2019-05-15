@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using FeedService.Domain.States;
+using FeedService.Infrastructure.CQRS;
+using FlueShared;
+
+namespace FeedService.Domain.Aggregates
+{
+    public class PersonAggregate:IBaseAggregate<Person>
+    {
+        public Guid Id { get; }
+        private Person State { get; set; }
+        
+        
+        #region Constructors
+        
+        public PersonAggregate(Person state)
+        {
+            Id = Guid.NewGuid();
+            State = state;
+        }
+        
+        public PersonAggregate(CreatePersonCommand cmd)
+        {
+            Id = Guid.NewGuid();
+            State = new Person()
+            {
+                PersonId = Id,
+                UserId = cmd.IdentifierId,
+                Username = cmd.Username,
+                Name = cmd.Name,
+                Description = "Eu sou novo no Flue!",
+                Email = cmd.Email,
+                Following = new List<Person>()
+            };
+        }
+        
+        #endregion
+        
+        public Person GetState()
+        {
+            return State;
+        }
+
+        public void Follow(Person person)
+        {
+            GetState().Following.Add(person);
+        }
+
+        public void Unfollow(Person person)
+        {
+            GetState().Following.Remove(person);
+        }
+    }
+}

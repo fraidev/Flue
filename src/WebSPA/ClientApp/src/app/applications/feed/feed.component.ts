@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FeedService } from './feed.service';
+import { Post } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-feed',
@@ -8,11 +9,14 @@ import { FeedService } from './feed.service';
 })
 export class FeedComponent implements OnInit {
   public title = 'Feed';
-  public cards: any[];
+  public cards: Post[];
   constructor(private feedService: FeedService) {
   }
 
   ngOnInit() {
-    this.feedService.getMyFeed().subscribe(x => this.cards = x);
+    this.feedService.getMyFeed().subscribe(x => {
+      this.cards = x;
+      console.log(this.cards);
+    });
   }
 }

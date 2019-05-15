@@ -11,7 +11,6 @@ import { LoginComponent } from './applications/login/login.component';
 import { RegisterComponent } from './applications/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { GamesComponent } from './applications/games/games.component';
 import { FeedCardComponent } from './applications/feed/feed-card/feed-card.component';
 import { FeedBoxComponent } from './applications/feed/feed-box/feed-box.component';
 import { PersonCardComponent } from './applications/people/person-card/person-card.component';
@@ -24,7 +23,6 @@ import { PeopleComponent } from './applications/people/people.component';
     ChatComponent,
     LoginComponent,
     RegisterComponent,
-    GamesComponent,
     FeedCardComponent,
     FeedBoxComponent,
     PeopleComponent,

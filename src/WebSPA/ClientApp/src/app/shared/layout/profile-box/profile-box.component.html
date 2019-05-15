@@ -1,19 +1,18 @@
 <mat-card class="example-card" style="width:70vh;">
     <mat-card-header>
       <img mat-card-avatar class="example-header-image" src="{{img}}" alt="Photo of a Shiba Inu">
-      <mat-card-title> Felipe </mat-card-title>
-      <mat-card-subtitle>frai</mat-card-subtitle> 
+      <mat-card-title> {{ person.name }} </mat-card-title>
+      <mat-card-subtitle>{{ person.username }}</mat-card-subtitle> 
     </mat-card-header>
     <!-- <img mat-card-image *ngIf="content.midia" src="{{content.midia}}" alt="Photo of a Shiba Inu"> -->
     <mat-card-content>
       <p>
-        <!-- {{ content.text }} -->
-        dsadas
+        {{ person.description }}
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button>Tweets</button>
-      <button mat-button>Following</button>
-      <button mat-button>Followers</button>
+      <button mat-button>Posts {{postsCount}}</button>
+      <button mat-button>Following {{followingCount}}</button>
+      <button mat-button>Followers {{followersCount}}</button>
     </mat-card-actions>
   </mat-card>

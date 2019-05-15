@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using FeedService.Domain.Read.Repositories;
-using FeedService.Domain.Write.Aggregates;
-using FeedService.Domain.Write.Commands;
-using FeedService.Domain.Write.Repositories;
-using FeedService.Infrastructure.Broker;
+using FeedService.Domain.Commands.Post;
+using FeedService.Domain.Repositories;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -20,15 +17,17 @@ namespace FeedService.Controllers
     [Route("api/[controller]")]
     public class PostsController : ControllerBase
     {
-        private readonly IPersonReadRepository _personReadRepository;
-        private readonly IPostReadRepository _postReadRepository;
         private readonly IMediatorHandler _mediatorHandler;
+        private readonly IPostRepository _postRepository;
+        private readonly IPersonRepository _personRepository;
 
-        public PostsController(IPersonReadRepository personReadRepository, IPostReadRepository postReadRepository, IMediatorHandler mediatorHandler)
+        public PostsController(IMediatorHandler mediatorHandler,
+            IPostRepository postRepository,
+            IPersonRepository personRepository)
         {
-            _personReadRepository = personReadRepository;
-            _postReadRepository = postReadRepository;
             _mediatorHandler = mediatorHandler;
+            _postRepository = postRepository;
+            _personRepository = personRepository;
         }
         
         [HttpGet("Identity")]
@@ -44,30 +43,46 @@ namespace FeedService.Controllers
         [HttpGet("")]
         public IActionResult GetAll()
         {
-            return Ok(_postReadRepository.GetAll());
+            return Ok(_postRepository.GetAll());
         }
         
         [HttpGet("Feed")]
         public IActionResult GetMyFeed()
         {
-            var me = _personReadRepository.GetByUserId(this.GetUserId());
-            var feed = _postReadRepository.GetMyFeed(me);
-            
-//            var feedWithMe = 
+            var me = _personRepository.GetByUserId(this.GetUserId());
+            var feed = _postRepository.GetMyFeed(me);
             
             return Ok(feed);
+        }
+        
+        [HttpGet("MyPosts")]
+        public IActionResult GetMyPosts()
+        {
+            var me = _personRepository.GetByUserId(this.GetUserId());
+            var myPosts = _postRepository.GetMyFeed(me);
+            
+            return Ok(myPosts);
+        }
+        
+        [HttpGet("MyPostCount")]
+        public IActionResult GetMyPostCount()
+        {
+            var me = _personRepository.GetByUserId(this.GetUserId());
+            var myPostsCount = _postRepository.GetMyPosts(me.PersonId).Count();
+            
+            return Ok(myPostsCount);
         }
         
         [HttpGet("{id}")]
         public IActionResult GetPostById(Guid id)
         {
-            return Ok(_postReadRepository.GetById(id));
+            return Ok(_postRepository.GetById(id));
         }
 
         [HttpPost]
         public void Post([FromBody] CreatePost cmd)
         {
-            cmd.PersonId = _personReadRepository.GetByUserId(this.GetUserId()).PersonId;
+            cmd.Person = _personRepository.GetByUserId(this.GetUserId());
             _mediatorHandler.SendCommand(cmd);
         }
 

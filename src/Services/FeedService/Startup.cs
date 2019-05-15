@@ -8,15 +8,13 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 using System.Threading.Tasks;
-using FeedService.Domain.Read.Repositories;
-using FeedService.Domain.Write.CommandHandlers;
-using FeedService.Domain.Write.Repositories;
+using FeedService.Domain.CommandHandlers;
+using FeedService.Domain.Repositories;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.Broker;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Persistence;
 using NHibernate;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace FeedService
 {
@@ -33,7 +31,11 @@ namespace FeedService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = 
+                                           Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -68,10 +70,8 @@ namespace FeedService
             services.AddMediatR(typeof(Startup));
             services.AddSingleton<ISessionFactory>(x => new NHibernateFactory(appSettings.ConnectionString).CreateSessionFactory());
             services.AddScoped<IUnitOfWork, UnitOfWork>(x => new UnitOfWork(x.GetService<ISessionFactory>().OpenSession()));
-            services.AddScoped<IFeedRepository, FeedRepository>();
-            services.AddScoped<IPostReadRepository, PostReadRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
-            services.AddScoped<IPersonReadRepository, PersonReadRepository>();
             services.AddScoped<IMediatorHandler, InMemoryBus>();
             services.AddScoped<PostCommandHandler>();
             services.AddScoped<PersonCommandHandler>();

@@ -1,9 +1,9 @@
 <mat-card class="example-card" style="width:70vh;">
-    <mat-card-header>
+    <mat-card-header style="text-align: left;">
       <!-- <img mat-card-avatar class="example-header-image" src="{{content.profilePicture}} | " alt="Photo of a Shiba Inu"> -->
       <img mat-card-avatar class="example-header-image" src="{{img}}" alt="Photo of a Shiba Inu">
-      <mat-card-title>{{content.name || "Anonymus"}} </mat-card-title>
-      <mat-card-subtitle>{{content.user || "@Anonymus"}}</mat-card-subtitle>
+      <mat-card-title>{{content.person.name || "Anonymus"}} </mat-card-title>
+      <mat-card-subtitle>@{{content.person.username || "Anonymus"}}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image *ngIf="content.midia" src="{{content.midia}}" alt="Photo of a Shiba Inu">
     <mat-card-content>
@@ -12,6 +12,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
+      {{content.likes}}
       <button mat-button>LIKE</button>
       <button mat-button>Comment</button>
     </mat-card-actions>

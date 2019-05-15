@@ -1,8 +1,8 @@
 export class User {
-    userId: any;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    token?: string;
+    public userId: any;
+    public username: string;
+    public password: string;
+    public firstName: string;
+    public lastName: string;
+    public token?: string;
 }
