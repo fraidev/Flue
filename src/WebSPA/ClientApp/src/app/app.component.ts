@@ -11,15 +11,12 @@ import { User, Person } from './shared/models';
 export class AppComponent {
   public searchText = '';
   public currentUser: User;
-  public currentPerson: Person;
   title = 'FlueWeb';
 
-  constructor(private router: Router, private authenticationService: AuthenticationService, private peopleService: PeopleService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    this.peopleService.configure();
-    this.peopleService.getMe().subscribe(x => this.currentPerson = x as Person);
-    console.log(this.currentPerson);
   }
+
   public search() {
     this.router.navigate(['/people', this.searchText]);
   }

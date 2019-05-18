@@ -23,29 +23,32 @@ namespace FeedService.Infrastructure.Persistence
         public UnitOfWork(ISession session)
         {
             _session = session;
-            _session.BeginTransaction();
         }
 
         public void Save<TEntity>(TEntity entity) where TEntity : class
         {
+            _session.BeginTransaction();
             _session.Save(entity);
             _session.Transaction.Commit();
         }
 
         public void Update(object entity)
         {
+            _session.BeginTransaction();
             _session.Update(entity);
             _session.Transaction.Commit();
         }
 
         public void SaveOrUpdate(object entity)
         {
+            _session.BeginTransaction();
             _session.SaveOrUpdate(entity);
             _session.Transaction.Commit();
         }
 
         public void Delete(object entity)
         {
+            _session.BeginTransaction();
             _session.Delete(entity);
             _session.Transaction.Commit();
         }

@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FeedCardComponent } from './applications/feed/feed-card/feed-card.component';
 import { FeedBoxComponent } from './applications/feed/feed-box/feed-box.component';
+import { ProfileBoxComponent } from './applications/feed/profile-box/profile-box.component';
 import { PersonCardComponent } from './applications/people/person-card/person-card.component';
 import { PeopleComponent } from './applications/people/people.component';
 
@@ -26,7 +27,8 @@ import { PeopleComponent } from './applications/people/people.component';
     FeedCardComponent,
     FeedBoxComponent,
     PeopleComponent,
-    PersonCardComponent
+    PersonCardComponent,
+    ProfileBoxComponent
   ],
   imports: [
     BrowserModule,

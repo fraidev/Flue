@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Person } from '../../models';
-import { PeopleService } from '../../services';
+import { Component, OnInit } from '@angular/core';
+import { Person } from 'src/app/shared/models';
+import { PeopleService } from 'src/app/shared/services';
 import { ProfileBoxService } from './profile-box.service';
 
 @Component({
@@ -11,14 +11,18 @@ import { ProfileBoxService } from './profile-box.service';
 export class ProfileBoxComponent implements OnInit {
   private person: Person;
   public img = '';
-  private followingCount: number;
-  private followersCount: number;
-  private postsCount: number;
+  public followingCount: number;
+  public followersCount: number;
+  public postsCount: number;
 
 
   constructor(private peopleService: PeopleService, private profileBoxService: ProfileBoxService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.config();
+  }
+
+  public config() {
     this.followingCount = this.peopleService.following.length;
     this.followersCount = this.peopleService.followers.length;
     this.person = this.peopleService.me;

@@ -32,7 +32,7 @@ namespace FeedService.Infrastructure.Persistence
                     .AddFromAssemblyOf<Program>()
                     .Conventions.Setup(c =>
                     {
-                        c.Add(DefaultLazy.Never());  // Acabar com os virtual
+                        c.Add(DefaultLazy.Never()); // Acabar com os virtual
                         //c.Add(DefaultCascade.All());
                     }))
 
