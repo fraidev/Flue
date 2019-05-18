@@ -5,6 +5,7 @@ export class Person {
     public name: string;
     public description: string;
     public email: string;
+    public followingCount: number;
     public following: Person[];
-    public profilePicture: any;
+    public profilePicture: string;
 }

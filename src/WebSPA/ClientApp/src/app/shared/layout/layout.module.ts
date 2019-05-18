@@ -9,9 +9,6 @@ import { MaterialModule } from '../material.module';
   exports: [
     ProfileBoxComponent
   ],
-  entryComponents: [
-    ProfileBoxComponent
-  ],
   imports: [
     CommonModule,
     MaterialModule

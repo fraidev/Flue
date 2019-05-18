@@ -42,10 +42,8 @@ namespace IdentityService.Controllers
             
             // return basic user info (without password) and token to store client side
             return Ok(new {
-                Id = user.UserId,
+                UserId = user.UserId,
                 Username = user.Username,
-                /*FirstName = user.FirstName,
-                LastName = user.LastName,*/
                 Token = user.Token
             });
         }

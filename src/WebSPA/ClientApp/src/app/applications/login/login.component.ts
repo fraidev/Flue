@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService, AlertService } from 'src/app/shared/services';
+import { AuthenticationService, AlertService, PeopleService } from 'src/app/shared/services';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private authenticationService: AuthenticationService,
-      private alertService: AlertService
+      private alertService: AlertService,
+      private peopleService: PeopleService
   ) {
       // redirect to home if already logged in
       if (this.authenticationService.currentUserValue) { 
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {
+                  this.peopleService.configure();
                   this.router.navigate([this.returnUrl]);
               },
               error => {

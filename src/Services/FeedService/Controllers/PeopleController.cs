@@ -60,17 +60,24 @@ namespace FeedService.Controllers
         [HttpGet("Followers")]
         public IActionResult Followers()
         {
-            var user = _personRepository.GetByUserId(this.GetUserId());
-            var followers = _personRepository.GetAll().Where(x => x.Following.Contains(user));
+            var person = _personRepository.GetByUserId(this.GetUserId());
+            var followers = _personRepository.GetAll().Where(x => x.Following.Contains(person));
             return Ok(followers);
         }
 
         [HttpGet("Following")]
         public IActionResult Following()
         {
-            var user = _personRepository.GetByUserId(this.GetUserId());
-            var following = user?.Following;
+            var person = _personRepository.GetByUserId(this.GetUserId());
+            var following = person?.Following;
             return Ok(following);
+        }
+
+        [HttpGet("Me")]
+        public IActionResult Me()
+        {
+            var person = _personRepository.GetByUserId(this.GetUserId());
+            return Ok(person);
         }
         
         [HttpGet]

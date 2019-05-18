@@ -4,15 +4,23 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from './authentication.service';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({ providedIn: 'root' })
 export class PeopleService {
-    public followers: Person[];
-    public following: Person[];
-    constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
-    public configure() {
-        this.getFollowers().subscribe(x => this.followers = x);
-        this.getFollowing().subscribe(x => this.following = x);
+    public followers = new Array<Person>();
+    public following = new Array<Person>();
+    public me: Person;
+
+    constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
+        // this.followers = new Array<Person>();
+        // this.following = new Array<Person>();
+    }
+    public configure(): void {
+        this.getMe().subscribe(x => this.me = x);
+        this.getFollowers().pipe(map(response => response as Person[])).subscribe(x => this.followers = x);
+        this.getFollowing().pipe(map(response => response as Person[])).subscribe(x => this.following = x);
     }
     public cotainsFollowing(userId: string): boolean {
         return this.following.some(x => x.userId === userId);
@@ -24,6 +32,11 @@ export class PeopleService {
     }
     public getFollowing(): Observable<Person[]> {
         return this.http.get<Person[]>(environment.feedApiUrl + `people/Following`, {
+            headers: this.authenticationService.currentUserHeader
+        });
+    }
+    public getMe(): Observable<Person> {
+        return this.http.get<Person>(environment.feedApiUrl + `people/Me`, {
             headers: this.authenticationService.currentUserHeader
         });
     }

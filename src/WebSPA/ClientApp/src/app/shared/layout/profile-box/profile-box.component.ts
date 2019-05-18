@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Person } from '../../models';
 import { PeopleService } from '../../services';
 import { ProfileBoxService } from './profile-box.service';
@@ -9,23 +9,25 @@ import { ProfileBoxService } from './profile-box.service';
   styleUrls: ['./profile-box.component.scss']
 })
 export class ProfileBoxComponent implements OnInit {
-  public img: string;
-  public person: Person;
+  private person: Person;
+  public img = '';
   private followingCount: number;
   private followersCount: number;
   private postsCount: number;
 
-  constructor(private peopleService: PeopleService, private profileBoxService: ProfileBoxService) { }
+
+  constructor(private peopleService: PeopleService, private profileBoxService: ProfileBoxService) {}
 
   ngOnInit() {
-    this.getAvatar();
     this.followingCount = this.peopleService.following.length;
     this.followersCount = this.peopleService.followers.length;
+    this.person = this.peopleService.me;
     this.profileBoxService.GetMyPostCount().subscribe(x => this.postsCount = x);
+    this.getAvatar();
   }
 
-
   private getAvatar() {
-      this.img = this.person.profilePicture ? this.person.profilePicture : `/assets/img/profile.png`;
+      const profilePicture = this.person ? this.person.profilePicture : null;
+      this.img = profilePicture ? this.person.profilePicture : `/assets/img/profile.png`;
   }
 }

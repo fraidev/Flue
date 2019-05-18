@@ -13,13 +13,6 @@
 </mat-toolbar>
 <div flex class="main">
   <perfect-scrollbar >
-    <div class="container row">
-      <div class="item">
-        <router-outlet></router-outlet>
-      </div>
-      <div class="item" *ngIf="currentUser">
-        <app-profile-box></app-profile-box>
-      </div>
-    </div>
+      <router-outlet></router-outlet>
   </perfect-scrollbar>
 </div>
