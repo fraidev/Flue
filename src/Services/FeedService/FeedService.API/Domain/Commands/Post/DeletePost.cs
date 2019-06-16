@@ -4,8 +4,8 @@ using FlueShared;
 
 namespace FeedService.Domain.Commands.Post
 {
-    public class DeleteComments: Command
+    public class DeletePost: Command
     {
-        public IList<Guid> Ids { get; set; }
+        public Guid Id { get; set; }
     }
 }

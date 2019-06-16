@@ -4,11 +4,10 @@ using FlueShared;
 
 namespace FeedService.Domain.Commands.Post
 {
-    public class AddComment: Command
+    public class CreatePost: Command
     {
         public Guid Id { get; set; }
-        public string Text { get; set; }
         public States.Person Person { get; set; }
-        public Comment CommentReply { get; set; }
+        public string Text { get; set; }
     }
 }
