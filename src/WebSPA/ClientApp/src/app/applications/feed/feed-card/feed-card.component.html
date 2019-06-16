@@ -16,8 +16,7 @@
     <mat-card-actions style="padding: 0px;margin: 0px;">
       {{content.likes}}
       <button mat-button>LIKE</button>
-      <button mat-button>Comment</button>
-      <button mat-button (click)="deletePost(content.postId)">Excluir</button>
+      <button *ngIf="content.isMyPost" mat-button (click)="deletePost(content.postId)" style="color: red">Excluir</button>
     </mat-card-actions>
 
     <div *ngIf="content.comments.length > 2">

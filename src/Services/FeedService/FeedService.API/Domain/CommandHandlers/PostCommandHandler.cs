@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FeedService.Domain.Aggregates;
@@ -31,8 +32,13 @@ namespace FeedService.Domain.CommandHandlers
 
         public Task<Unit> Handle(DeletePost request, CancellationToken cancellationToken)
         {
-
             var aggregate = _postRepository.GetAggregateById(request.Id);
+
+            if (aggregate.GetState().Person.PersonId != request.PersonId)
+            {
+                throw new Exception("Não é possivel deletar um post de outro usuario");
+            }
+                
             aggregate.Delete();
             _postRepository.Save(aggregate);
             return Unit.Task;

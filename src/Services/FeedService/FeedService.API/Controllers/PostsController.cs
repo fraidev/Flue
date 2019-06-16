@@ -111,7 +111,8 @@ namespace FeedService.Controllers
         {
             var cmd = new DeletePost()
             {
-                Id = id
+                Id = id,
+                PersonId = this.GetUserId()
             };
             _mediatorHandler.SendCommand(cmd);
             return Ok();
