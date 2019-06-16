@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using FeedService.Domain.Commands.Post;
-using FeedService.Domain.Commands.Post.Comment;
+using FeedService.Domain.Commands.PostCommands;
+using FeedService.Domain.Commands.PostCommands.Comment;
 using FeedService.Domain.Repositories;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Extensions;
@@ -73,25 +73,6 @@ namespace FeedService.Controllers
             
             return Ok(myPostsCount);
         }
-
-        [HttpPost("Comment")]
-        public IActionResult AddComment([FromBody] AddComment cmd)
-        {
-            cmd.Person = _personRepository.GetByUserId(this.GetUserId());
-            _mediatorHandler.SendCommand(cmd);
-            return Ok();
-        }
-
-        [HttpDelete("Comment/{id}")]
-        public IActionResult DeleteComment(Guid id)
-        {
-            var cmd = new DeleteComment()
-            {
-                Id = id
-            };
-            _mediatorHandler.SendCommand(cmd);
-            return Ok();
-        }
         
         [HttpGet("{id}")]
         public IActionResult GetPostById(Guid id)
@@ -110,6 +91,26 @@ namespace FeedService.Controllers
         public IActionResult Delete(Guid id)
         {
             var cmd = new DeletePost()
+            {
+                Id = id,
+                PersonId = this.GetUserId()
+            };
+            _mediatorHandler.SendCommand(cmd);
+            return Ok();
+        }
+
+        [HttpPost("Comment")]
+        public IActionResult AddComment([FromBody] AddComment cmd)
+        {
+            cmd.Person = _personRepository.GetByUserId(this.GetUserId());
+            _mediatorHandler.SendCommand(cmd);
+            return Ok();
+        }
+
+        [HttpDelete("Comment/{id}")]
+        public IActionResult DeleteComment(Guid id)
+        {
+            var cmd = new DeleteComment()
             {
                 Id = id,
                 PersonId = this.GetUserId()

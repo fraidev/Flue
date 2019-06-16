@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FeedService.Domain.Aggregates;
-using FeedService.Domain.Commands.Person;
+using FeedService.Domain.Commands.PersonCommands;
 using FeedService.Domain.Repositories;
 using FlueShared;
 using MediatR;

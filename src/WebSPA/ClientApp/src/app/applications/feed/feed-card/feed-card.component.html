@@ -19,19 +19,20 @@
       <button *ngIf="content.isMyPost" mat-button (click)="deletePost(content.postId)" style="color: red">Excluir</button>
     </mat-card-actions>
 
-    <div *ngIf="content.comments.length > 2">
+    <div *ngIf="content.comments.length > 0">
       <hr style="padding: 0px;margin: 0px;">
-      <p class="see-old-comments">
-        Ver comentarios anteriores</p>
-      <p *ngFor="let comment of content.comments" class="comments">{{comment.person.email}} - {{comment.text}}</p>
+      <button mat-button *ngIf="content.comments.length > 2" (click)="getMoreVisibleComments()" class="see-old-comments">
+        Ver comentarios anteriores</button>
+      <p *ngFor="let comment of visibleComments" class="comments">
+        <span class="username">{{comment.person.username}}</span> {{comment.text}}</p>
     </div>
 
     <hr style="padding: 0px;margin: 0px;">
 
     <mat-form-field class="post-field">
-      <input matInput placeholder="Adicione um comentario aqui!" class="comment-box"/>
+      <input matInput [(ngModel)]="text" placeholder="Adicione um comentario aqui!" class="comment-box"/>
     </mat-form-field>
-    <button mat-button (click)="post()"> Enviar </button>
+    <button mat-button (click)="commentPost()" style="color:#3897f0"> Enviar </button>
 
   </mat-card>
   <br/>

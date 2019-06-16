@@ -16,10 +16,18 @@
   line-height: 18px;
 }
 
-.comments{
+.comments {
+  text-align: left;
   color: #999!important;
   font-weight: 500!important;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.comments .username{
+  color: black!important;
+  font-weight: 500!important;
   font-size: 14px;
   line-height: 18px;
 }

@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using FeedService.Domain.Commands.Person;
+using FeedService.Domain.Commands.PersonCommands;
 using FeedService.Domain.Repositories;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.CQRS;

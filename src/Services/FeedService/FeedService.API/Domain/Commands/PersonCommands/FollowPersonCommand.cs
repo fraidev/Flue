@@ -1,7 +1,7 @@
 using System;
 using FlueShared;
 
-namespace FeedService.Domain.Commands.Person
+namespace FeedService.Domain.Commands.PersonCommands
 {
     public class FollowPersonCommand: Command
     {

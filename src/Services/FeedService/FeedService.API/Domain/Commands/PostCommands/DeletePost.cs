@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using FlueShared;
 
-namespace FeedService.Domain.Commands.Post
+namespace FeedService.Domain.Commands.PostCommands
 {
     public class DeletePost: Command
     {

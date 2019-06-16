@@ -18,9 +18,8 @@ namespace FeedService.Infrastructure.Persistence.Maps
             References(x => x.Person, "PersonId");
 
             HasMany(x => x.Comments)
-                .Inverse()
                 .KeyColumns.Add("PostId", x => x.Not.Nullable())
-                .Cascade.AllDeleteOrphan();
+                .Cascade.All();
         }
     }
 }

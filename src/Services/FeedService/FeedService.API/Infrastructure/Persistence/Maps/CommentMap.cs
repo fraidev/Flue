@@ -8,10 +8,11 @@ namespace FeedService.Infrastructure.Persistence.Maps
         public CommentMap()
         {
             Table("Comment");
-            Id(x => x.CommentId).GeneratedBy.GuidComb();
+            Id(x => x.CommentId).GeneratedBy.Assigned();
+            
             Map(x => x.Text);
             References(x => x.Person, "PersonId");
-            References(x => x.CommentReply, "PostId");
+            References(x => x.Post, "PostId");
         }
     }
 }

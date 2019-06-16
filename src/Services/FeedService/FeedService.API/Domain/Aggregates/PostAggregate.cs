@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FeedService.Domain.Commands.Post;
-using FeedService.Domain.Commands.Post.Comment;
+using FeedService.Domain.Commands.PostCommands;
+using FeedService.Domain.Commands.PostCommands.Comment;
 using FeedService.Domain.States;
 using FeedService.Infrastructure.CQRS;
 
@@ -58,18 +58,8 @@ namespace FeedService.Domain.Aggregates
                 CommentId = cmd.Id,
                 Text = cmd.Text,
                 Person = cmd.Person,
-                CommentReply = cmd.CommentReply
+                Post = State
             });
-        }
-        
-        public void UpdateComment(UpdateComment cmd)
-        {
-            var comments = State.Comments.FirstOrDefault(x => x.CommentId == cmd.Id);
-
-            if (comments != null)
-            {
-                comments.Text = cmd.Text;
-            }
         }
 
         public void DeleteComment(DeleteComment cmd)
