@@ -11,10 +11,28 @@
         {{ content.text }}
       </p>
     </mat-card-content>
-    <mat-card-actions>
+
+
+    <mat-card-actions style="padding: 0px;margin: 0px;">
       {{content.likes}}
       <button mat-button>LIKE</button>
       <button mat-button>Comment</button>
+      <button mat-button (click)="deletePost(content.postId)">Excluir</button>
     </mat-card-actions>
+
+    <div *ngIf="content.comments.length > 2">
+      <hr style="padding: 0px;margin: 0px;">
+      <p class="see-old-comments">
+        Ver comentarios anteriores</p>
+      <p *ngFor="let comment of content.comments" class="comments">{{comment.person.email}} - {{comment.text}}</p>
+    </div>
+
+    <hr style="padding: 0px;margin: 0px;">
+
+    <mat-form-field class="post-field">
+      <input matInput placeholder="Adicione um comentario aqui!" class="comment-box"/>
+    </mat-form-field>
+    <button mat-button (click)="post()"> Enviar </button>
+
   </mat-card>
   <br/>

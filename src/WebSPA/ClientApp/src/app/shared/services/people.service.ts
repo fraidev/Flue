@@ -19,11 +19,6 @@ export class PeopleService {
     }
 
     constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
-        combineLatest(this.getMe(), this.getFollowers(), this.getFollowing()).subscribe(([a, b, c]) => {
-            this.mePerson = new BehaviorSubject<Person>(a);
-            this.followers = b;
-            this.following = c;
-        });
     }
 
     public configure(profileBox: ProfileBoxComponent): Subscription {

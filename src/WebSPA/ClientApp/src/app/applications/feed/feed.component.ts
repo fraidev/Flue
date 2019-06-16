@@ -13,7 +13,7 @@ export class FeedComponent implements OnInit {
   @ViewChild(ProfileBoxComponent) profileBox: ProfileBoxComponent;
   public people: Person[];
   public title = 'Feed';
-  public cards: Post[];
+  public cards: Array<Post>;
   constructor(private peopleService: PeopleService, private feedService: FeedService) {
   }
 

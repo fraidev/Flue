@@ -7,4 +7,5 @@ export class Post {
     public text: string;
     public likes: number;
     public comments: Comment[];
+    public isMyPost: boolean;
 }
