@@ -1,7 +1,7 @@
 <div class="container row">
   <div class="item">
       <app-feed-box></app-feed-box>
-      <app-feed-card [content]="card" *ngFor="let card of cards"></app-feed-card>
+      <app-feed-card [content]="card" [feedComponent]="this" *ngFor="let card of cards"></app-feed-card>
   </div>
   <div class="item">
     <app-profile-box></app-profile-box>

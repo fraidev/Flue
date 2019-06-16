@@ -23,7 +23,7 @@ export class FeedService {
   }
 
   public deletePost(id: string): Observable<any> {
-    return this.http.post(environment.feedApiUrl + `posts/` + id, {
+    return this.http.delete(environment.feedApiUrl + `posts/` + id, {
       headers: this.authenticationService.currentUserHeader
     });
   }
