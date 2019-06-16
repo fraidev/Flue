@@ -34,7 +34,7 @@ namespace FeedService.Domain.CommandHandlers
         {
             var aggregate = _postRepository.GetAggregateById(request.Id);
 
-            if (aggregate.GetState().Person.PersonId != request.PersonId)
+            if (aggregate.GetState().Person.UserId != request.UserId)
             {
                 throw new Exception("Não é possivel deletar um post de outro usuario");
             }
@@ -58,8 +58,8 @@ namespace FeedService.Domain.CommandHandlers
         {
             var aggregate = _postRepository.GetAggregateById(request.PostId);
             
-            if (aggregate.GetState().Comments.FirstOrDefault(x => x.CommentId == request.Id)?.Person.PersonId 
-                != request.PersonId)
+            if (aggregate.GetState().Comments.FirstOrDefault(x => x.CommentId == request.Id)?.Person.UserId 
+                != request.UserId)
             {
                 throw new Exception("Não é possivel deletar um post de outro usuario");
             }

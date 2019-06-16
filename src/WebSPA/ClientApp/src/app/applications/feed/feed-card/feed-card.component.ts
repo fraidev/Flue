@@ -35,6 +35,12 @@ export class FeedCardComponent implements OnInit {
     });
   }
 
+  public removeComment(id: string) {
+    this.feedService.removeComment(id).subscribe(
+//TODO remove 
+    );
+  }
+
   public commentPost() {
     const cmd = {
       id: uuid.v4(),

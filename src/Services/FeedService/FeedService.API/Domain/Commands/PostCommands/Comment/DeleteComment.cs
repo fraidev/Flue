@@ -7,6 +7,6 @@ namespace FeedService.Domain.Commands.PostCommands.Comment
     {
         public Guid Id { get; set; }
         public Guid PostId { get; set; }
-        public Guid PersonId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

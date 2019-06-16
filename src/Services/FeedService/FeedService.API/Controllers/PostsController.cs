@@ -93,7 +93,7 @@ namespace FeedService.Controllers
             var cmd = new DeletePost()
             {
                 Id = id,
-                PersonId = this.GetUserId()
+                UserId = this.GetUserId()
             };
             _mediatorHandler.SendCommand(cmd);
             return Ok();
@@ -113,7 +113,7 @@ namespace FeedService.Controllers
             var cmd = new DeleteComment()
             {
                 Id = id,
-                PersonId = this.GetUserId()
+                UserId = this.GetUserId()
             };
             _mediatorHandler.SendCommand(cmd);
             return Ok();
