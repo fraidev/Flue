@@ -10,6 +10,7 @@ namespace FeedService.Domain.Repositories
     public interface IPostRepository
     {
         Post GetById(Guid id);
+        Comment GetCommentById(Guid id);
         PostAggregate GetAggregateById(Guid id);
         void Save(PostAggregate postAggregate);
         void Delete(Guid id);
@@ -31,6 +32,12 @@ namespace FeedService.Domain.Repositories
         {
             return _unitOfWork.GetById<Post>(id);
         }
+
+        public Comment GetCommentById(Guid id)
+        {
+            return _unitOfWork.GetById<Comment>(id);
+        }
+
         public PostAggregate GetAggregateById(Guid id)
         {
             return new PostAggregate(_unitOfWork.GetById<Post>(id));

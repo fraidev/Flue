@@ -108,12 +108,12 @@ namespace FeedService.Controllers
         }
 
         [HttpDelete("Comment/{id}")]
-        public IActionResult DeleteComment(Guid id)
+        public IActionResult RemoveComment(Guid id)
         {
-            var cmd = new DeleteComment()
+            var cmd = new RemoveComment()
             {
                 Id = id,
-                UserId = this.GetUserId()
+                UserId = this.GetUserId(),
             };
             _mediatorHandler.SendCommand(cmd);
             return Ok();

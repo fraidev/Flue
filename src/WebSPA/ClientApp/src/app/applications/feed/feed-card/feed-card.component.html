@@ -23,9 +23,10 @@
       <hr style="padding: 0px;margin: 0px;">
       <button mat-button *ngIf="content.comments.length > 2" (click)="getMoreVisibleComments()" class="see-old-comments">
         Ver comentarios anteriores</button>
-      <p *ngFor="let comment of visibleComments" class="comments">
-        <span class="username">{{comment.person.username}}</span> {{comment.text}}</p>
+      <div *ngFor="let comment of visibleComments" class="comments">
+        <span class="username">{{comment.person.username}}</span> {{comment.text}}
         <button *ngIf="comment.isMyComment" mat-button (click)="removeComment(comment.commentId)" style="color: red">Excluir</button>
+      </div>
     </div>
 
     <hr style="padding: 0px;margin: 0px;">

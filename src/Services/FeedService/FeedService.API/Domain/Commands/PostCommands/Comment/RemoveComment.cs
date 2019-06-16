@@ -3,10 +3,9 @@ using FlueShared;
 
 namespace FeedService.Domain.Commands.PostCommands.Comment
 {
-    public class DeleteComment: Command
+    public class RemoveComment: Command
     {
         public Guid Id { get; set; }
-        public Guid PostId { get; set; }
         public Guid UserId { get; set; }
     }
 }

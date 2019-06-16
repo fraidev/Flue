@@ -15,7 +15,7 @@ namespace FeedService.Domain.CommandHandlers
         IRequestHandler<CreatePost>,
         IRequestHandler<DeletePost>,
         IRequestHandler<AddComment>,
-        IRequestHandler<DeleteComment>
+        IRequestHandler<RemoveComment>
     {
         private readonly IPostRepository _postRepository;
 
@@ -54,9 +54,11 @@ namespace FeedService.Domain.CommandHandlers
             return Unit.Task;
         }
 
-        public Task<Unit> Handle(DeleteComment request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(RemoveComment request, CancellationToken cancellationToken)
         {
-            var aggregate = _postRepository.GetAggregateById(request.PostId);
+            var comment = _postRepository.GetCommentById(request.Id);
+            
+            var aggregate = _postRepository.GetAggregateById(comment.Post.PostId);
             
             if (aggregate.GetState().Comments.FirstOrDefault(x => x.CommentId == request.Id)?.Person.UserId 
                 != request.UserId)

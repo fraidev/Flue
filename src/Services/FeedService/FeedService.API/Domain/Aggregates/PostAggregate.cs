@@ -62,7 +62,7 @@ namespace FeedService.Domain.Aggregates
             });
         }
 
-        public void DeleteComment(DeleteComment cmd)
+        public void DeleteComment(RemoveComment cmd)
         {
             var spell = State.Comments.FirstOrDefault(x => x.CommentId == cmd.Id);
             State.Comments.Remove(spell);
