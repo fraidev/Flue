@@ -5,14 +5,16 @@ namespace FeedService.UnitTests.Infrastructure.Extensions
 {
     public class StringExtensionsTest
     {
-        [Fact]
-        public void CapitalizeName()
+        [Theory]
+        [InlineData( "FELIPE CaRlos RiBeiRO CarDOZO")]
+        [InlineData("felipe carlos ribeiro cardozo")]
+        [InlineData("FELIPE CARLOS RIBEIRO CARDOZO")]
+        public void CapitalizeName(string name)
         {
-            const string name = "BetHany AVERY seCOND";
             
             var result = name.Capitalize();
             
-            Assert.Equal("Bethany Avery Second", result);
+            Assert.Equal("Felipe Carlos Ribeiro Cardozo", result);
         }
     }
 }
