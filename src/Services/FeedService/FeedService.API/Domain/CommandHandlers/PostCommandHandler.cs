@@ -11,7 +11,6 @@ namespace FeedService.Domain.CommandHandlers
 {
     public class PostCommandHandler:
         IRequestHandler<CreatePost>,
-        IRequestHandler<UpdatePost>,
         IRequestHandler<DeletePost>,
         IRequestHandler<AddComment>,
         IRequestHandler<UpdateComment>,
@@ -28,11 +27,6 @@ namespace FeedService.Domain.CommandHandlers
         {
             _postRepository.Save(new PostAggregate(request));
             return Unit.Task;
-        }
-
-        public Task<Unit> Handle(UpdatePost request, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
         }
 
         public Task<Unit> Handle(DeletePost request, CancellationToken cancellationToken)

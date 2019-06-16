@@ -46,11 +46,6 @@ namespace FeedService.Domain.Aggregates
             return State;
         }
         
-        public void Update(UpdatePost cmd)
-        {
-            State.Text = cmd.Text;
-        }
-        
         public void Delete()
         {
             State.Deleted = true;

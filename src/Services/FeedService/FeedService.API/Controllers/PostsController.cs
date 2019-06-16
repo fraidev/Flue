@@ -105,12 +105,7 @@ namespace FeedService.Controllers
             cmd.Person = _personRepository.GetByUserId(this.GetUserId());
             _mediatorHandler.SendCommand(cmd);
         }
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
+        
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
