@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { User } from '../shared/models';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserData {
+export class UserDataService {
   _favorites: string[] = [];
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
@@ -31,17 +32,17 @@ export class UserData {
     }
   }
 
-  login(username: string): Promise<any> {
+  public login(user: User): Promise<any> {
     return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(username);
-      return this.events.publish('user:login');
+      this.setUsername(user.username);
+      return this.events.publish('user:login', user);
     });
   }
 
-  signup(username: string): Promise<any> {
+  public signup(user: User): Promise<any> {
     return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(username);
-      return this.events.publish('user:signup');
+      this.setUsername(user.username);
+      return this.events.publish('user:signup', user);
     });
   }
 

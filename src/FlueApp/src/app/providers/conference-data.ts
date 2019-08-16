@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { UserData } from './user-data';
+import { UserDataService } from './user-data';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { UserData } from './user-data';
 export class ConferenceData {
   data: any;
 
-  constructor(public http: HttpClient, public user: UserData) {}
+  constructor(public http: HttpClient, public user: UserDataService) {}
 
   load(): any {
     if (this.data) {

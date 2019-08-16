@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { ActivatedRoute } from '@angular/router';
-import { UserData } from '../../providers/user-data';
+import { UserDataService } from '../../providers/user-data';
 
 @Component({
   selector: 'page-session-detail',
@@ -15,7 +15,7 @@ export class SessionDetailPage {
   defaultHref = '';
   constructor(
     private dataProvider: ConferenceData,
-    private userProvider: UserData,
+    private userProvider: UserDataService,
     private route: ActivatedRoute
   ) {}
   sessionClick(item: string) {

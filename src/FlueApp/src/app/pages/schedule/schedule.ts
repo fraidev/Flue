@@ -4,7 +4,7 @@ import { AlertController, IonList, LoadingController, ModalController, ToastCont
 
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { ConferenceData } from '../../providers/conference-data';
-import { UserData } from '../../providers/user-data';
+import { UserDataService } from '../../providers/user-data';
 
 @Component({
   selector: 'page-schedule',
@@ -30,7 +30,7 @@ export class SchedulePage implements OnInit {
     public modalCtrl: ModalController,
     public router: Router,
     public toastCtrl: ToastController,
-    public user: UserData
+    public user: UserDataService
   ) { }
 
   ngOnInit() {

@@ -2,9 +2,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { UserData } from '../../providers/user-data';
+import { UserDataService } from '../../providers/user-data';
 
 import { UserOptions } from '../../interfaces/user-options';
+import { User } from '../../shared/models';
 
 
 
@@ -14,11 +15,11 @@ import { UserOptions } from '../../interfaces/user-options';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage {
-  login: UserOptions = { username: '', password: '' };
+  login = new User();
   submitted = false;
 
   constructor(
-    public userData: UserData,
+    public userData: UserDataService,
     public router: Router
   ) { }
 
@@ -26,7 +27,7 @@ export class LoginPage {
     this.submitted = true;
 
     if (form.valid) {
-      this.userData.login(this.login.username);
+      this.userData.login(this.login);
       this.router.navigateByUrl('/app/tabs/schedule');
     }
   }

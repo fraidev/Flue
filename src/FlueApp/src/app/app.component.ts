@@ -9,7 +9,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Storage } from '@ionic/storage';
 
-import { UserData } from './providers/user-data';
+import { UserDataService } from './providers/user-data';
+import { UserService } from './providers/services';
 
 @Component({
   selector: 'app-root',
@@ -50,9 +51,10 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
-    private userData: UserData,
+    private userData: UserDataService,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
+    private userService: UserService
   ) {
     this.initializeApp();
   }
@@ -98,11 +100,17 @@ export class AppComponent implements OnInit {
   }
 
   listenForLoginEvents() {
-    this.events.subscribe('user:login', () => {
+    this.events.subscribe('user:login', user => {
+      this.userService.register(user).subscribe(() => {
+        this.loggedIn = true;
+      });
       this.updateLoggedInStatus(true);
     });
 
-    this.events.subscribe('user:signup', () => {
+    this.events.subscribe('user:signup', user => {
+      this.userService.register(user).subscribe(() => {
+        this.loggedIn = true;
+      });
       this.updateLoggedInStatus(true);
     });
 
