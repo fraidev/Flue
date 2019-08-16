@@ -40,7 +40,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'map',
+        path: 'feed',
         children: [
           {
             path: '',
@@ -59,7 +59,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/app/tabs/schedule',
+        redirectTo: '/app/tabs/feed',
         pathMatch: 'full'
       }
     ]

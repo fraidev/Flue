@@ -41,7 +41,9 @@ export class UserDataService {
     //   this.setUsername(user.username);
     //   return this.events.publish('user:login', user);
     // });
-    return this.authenticationService.login(user.username, user.password).toPromise();
+    return this.authenticationService.login(user.username, user.password).toPromise().then(() =>
+      this.events.publish('user:login', user)
+    );
   }
 
   public signup(user: User): Promise<any> {
@@ -49,15 +51,20 @@ export class UserDataService {
     //   this.setUsername(user.username);
     //   return this.events.publish('user:signup', user);
     // });
-    return this.userService.register(user).toPromise();
+    return this.userService.register(user).toPromise().then(() =>
+      this.events.publish('user:signup', user)
+    );
   }
 
   logout(): Promise<any> {
-    return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
-      return this.storage.remove('username');
-    }).then(() => {
-      this.events.publish('user:logout');
-    });
+    // return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
+    //   return this.storage.remove('username');
+    // }).then(() => {
+    //   this.events.publish('user:logout');
+    // });
+    return this.authenticationService.logout().then(() =>
+      this.events.publish('user:logout')
+    );
   }
 
   setUsername(username: string): Promise<any> {
@@ -65,15 +72,16 @@ export class UserDataService {
   }
 
   getUsername(): Promise<string> {
-    return this.storage.get('username').then((value) => {
-      return value;
+    return this.storage.get('currentUser').then((value: User) => {
+      return value.username;
     });
   }
 
   isLoggedIn(): Promise<boolean> {
-    return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-      return value === true;
-    });
+    // return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
+    //   return value === true;
+    // });
+    return this.authenticationService.isLoggedIn;
   }
 
   checkHasSeenTutorial(): Promise<string> {

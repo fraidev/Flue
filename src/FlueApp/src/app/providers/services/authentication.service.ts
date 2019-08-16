@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
@@ -21,8 +21,26 @@ export class AuthenticationService {
         // this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     }
 
+    public get isLoggedIn() {
+        return this.storage.get('currentUser').then((user) => {
+            if (user) {
+                // logged in so return true
+                return true;
+            }
+            return false;
+        });
+    }
+
     public get currentUserValue(): User {
-        return this.currentUserSubject.value;
+        if (this.currentUserSubject && this.currentUserSubject.value) {
+            return this.currentUserSubject.value;
+        } else {
+            from(this.storage.get('currentUser')).subscribe((user: User) => {
+                this.currentUserSubject = new BehaviorSubject<User>(user);
+                this.currentUser = this.currentUserSubject.asObservable();
+                return user;
+            });
+        }
     }
 
     public get currentUserHeader(): HttpHeaders {
@@ -49,7 +67,8 @@ export class AuthenticationService {
 
     public logout() {
         // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
+        return this.storage.remove('currentUser').then(() =>
+            this.currentUserSubject.next(null)
+        );
     }
 }

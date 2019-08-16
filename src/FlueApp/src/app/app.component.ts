@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   appPages = [
     {
       title: 'Feed',
-      url: '/app/tabs/schedule',
-      icon: 'calendar'
+      url: '/app/tabs/feed',
+      icon: 'home'
     },
     {
       title: 'Chat',
@@ -33,8 +33,8 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Search',
-      url: '/app/tabs/map',
-      icon: 'map'
+      url: '/app/tabs/search',
+      icon: 'search'
     },
     {
       title: 'About',
@@ -102,28 +102,25 @@ export class AppComponent implements OnInit {
   }
 
   listenForLoginEvents() {
-    // this.events.subscribe('user:login', (user: User) => {
-    //   this.authenticationService.login(user.username, user.password).subscribe(() => {
-    //     this.loggedIn = true;
-    //   });
-    //   this.updateLoggedInStatus(true);
-    // });
+    this.events.subscribe('user:login', (user: User) => {
+      this.updateLoggedInStatus(true);
+      this.router.navigateByUrl('/app/tabs/feed');
+    });
 
-    // this.events.subscribe('user:signup', user => {
-    //   this.userService.register(user).subscribe(() => {
-    //     this.loggedIn = true;
-    //   });
-    //   this.updateLoggedInStatus(true);
-    // });
+    this.events.subscribe('user:signup', user => {
+      this.updateLoggedInStatus(true);
+      this.router.navigateByUrl('/login');
+    });
 
-    // this.events.subscribe('user:logout', () => {
-    //   this.updateLoggedInStatus(false);
-    // });
+    this.events.subscribe('user:logout', () => {
+      this.updateLoggedInStatus(false);
+      this.router.navigateByUrl('/login');
+    });
   }
 
   logout() {
     this.userData.logout().then(() => {
-      return this.router.navigateByUrl('/app/tabs/schedule');
+      return this.router.navigateByUrl('/login');
     });
   }
 
