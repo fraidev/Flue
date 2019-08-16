@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { User } from '../shared/models';
+import { AuthenticationService, UserService } from './services';
+import { first } from 'rxjs/operators';
 
 
 @Injectable({
@@ -14,7 +16,9 @@ export class UserDataService {
 
   constructor(
     public events: Events,
-    public storage: Storage
+    public storage: Storage,
+    public authenticationService: AuthenticationService,
+    public userService: UserService
   ) { }
 
   hasFavorite(sessionName: string): boolean {
@@ -33,17 +37,19 @@ export class UserDataService {
   }
 
   public login(user: User): Promise<any> {
-    return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(user.username);
-      return this.events.publish('user:login', user);
-    });
+    // return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
+    //   this.setUsername(user.username);
+    //   return this.events.publish('user:login', user);
+    // });
+    return this.authenticationService.login(user.username, user.password).toPromise();
   }
 
   public signup(user: User): Promise<any> {
-    return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(user.username);
-      return this.events.publish('user:signup', user);
-    });
+    // return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
+    //   this.setUsername(user.username);
+    //   return this.events.publish('user:signup', user);
+    // });
+    return this.userService.register(user).toPromise();
   }
 
   logout(): Promise<any> {

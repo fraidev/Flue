@@ -10,7 +10,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserDataService } from './providers/user-data';
-import { UserService } from './providers/services';
+import { UserService, AuthenticationService } from './providers/services';
+import { User } from './shared/models';
 
 @Component({
   selector: 'app-root',
@@ -54,7 +55,8 @@ export class AppComponent implements OnInit {
     private userData: UserDataService,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
-    private userService: UserService
+    private userService: UserService,
+    private authenticationService: AuthenticationService
   ) {
     this.initializeApp();
   }
@@ -100,23 +102,23 @@ export class AppComponent implements OnInit {
   }
 
   listenForLoginEvents() {
-    this.events.subscribe('user:login', user => {
-      this.userService.register(user).subscribe(() => {
-        this.loggedIn = true;
-      });
-      this.updateLoggedInStatus(true);
-    });
+    // this.events.subscribe('user:login', (user: User) => {
+    //   this.authenticationService.login(user.username, user.password).subscribe(() => {
+    //     this.loggedIn = true;
+    //   });
+    //   this.updateLoggedInStatus(true);
+    // });
 
-    this.events.subscribe('user:signup', user => {
-      this.userService.register(user).subscribe(() => {
-        this.loggedIn = true;
-      });
-      this.updateLoggedInStatus(true);
-    });
+    // this.events.subscribe('user:signup', user => {
+    //   this.userService.register(user).subscribe(() => {
+    //     this.loggedIn = true;
+    //   });
+    //   this.updateLoggedInStatus(true);
+    // });
 
-    this.events.subscribe('user:logout', () => {
-      this.updateLoggedInStatus(false);
-    });
+    // this.events.subscribe('user:logout', () => {
+    //   this.updateLoggedInStatus(false);
+    // });
   }
 
   logout() {
