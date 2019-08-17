@@ -6,6 +6,8 @@ import { UserDataService } from '../../providers/user-data';
 
 import { UserOptions } from '../../interfaces/user-options';
 import { User } from '../../shared/models';
+import { async } from '@angular/core/testing';
+import { ToastController } from '@ionic/angular';
 
 
 
@@ -20,14 +22,22 @@ export class LoginPage {
 
   constructor(
     public userData: UserDataService,
-    public router: Router
-  ) { }
+    public router: Router,
+    public toastCtrl: ToastController) { }
 
   onLogin(form: NgForm) {
     this.submitted = true;
 
     if (form.valid) {
-      this.userData.login(this.login);
+      this.userData.login(this.login).then(async () => {
+        this.submitted = false;
+
+        const toast = await this.toastCtrl.create({
+          message: `Conta ${this.login.username} criada`,
+          duration: 3000
+        });
+        await toast.present();
+      });
     }
   }
 

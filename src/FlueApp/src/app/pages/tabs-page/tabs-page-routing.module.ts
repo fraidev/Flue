@@ -10,7 +10,7 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'schedule',
+        path: 'feed',
         children: [
           {
             path: '',
@@ -40,7 +40,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'feed',
+        path: 'search',
         children: [
           {
             path: '',
