@@ -8,12 +8,12 @@ import { UserDataService } from '../../providers/user-data';
 
 @Component({
   selector: 'page-schedule',
-  templateUrl: 'schedule.html',
-  styleUrls: ['./schedule.scss'],
+  templateUrl: 'feed.html',
+  styleUrls: ['./feed.scss'],
 })
-export class SchedulePage implements OnInit {
+export class FeedPage implements OnInit {
   // Gets a reference to the list element
-  @ViewChild('scheduleList', { static: true }) scheduleList: IonList;
+  @ViewChild('feedList', { static: true }) feedList: IonList;
 
   dayIndex = 0;
   queryText = '';
@@ -39,8 +39,8 @@ export class SchedulePage implements OnInit {
 
   updateSchedule() {
     // Close any open sliding items when the schedule updates
-    if (this.scheduleList) {
-      this.scheduleList.closeSlidingItems();
+    if (this.feedList) {
+      this.feedList.closeSlidingItems();
     }
 
     this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {

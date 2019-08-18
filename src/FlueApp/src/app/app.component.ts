@@ -102,6 +102,12 @@ export class AppComponent implements OnInit {
   }
 
   listenForLoginEvents() {
+    this.events.subscribe('login:loginInit', () => {
+      if (this.loggedIn) {
+        this.router.navigateByUrl('/app/tabs/feed');
+      }
+    });
+
     this.events.subscribe('user:login', (user: User) => {
       this.updateLoggedInStatus(true);
       this.router.navigateByUrl('/app/tabs/feed');

@@ -7,10 +7,10 @@ import { TabsPageRoutingModule } from './tabs-page-routing.module';
 
 import { AboutModule } from '../about/about.module';
 import { MapModule } from '../search/search.module';
-import { ScheduleModule } from '../schedule/schedule.module';
 import { SessionDetailModule } from '../session-detail/session-detail.module';
 import { SpeakerDetailModule } from '../speaker-detail/speaker-detail.module';
 import { SpeakerListModule } from '../speaker-list/speaker-list.module';
+import { FeedModule } from '../feed/feed.module';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { SpeakerListModule } from '../speaker-list/speaker-list.module';
     CommonModule,
     IonicModule,
     MapModule,
-    ScheduleModule,
+    FeedModule,
     SessionDetailModule,
     SpeakerDetailModule,
     SpeakerListModule,
