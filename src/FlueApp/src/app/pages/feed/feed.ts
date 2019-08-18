@@ -4,7 +4,7 @@ import { ActionSheetController } from '@ionic/angular';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { FeedService } from './feed.service';
+import { FeedService } from '../../providers/services/feed.service';
 
 @Component({
   selector: 'page-schedule',

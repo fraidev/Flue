@@ -40,6 +40,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'new-post',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../new-post/new-post.module').then(m => m.NewPostModule)
+          }
+        ]
+      },
+      {
         path: 'search',
         children: [
           {
