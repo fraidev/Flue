@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
-import { MapPage } from './map';
-import { MapPageRoutingModule } from './map-routing.module';
+import { MapPageRoutingModule } from './search-routing.module';
+import { SearchPage } from './search';
 
 @NgModule({
   imports: [
@@ -12,7 +12,7 @@ import { MapPageRoutingModule } from './map-routing.module';
     MapPageRoutingModule
   ],
   declarations: [
-    MapPage,
+    SearchPage,
   ]
 })
 export class MapModule { }

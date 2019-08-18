@@ -41,4 +41,8 @@ export class SignupPage {
       this.router.navigateByUrl('/app/tabs/feed');
     }
   }
+
+  onBack() {
+    this.router.navigateByUrl('/');
+  }
 }

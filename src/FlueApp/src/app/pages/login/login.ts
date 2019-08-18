@@ -33,8 +33,8 @@ export class LoginPage {
         this.submitted = false;
 
         const toast = await this.toastCtrl.create({
-          message: `Conta ${this.login.username} criada`,
-          duration: 3000
+          message: `Acesso efetuado a conta ${this.login.username}`,
+          duration: 1000
         });
         await toast.present();
       });
