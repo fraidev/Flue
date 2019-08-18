@@ -1,10 +1,10 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonList, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { ActionSheetController } from '@ionic/angular';
 
-import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { ConferenceData } from '../../providers/conference-data';
-import { UserDataService } from '../../providers/user-data';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { FeedService } from './feed.service';
 
 @Component({
   selector: 'page-schedule',
@@ -12,120 +12,94 @@ import { UserDataService } from '../../providers/user-data';
   styleUrls: ['./feed.scss'],
 })
 export class FeedPage implements OnInit {
-  // Gets a reference to the list element
-  @ViewChild('feedList', { static: true }) feedList: IonList;
 
-  dayIndex = 0;
-  queryText = '';
-  segment = 'all';
-  excludeTracks: any = [];
-  shownSessions: any = [];
-  groups: any = [];
-  confDate: string;
+  speakers: any[] = [];
+  public posts: any[] = [];
 
   constructor(
-    public alertCtrl: AlertController,
+    public actionSheetCtrl: ActionSheetController,
     public confData: ConferenceData,
-    public loadingCtrl: LoadingController,
-    public modalCtrl: ModalController,
+    public inAppBrowser: InAppBrowser,
     public router: Router,
-    public toastCtrl: ToastController,
-    public user: UserDataService
+    public feedApi: FeedService
   ) { }
 
-  ngOnInit() {
-    this.updateSchedule();
+  ionViewDidEnter() {
+    this.feedApi.getMyFeed().subscribe(x => this.posts = x);
   }
 
-  updateSchedule() {
-    // Close any open sliding items when the schedule updates
-    if (this.feedList) {
-      this.feedList.closeSlidingItems();
-    }
-
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
-      this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
-    });
+  goToSpeakerTwitter(speaker: any) {
+    this.inAppBrowser.create(
+      `https://twitter.com/${speaker.twitter}`,
+      '_blank'
+    );
   }
 
-  async presentFilter() {
-    const modal = await this.modalCtrl.create({
-      component: ScheduleFilterPage,
-      componentProps: { excludedTracks: this.excludeTracks }
-    });
-    await modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-      this.excludeTracks = data;
-      this.updateSchedule();
-    }
+  ngOnInit(): void {
+    // this.feedApi.getMyFeed().subscribe(x => x.posts = x);
   }
 
-  async addFavorite(slidingItem: HTMLIonItemSlidingElement, sessionData: any) {
-    if (this.user.hasFavorite(sessionData.name)) {
-      // woops, they already favorited it! What shall we do!?
-      // prompt them to remove it
-      this.removeFavorite(slidingItem, sessionData, 'Favorite already added');
-    } else {
-      // remember this session as a user favorite
-      this.user.addFavorite(sessionData.name);
-
-      // create an alert instance
-      const alert = await this.alertCtrl.create({
-        header: 'Favorite Added',
-        buttons: [{
-          text: 'OK',
-          handler: () => {
-            // close the sliding item
-            slidingItem.close();
-          }
-        }]
-      });
-      // now present the alert on top of all other content
-      await alert.present();
-    }
-
-  }
-
-  async removeFavorite(slidingItem: HTMLIonItemSlidingElement, sessionData: any, title: string) {
-    const alert = await this.alertCtrl.create({
-      header: title,
-      message: 'Would you like to remove this session from your favorites?',
+  async openSpeakerShare(speaker: any) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Share ' + speaker.name,
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Copy Link',
           handler: () => {
-            // they clicked the cancel button, do not remove the session
-            // close the sliding item and hide the option buttons
-            slidingItem.close();
+            console.log(
+              'Copy link clicked on https://twitter.com/' + speaker.twitter
+            );
+            if (
+              (window as any)['cordova'] &&
+              (window as any)['cordova'].plugins.clipboard
+            ) {
+              (window as any)['cordova'].plugins.clipboard.copy(
+                'https://twitter.com/' + speaker.twitter
+              );
+            }
           }
         },
         {
-          text: 'Remove',
-          handler: () => {
-            // they want to remove this session from their favorites
-            this.user.removeFavorite(sessionData.name);
-            this.updateSchedule();
+          text: 'Share via ...'
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
 
-            // close the sliding item and hide the option buttons
-            slidingItem.close();
+    await actionSheet.present();
+  }
+
+  async openContact(speaker: any) {
+    const mode = 'ios'; // this.config.get('mode');
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Contact ' + speaker.name,
+      buttons: [
+        {
+          text: `Email ( ${speaker.email} )`,
+          icon: mode !== 'ios' ? 'mail' : null,
+          handler: () => {
+            window.open('mailto:' + speaker.email);
+          }
+        },
+        {
+          text: `Call ( ${speaker.phone} )`,
+          icon: mode !== 'ios' ? 'call' : null,
+          handler: () => {
+            window.open('tel:' + speaker.phone);
           }
         }
       ]
     });
-    // now present the alert on top of all other content
-    await alert.present();
+
+    await actionSheet.present();
   }
 
-  async openSocial(network: string, fab: HTMLIonFabElement) {
-    const loading = await this.loadingCtrl.create({
-      message: `Posting to ${network}`,
-      duration: (Math.random() * 1000) + 500
-    });
-    await loading.present();
-    await loading.onWillDismiss();
-    fab.close();
+
+  private getAvatar(post) {
+    return post.person.profilePicture ? post.person.profilePicture : `/assets/img/profile.png`;
   }
 }
