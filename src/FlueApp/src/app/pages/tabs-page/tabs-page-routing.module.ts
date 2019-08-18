@@ -49,6 +49,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'account',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../account/account.module').then(m => m.AccountModule)
+          }
+        ]
+      },
+      {
         path: 'about',
         children: [
           {
