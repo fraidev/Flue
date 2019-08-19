@@ -11,6 +11,7 @@ namespace FeedService.Domain.Repositories
     {
         //Write
         Person GetById(Guid id);
+        PersonAggregate GetAggregateById(Guid id);
         void Save(PersonAggregate personAggregate);
         void Delete(Guid id);
         void Update(PersonAggregate personAggregate);
@@ -32,6 +33,11 @@ namespace FeedService.Domain.Repositories
         public Person GetById(Guid id)
         {
             return _unitOfWork.GetById<Person>(id);
+        }
+
+        public PersonAggregate GetAggregateById(Guid id)
+        {
+            return new PersonAggregate(_unitOfWork.GetById<Person>(id));
         }
 
         public void Save(PersonAggregate personAggregate)

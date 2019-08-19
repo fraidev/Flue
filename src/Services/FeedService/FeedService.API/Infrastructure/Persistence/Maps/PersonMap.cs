@@ -22,12 +22,10 @@ namespace FeedService.Infrastructure.Persistence.Maps
                 .ChildKeyColumn("PersonId")
                 .Table("Follows")
                 .Cascade.SaveUpdate();
-            
-            HasManyToMany(x => x.Posts)
-                .ParentKeyColumn("PostId")
-                .ChildKeyColumn("PersonId")
-                .Table("PersonPost")
-                .Cascade.SaveUpdate();
+
+            HasMany(x => x.Posts)
+                .KeyColumns.Add("PersonId", x => x.Not.Nullable())
+                .Cascade.All();
         }                
     }
 }

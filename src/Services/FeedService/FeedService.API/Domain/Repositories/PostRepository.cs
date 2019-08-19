@@ -11,10 +11,10 @@ namespace FeedService.Domain.Repositories
     {
         Post GetById(Guid id);
         Comment GetCommentById(Guid id);
-        PostAggregate GetAggregateById(Guid id);
-        void Save(PostAggregate postAggregate);
+//        PostAggregate GetAggregateById(Guid id);
+//        void Save(PostAggregate postAggregate);
         void Delete(Guid id);
-        void Update(PostAggregate postAggregate);
+//        void Update(PostAggregate postAggregate);
         IQueryable<Post> GetAll();
         IEnumerable<Post> GetMyFeed(Person person);
         IEnumerable<Post> GetMyPosts(Guid personId);
@@ -38,16 +38,16 @@ namespace FeedService.Domain.Repositories
             return _unitOfWork.GetById<Comment>(id);
         }
 
-        public PostAggregate GetAggregateById(Guid id)
-        {
-            return new PostAggregate(_unitOfWork.GetById<Post>(id));
-        }
-    
-        public void Save(PostAggregate postAggregate)
-        {
-            _unitOfWork.Save(postAggregate.GetState());
-            _unitOfWork.Flush();
-        }
+//        public PostAggregate GetAggregateById(Guid id)
+//        {
+//            return new PostAggregate(_unitOfWork.GetById<Post>(id));
+//        }
+//    
+//        public void Save(PostAggregate postAggregate)
+//        {
+//            _unitOfWork.Save(postAggregate.GetState());
+//            _unitOfWork.Flush();
+//        }
 
         public void Delete(Guid id)
         {
@@ -55,12 +55,12 @@ namespace FeedService.Domain.Repositories
             _unitOfWork.Flush();
         }
         
-        public void Update(PostAggregate postAggregate)
-        {
-            var state = postAggregate.GetState();
-            _unitOfWork.Update(state);
-            _unitOfWork.Flush();
-        }
+//        public void Update(PostAggregate postAggregate)
+//        {
+//            var state = postAggregate.GetState();
+//            _unitOfWork.Update(state);
+//            _unitOfWork.Flush();
+//        }
 
         public IQueryable<Post> GetAll()
         {

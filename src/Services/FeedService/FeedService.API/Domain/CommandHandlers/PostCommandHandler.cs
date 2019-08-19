@@ -17,58 +17,57 @@ namespace FeedService.Domain.CommandHandlers
         IRequestHandler<AddComment>,
         IRequestHandler<RemoveComment>
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPersonRepository _personRepository;
 
-        public PostCommandHandler(IPostRepository postRepository)
+        public PostCommandHandler(IPersonRepository personRepository)
         {
-            _postRepository = postRepository;
+            _personRepository = personRepository;
         }
 
         public Task<Unit> Handle(CreatePost request, CancellationToken cancellationToken)
         {
-            _postRepository.Save(new PostAggregate(request));
+            var person = _personRepository.GetAggregateById(request.Person.PersonId);
+            person.AddPost(request);
+            _personRepository.Save(person);
             return Unit.Task;
         }
 
         public Task<Unit> Handle(DeletePost request, CancellationToken cancellationToken)
         {
-            var aggregate = _postRepository.GetAggregateById(request.Id);
+            var aggregate = _personRepository.GetAggregateById(request.UserId);
 
-            if (aggregate.GetState().Person.UserId != request.UserId)
+            if (aggregate.GetState().UserId != request.UserId)
             {
                 throw new Exception("Não é possivel deletar um post de outro usuario");
             }
                 
-            aggregate.Delete();
-            _postRepository.Save(aggregate);
+            aggregate.DeletePost(request.Id);
+            _personRepository.Save(aggregate);
             return Unit.Task;
         }
 
         public Task<Unit> Handle(AddComment request, CancellationToken cancellationToken)
         {
-            var aggregate = _postRepository.GetAggregateById(request.PostId);
-            
+            var aggregate = _personRepository.GetAggregateById(request.Person.UserId);
             aggregate.AddComment(request);
             
-            _postRepository.Save(aggregate);
+            _personRepository.Save(aggregate);
             return Unit.Task;
         }
 
         public Task<Unit> Handle(RemoveComment request, CancellationToken cancellationToken)
         {
-            var comment = _postRepository.GetCommentById(request.Id);
+            var aggregate = _personRepository.GetAggregateById(request.UserId);
             
-            var aggregate = _postRepository.GetAggregateById(comment.Post.PostId);
-            
-            if (aggregate.GetState().Comments.FirstOrDefault(x => x.CommentId == request.Id)?.Person.UserId 
-                != request.UserId)
+            if (aggregate.GetComment(request.UserId, request.Id)
+                    ?.Person.UserId != request.UserId)
             {
                 throw new Exception("Não é possivel deletar um post de outro usuario");
             }
             
             aggregate.DeleteComment(request);
             
-            _postRepository.Save(aggregate);
+            _personRepository.Save(aggregate);
             return Unit.Task;
         }
     }

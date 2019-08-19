@@ -83,6 +83,7 @@ namespace FeedService.Controllers
         [HttpPost]
         public void Post([FromBody] CreatePost cmd)
         {
+            cmd.Id = Guid.NewGuid();
             cmd.Person = _personRepository.GetByUserId(this.GetUserId());
             _mediatorHandler.SendCommand(cmd);
         }
