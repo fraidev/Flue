@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { AlertController } from '@ionic/angular';
-
 import { UserDataService } from '../../providers/user-data';
+import { User, Person } from '../../shared/models';
+import { PeopleService } from '../../providers/services';
+import { FeedService } from '../../providers/services/feed.service';
 
 
 @Component({
@@ -13,15 +14,26 @@ import { UserDataService } from '../../providers/user-data';
 })
 export class AccountPage implements AfterViewInit {
   username: string;
+  user: User;
+  person: Person;
+  postsCount: number;
+  followingCount: any;
+  followersCount: any;
 
   constructor(
     public alertCtrl: AlertController,
     public router: Router,
-    public userData: UserDataService
+    public userData: UserDataService,
+    public feedApi: FeedService,
+    public peopleApi: PeopleService
   ) { }
 
   ngAfterViewInit() {
-    this.getUsername();
+    // this.getUser();
+    this.getPerson();
+    // this.feedApi.GetMyPostCount().subscribe(x => this.postsCount = x);
+    // this.followingCount = this.peopleApi.following.length;
+    // this.followersCount = this.peopleApi.followers.length;
   }
 
   updatePicture() {
@@ -40,7 +52,7 @@ export class AccountPage implements AfterViewInit {
           text: 'Ok',
           handler: (data: any) => {
             this.userData.setUsername(data.username);
-            this.getUsername();
+            this.getUser();
           }
         }
       ],
@@ -56,9 +68,15 @@ export class AccountPage implements AfterViewInit {
     await alert.present();
   }
 
-  getUsername() {
-    this.userData.getUsername().then((username) => {
-      this.username = username;
+  getUser() {
+    this.userData.getUser().then((user) => {
+      this.user = user;
+    });
+  }
+
+  getPerson() {
+    this.peopleApi.getMe().subscribe((person) => {
+      this.person = person;
     });
   }
 

@@ -17,7 +17,7 @@ import { AuthenticationService } from '../../providers/services';
   templateUrl: 'login.html',
   styleUrls: ['./login.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
   login = new User();
   submitted = false;
 
@@ -43,7 +43,7 @@ export class LoginPage implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  async ionViewDidEnter() {
     this.events.publish('login:loginInit');
   }
 

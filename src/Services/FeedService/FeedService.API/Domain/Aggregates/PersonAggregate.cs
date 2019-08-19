@@ -37,6 +37,11 @@ namespace FeedService.Domain.Aggregates
         }
         
         #endregion
+
+        public void AddPost(Post post)
+        {
+            GetState().Posts.Add(post);
+        }
         
         public Person GetState()
         {

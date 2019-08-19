@@ -8,9 +8,18 @@
 </ion-header>
 
 <ion-content class="outer-content">
-  <div *ngIf="username" class="ion-padding-top ion-text-center">
+  <div *ngIf="person" class="ion-padding-top ion-text-center">
     <img src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
-    <h2>{{username}}</h2>
+    <h2>{{person.name}}</h2>
+    <p>{{person.description}}</p>
+
+    <div style="display: flex">
+
+      <ion-item button>Posts {{person.postsCount}} </ion-item>
+      <ion-item button>Following {{person.followingCount}} </ion-item>
+      <ion-item button>Followers {{person.followersCount}} </ion-item>
+
+    </div>
 
     <ion-list inset>
       <ion-item (click)="updatePicture()">Update Picture</ion-item>

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, ModalController } from '@ionic/angular';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FeedService } from '../../providers/services/feed.service';
+import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 
 @Component({
   selector: 'page-schedule',
@@ -15,13 +16,15 @@ export class FeedPage implements OnInit {
 
   speakers: any[] = [];
   public posts: any[] = [];
+  excludeTracks: any = [];
 
   constructor(
     public actionSheetCtrl: ActionSheetController,
     public confData: ConferenceData,
     public inAppBrowser: InAppBrowser,
     public router: Router,
-    public feedApi: FeedService
+    public feedApi: FeedService,
+    public modalCtrl: ModalController
   ) { }
 
   ionViewDidEnter() {
@@ -37,6 +40,20 @@ export class FeedPage implements OnInit {
 
   ngOnInit(): void {
     // this.feedApi.getMyFeed().subscribe(x => x.posts = x);
+  }
+
+  async presentFilter() {
+    const modal = await this.modalCtrl.create({
+      component: ScheduleFilterPage,
+      componentProps: { excludedTracks: this.excludeTracks }
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.excludeTracks = data;
+      // this.updateSchedule();
+    }
   }
 
   async openSpeakerShare(speaker: any) {

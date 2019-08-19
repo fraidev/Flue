@@ -71,9 +71,9 @@ export class UserDataService {
     return this.storage.set('username', username);
   }
 
-  getUsername(): Promise<string> {
+  getUser(): Promise<User> {
     return this.storage.get('currentUser').then((value: User) => {
-      return value.username;
+      return value;
     });
   }
 

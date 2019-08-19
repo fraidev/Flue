@@ -39,4 +39,10 @@ export class FeedService {
       headers: this.authenticationService.currentUserHeader
     });
   }
+
+  public GetMyPostCount(): Observable<number> {
+    return this.http.get<number>(environment.feedApiUrl + `posts/MyPostCount`, {
+      headers: this.authenticationService.currentUserHeader
+    });
+  }
 }
