@@ -3,10 +3,55 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Map</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
-  <div #mapCanvas class="map-canvas"></div>
+    <ion-toolbar>
+      <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateSchedule()" placeholder="Search"></ion-searchbar>
+    </ion-toolbar>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="presentFilter()">
+        <ion-icon slot="icon-only" name="options"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content class="outer-content">
+  <ion-list>
+    <ion-grid fixed>
+      <ion-row class="ion-align-items-stretch">
+        <ion-col size="12" size-md="6" *ngFor="let post of posts">
+          <ion-card class="speaker-card">
+            <ion-card-header>
+              <ion-item detail="false" lines="none">
+                <ion-avatar slot="start">
+                  <img [src]="getAvatar(post)" alt="Speaker profile pic">
+                </ion-avatar>
+                {{post?.person?.name}}
+              </ion-item>
+            </ion-card-header>
+
+            <ion-card-content>
+              {{post.text}}
+            </ion-card-content>
+
+            <ion-row class="ion-no-padding ion-justify-content-center">
+              <ion-col size="4" class="ion-text-left" style="display:flex">
+                <ion-button fill="clear" size="small" color="primary" (click)="goToSpeakerTwitter(post)">
+                  <ion-icon name="heart" slot="start"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" size="small" color="primary" (click)="openContact(post)">
+                  <ion-icon name="chatboxes" slot="start"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4" class="ion-text-center">
+              </ion-col>
+              <ion-col size="4" lass="ion-text-right">
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
 </ion-content>

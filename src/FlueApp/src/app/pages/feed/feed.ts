@@ -41,21 +41,7 @@ export class FeedPage implements OnInit {
   ngOnInit(): void {
     // this.feedApi.getMyFeed().subscribe(x => x.posts = x);
   }
-
-  async presentFilter() {
-    const modal = await this.modalCtrl.create({
-      component: ScheduleFilterPage,
-      componentProps: { excludedTracks: this.excludeTracks }
-    });
-    await modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-      this.excludeTracks = data;
-      // this.updateSchedule();
-    }
-  }
-
+  
   async openSpeakerShare(speaker: any) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Share ' + speaker.name,
