@@ -19,8 +19,8 @@ namespace FeedService.Controllers
     public class PostsController : ControllerBase
     {
         private readonly IMediatorHandler _mediatorHandler;
-        private readonly IPostRepository _postRepository;
         private readonly IPersonRepository _personRepository;
+        private readonly IPostRepository _postRepository;
 
         public PostsController(IMediatorHandler mediatorHandler,
             IPostRepository postRepository,
@@ -30,50 +30,55 @@ namespace FeedService.Controllers
             _postRepository = postRepository;
             _personRepository = personRepository;
         }
-        
+
         [HttpGet("Identity")]
         public IActionResult Identity()
         {
-            var claim = ((ClaimsIdentity)User.Identity);
-            var nameIdentifier = claim.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault();
+            var claim = (ClaimsIdentity) User.Identity;
+            var nameIdentifier = claim.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value)
+                .SingleOrDefault();
             var role = claim.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault();
             var name = claim.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault();
             return Ok(nameIdentifier + role + name);
         }
-        
+
         [HttpGet("")]
         public IActionResult GetAll()
         {
             return Ok(_postRepository.GetAll());
         }
-        
+
         [HttpGet("Feed")]
         public IActionResult GetMyFeed()
         {
             var me = _personRepository.GetByUserId(this.GetUserId());
             var feed = _postRepository.GetMyFeed(me);
-            
+
             return Ok(feed);
         }
-        
+
         [HttpGet("MyPosts")]
         public IActionResult GetMyPosts()
         {
             var me = _personRepository.GetByUserId(this.GetUserId());
             var myPosts = _postRepository.GetMyFeed(me);
-            
+
             return Ok(myPosts);
         }
-        
+
         [HttpGet("MyPostCount")]
         public IActionResult GetMyPostCount()
         {
             var me = _personRepository.GetByUserId(this.GetUserId());
+            if (me == null)
+            {
+                return Ok();
+            }
+
             var myPostsCount = _postRepository.GetMyPosts(me.PersonId).Count();
-            
             return Ok(myPostsCount);
         }
-        
+
         [HttpGet("{id}")]
         public IActionResult GetPostById(Guid id)
         {
@@ -87,11 +92,11 @@ namespace FeedService.Controllers
             cmd.Person = _personRepository.GetByUserId(this.GetUserId());
             _mediatorHandler.SendCommand(cmd);
         }
-        
+
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
-            var cmd = new DeletePost()
+            var cmd = new DeletePost
             {
                 Id = id,
                 UserId = this.GetUserId()
@@ -111,10 +116,10 @@ namespace FeedService.Controllers
         [HttpDelete("Comment/{id}")]
         public IActionResult RemoveComment(Guid id)
         {
-            var cmd = new RemoveComment()
+            var cmd = new RemoveComment
             {
                 Id = id,
-                UserId = this.GetUserId(),
+                UserId = this.GetUserId()
             };
             _mediatorHandler.SendCommand(cmd);
             return Ok();

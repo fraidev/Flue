@@ -69,6 +69,11 @@ namespace FeedService.Domain.Repositories
 
         public IEnumerable<Post> GetMyFeed(Person person)
         {
+            if (person == null)
+            {
+                throw new Exception();
+            }
+            
             var followersPersonId = person.Following.Select(x => x.PersonId);
             var posts = _unitOfWork.Query<Post>()
                 .Where(x => followersPersonId.Contains(x.Person.PersonId) &&

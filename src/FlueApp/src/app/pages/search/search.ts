@@ -6,6 +6,8 @@ import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FeedService } from '../../providers/services/feed.service';
 import { SearchFilterPage } from './search-filter/Search-filter';
+import { Person } from '../../shared/models';
+import { PeopleService } from '../../providers/services';
 
 @Component({
   selector: 'page-search',
@@ -13,10 +15,13 @@ import { SearchFilterPage } from './search-filter/Search-filter';
   styleUrls: ['./search.scss'],
 })
 export class SearchPage implements OnInit {
+  public people: Person[];
+
 
   speakers: any[] = [];
   public posts: any[] = [];
   excludeTracks: any = [];
+  queryText;
 
   constructor(
     public actionSheetCtrl: ActionSheetController,
@@ -24,11 +29,16 @@ export class SearchPage implements OnInit {
     public inAppBrowser: InAppBrowser,
     public router: Router,
     public feedApi: FeedService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    private peopleService: PeopleService
   ) { }
 
+  updateSearch() {
+    this.peopleService.getPeople(this.queryText).subscribe(x => this.people = x);
+  }
+
   ionViewDidEnter() {
-    this.feedApi.getMyFeed().subscribe(x => this.posts = x);
+    // this.feedApi.getMyFeed().subscribe(x => this.posts = x);
   }
 
   goToSpeakerTwitter(speaker: any) {
@@ -39,6 +49,7 @@ export class SearchPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.peopleService.getPeople(this.queryText).subscribe(x => this.people = x);
     // this.feedApi.getMyFeed().subscribe(x => x.posts = x);
   }
 
@@ -117,6 +128,17 @@ export class SearchPage implements OnInit {
 
 
   private getAvatar(post) {
-    return post.person.profilePicture ? post.person.profilePicture : `/assets/img/profile.png`;
+    return post.profilePicture ? post.profilePicture : `/assets/img/profile.png`;
+  }
+
+
+  private follow(person: Person) {
+    this.peopleService.follow(person.personId);
+    person.isFollowing = true;
+  }
+
+  private unfollow(person: Person) {
+    this.peopleService.unfollow(person.personId);
+    person.isFollowing = false;
   }
 }

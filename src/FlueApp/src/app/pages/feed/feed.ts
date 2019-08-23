@@ -5,7 +5,6 @@ import { ActionSheetController, ModalController } from '@ionic/angular';
 import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FeedService } from '../../providers/services/feed.service';
-import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 
 @Component({
   selector: 'page-schedule',

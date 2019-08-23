@@ -8,4 +8,5 @@ export class Person {
     public followingCount: number;
     public following: Person[];
     public profilePicture: string;
+    public isFollowing: boolean;
 }

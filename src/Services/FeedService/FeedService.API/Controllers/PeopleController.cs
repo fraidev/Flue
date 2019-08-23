@@ -83,12 +83,18 @@ namespace FeedService.Controllers
         [HttpGet]
         public IActionResult GetPeople(string searchText)
         {
+            var me = _personRepository.GetByUserId(this.GetUserId());
             searchText = searchText.ToLower();
             var people =  _personRepository.GetAll().Where(x => x.Name.ToLower().Contains(searchText)
                 || x.Username.ToLower().Contains(searchText));
+
+            foreach (var person in people)
+            {
+                person.IsFollowing = me.Following.Contains(person);
+            }
             return Ok(people);
         }
-//        
+        
         [HttpGet("GetAll")]
         [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
