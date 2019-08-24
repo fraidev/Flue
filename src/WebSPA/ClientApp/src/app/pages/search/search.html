@@ -7,12 +7,6 @@
     <ion-toolbar>
       <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateSearch()" placeholder="Search"></ion-searchbar>
     </ion-toolbar>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="presentFilter()">
-        <ion-icon slot="icon-only" name="options"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 
 </ion-header>
@@ -45,14 +39,17 @@
                 </ion-button>
 
 
-                <ion-button fill="clear" size="small" color="primary" *ngIf="!person.isFollowing" (click)="follow(person)">
-                  Follow
+                <ion-button fill="clear" size="small" color="primary" *ngIf="!person.isFollowing"
+                  (click)="follow(person)">
                   <ion-icon name="chatboxes" slot="start"></ion-icon>
+                  <ion-label>Follow</ion-label>
                 </ion-button>
-                <ion-button fill="clear" size="small" color="primary" *ngIf="person.isFollowing" (click)="unfollow(person)">
-                  Unfollow
+                <ion-button fill="clear" size="small" color="primary" *ngIf="person.isFollowing"
+                  (click)="unfollow(person)">
                   <ion-icon name="chatboxes" slot="start"></ion-icon>
+                  <ion-label>Unfollow</ion-label>
                 </ion-button>
+
               </ion-col>
               <ion-col size="4" class="ion-text-center">
               </ion-col>

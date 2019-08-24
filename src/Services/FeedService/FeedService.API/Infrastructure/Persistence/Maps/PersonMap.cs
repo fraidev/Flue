@@ -3,7 +3,7 @@ using FluentNHibernate.Mapping;
 
 namespace FeedService.Infrastructure.Persistence.Maps
 {
-    public class PersonMap: ClassMap<Person>
+    public class PersonMap : ClassMap<Person>
     {
         public PersonMap()
         {
@@ -14,18 +14,22 @@ namespace FeedService.Infrastructure.Persistence.Maps
             Map(x => x.Name);
             Map(x => x.Description);
             Map(x => x.Email);
-            
+
             HasManyToMany(x => x.Following)
-//                .Cascade.All()
-                //.Inverse()
                 .ParentKeyColumn("FollowingId")
                 .ChildKeyColumn("PersonId")
+                .Table("Follows")
+                .Cascade.SaveUpdate();
+
+            HasManyToMany(x => x.Followers)
+                .ParentKeyColumn("PersonId")
+                .ChildKeyColumn("FollowingId")
                 .Table("Follows")
                 .Cascade.SaveUpdate();
 
             HasMany(x => x.Posts)
                 .KeyColumns.Add("PersonId", x => x.Not.Nullable())
                 .Cascade.All();
-        }                
+        }
     }
 }

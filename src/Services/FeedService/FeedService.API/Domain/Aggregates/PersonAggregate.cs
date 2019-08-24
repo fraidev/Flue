@@ -102,7 +102,8 @@ namespace FeedService.Domain.Aggregates
                 Name = cmd.Name.Capitalize(),
                 Description = "Eu sou novo no Flue!",
                 Email = cmd.Email,
-                Following = new List<Person>()
+                Following = new List<Person>(),
+                Followers = new List<Person>()
             };
         }
 

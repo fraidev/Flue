@@ -36,7 +36,7 @@ namespace IdentityService.Infrastructure.Persistence
                     }))
 
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                    .Execute(true, true,false))
+                    .Execute(true, false,false))
                 .BuildSessionFactory();
         }
 

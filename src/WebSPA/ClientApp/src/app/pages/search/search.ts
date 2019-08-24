@@ -5,7 +5,6 @@ import { ActionSheetController, ModalController } from '@ionic/angular';
 import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FeedService } from '../../providers/services/feed.service';
-import { SearchFilterPage } from './search-filter/Search-filter';
 import { Person } from '../../shared/models';
 import { PeopleService } from '../../providers/services';
 
@@ -51,20 +50,6 @@ export class SearchPage implements OnInit {
   ngOnInit(): void {
     this.peopleService.getPeople(this.queryText).subscribe(x => this.people = x);
     // this.feedApi.getMyFeed().subscribe(x => x.posts = x);
-  }
-
-  async presentFilter() {
-    const modal = await this.modalCtrl.create({
-      component: SearchFilterPage,
-      componentProps: { excludedTracks: this.excludeTracks }
-    });
-    await modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-      this.excludeTracks = data;
-      // this.updateSchedule();
-    }
   }
 
   async openSpeakerShare(speaker: any) {
@@ -132,13 +117,13 @@ export class SearchPage implements OnInit {
   }
 
 
-  private follow(person: Person) {
-    this.peopleService.follow(person.personId);
+  async follow(person: Person) {
+    await this.peopleService.follow(person.personId);
     person.isFollowing = true;
   }
 
-  private unfollow(person: Person) {
-    this.peopleService.unfollow(person.personId);
+  async unfollow(person: Person) {
+    await this.peopleService.unfollow(person.personId);
     person.isFollowing = false;
   }
 }
