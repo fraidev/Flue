@@ -21,41 +21,33 @@
                 <ion-avatar slot="start">
                   <img [src]="getAvatar(person)" alt="Speaker profile pic">
                 </ion-avatar>
-                {{person?.username}}
+                <div style="display: block">
+                  <div>
+                    {{person.name}}
+                  </div>
+                  <div>
+                    {{person?.username}}
+                  </div>
+                </div>
+                <div slot="end">
+                  <ion-col size="4" lass="ion-text-right">
+                    <ion-button fill="clear" size="small" color="primary" *ngIf="!person.isFollowing"
+                      (click)="follow(person)">
+                      <ion-label>Follow</ion-label>
+                    </ion-button>
+
+                    <ion-button fill="clear" size="small" color="primary" *ngIf="person.isFollowing"
+                      (click)="unfollow(person)">
+                      <ion-label>Unfollow</ion-label>
+                    </ion-button>
+                  </ion-col>
+                </div>
               </ion-item>
             </ion-card-header>
 
             <ion-card-content>
-              {{person.name}}
+              {{person.description}}
             </ion-card-content>
-
-            <ion-row class="ion-no-padding ion-justify-content-center">
-              <ion-col size="4" class="ion-text-left" style="display:flex">
-                <ion-button fill="clear" size="small" color="primary" (click)="goToSpeakerTwitter(person)">
-                  <ion-icon name="heart" slot="start"></ion-icon>
-                </ion-button>
-                <ion-button fill="clear" size="small" color="primary" (click)="openContact(person)">
-                  <ion-icon name="chatboxes" slot="start"></ion-icon>
-                </ion-button>
-
-
-                <ion-button fill="clear" size="small" color="primary" *ngIf="!person.isFollowing"
-                  (click)="follow(person)">
-                  <ion-icon name="chatboxes" slot="start"></ion-icon>
-                  <ion-label>Follow</ion-label>
-                </ion-button>
-                <ion-button fill="clear" size="small" color="primary" *ngIf="person.isFollowing"
-                  (click)="unfollow(person)">
-                  <ion-icon name="chatboxes" slot="start"></ion-icon>
-                  <ion-label>Unfollow</ion-label>
-                </ion-button>
-
-              </ion-col>
-              <ion-col size="4" class="ion-text-center">
-              </ion-col>
-              <ion-col size="4" lass="ion-text-right">
-              </ion-col>
-            </ion-row>
           </ion-card>
         </ion-col>
       </ion-row>
