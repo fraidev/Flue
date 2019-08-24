@@ -1,23 +1,24 @@
 import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
 
-describe('workspace-project App', () => {
+describe('new App', () => {
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display the menu', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to FlueWeb!');
+    expect(page.getMenu()).toBeTruthy();
+  });
+  fit('should get the slides text', () => {
+    page.navigateTo();
+    expect(page.getFirstSlide()).toBe('ION-SLIDE');
+    // console.log(page.getFirstSlide());
   });
 
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
+  it('should create a router outlet', () => {
+    page.navigateTo();
+    expect(page.getRouter()).toBeTruthy();
   });
 });

@@ -2,10 +2,18 @@ import { browser, by, element } from 'protractor';
 
 export class AppPage {
   navigateTo() {
-    return browser.get(browser.baseUrl) as Promise<any>;
+    return browser.get('/');
   }
 
-  getTitleText() {
-    return element(by.css('app-root h1')).getText() as Promise<string>;
+  getMenu() {
+    return element(by.css('app-root ion-menu'));
+  }
+
+  getFirstSlide() {
+    return element(by.css('app-root ion-slides ion-slide:first-child')).getTagName();
+  }
+
+  getRouter() {
+    return element(by.css('app-root ion-router-outlet'));
   }
 }
