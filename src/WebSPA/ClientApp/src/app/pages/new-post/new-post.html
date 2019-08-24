@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>New Post</ion-title>
+    <ion-title>Novo Post</ion-title>
   </ion-toolbar>
 
 </ion-header>
@@ -12,19 +12,19 @@
   <form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
     <ion-list lines="none">
       <ion-item>
-        <ion-label position="stacked" color="primary">Enter your support message below</ion-label>
+        <ion-label position="stacked" color="primary">Escreva o que quiser:</ion-label>
         <ion-textarea [(ngModel)]="text" name="supportQuestion" #supportQuestion="ngModel" rows="6" required></ion-textarea>
       </ion-item>
     </ion-list>
 
     <ion-text color="danger">
       <p [hidden]="supportQuestion.valid || submitted === false" class="ion-padding-start">
-        Support message is required
+        Mensagem é requerida
       </p>
     </ion-text>
 
     <div class="ion-padding">
-      <ion-button expand="block" type="submit">Submit</ion-button>
+      <ion-button expand="block" type="submit">Enviar</ion-button>
     </div>
   </form>
 </ion-content>

@@ -29,59 +29,17 @@ export class AccountPage implements AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    // this.getUser();
     this.getPerson();
-    // this.feedApi.GetMyPostCount().subscribe(x => this.postsCount = x);
-    // this.followingCount = this.peopleApi.following.length;
-    // this.followersCount = this.peopleApi.followers.length;
   }
 
   updatePicture() {
     console.log('Clicked to update picture');
   }
 
-  // Present an alert with the current username populated
-  // clicking OK will update the username and display it
-  // clicking Cancel will close the alert and do nothing
-  async changeUsername() {
-    const alert = await this.alertCtrl.create({
-      header: 'Change Username',
-      buttons: [
-        'Cancel',
-        {
-          text: 'Ok',
-          handler: (data: any) => {
-            this.userData.setUsername(data.username);
-            this.getUser();
-          }
-        }
-      ],
-      inputs: [
-        {
-          type: 'text',
-          name: 'username',
-          value: this.username,
-          placeholder: 'username'
-        }
-      ]
-    });
-    await alert.present();
-  }
-
-  getUser() {
-    this.userData.getUser().then((user) => {
-      this.user = user;
-    });
-  }
-
   getPerson() {
     this.peopleApi.getMe().subscribe((person) => {
       this.person = person;
     });
-  }
-
-  changePassword() {
-    console.log('Clicked to change password');
   }
 
   logout() {
