@@ -22,14 +22,6 @@ export class NewPostPage {
     public feedApi: FeedService
   ) { }
 
-  async ionViewDidEnter() {
-    const toast = await this.toastCtrl.create({
-      message: 'This does not actually send a support request.',
-      duration: 3000
-    });
-    await toast.present();
-  }
-
   async submit(form: NgForm) {
     this.submitted = true;
 

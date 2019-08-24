@@ -123,6 +123,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
+    this.menu.enable(false);
     this.userData.logout().then(() => {
       return this.router.navigateByUrl('/login');
     });
