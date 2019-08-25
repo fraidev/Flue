@@ -16,22 +16,25 @@
     {{ post.text }}
   </ion-card-content>
 
-  <hr *ngIf="post.comments.length > 0">
-
-  <div class="comments" *ngFor="let comment of post.comments">
-    <p>{{comment?.person?.username}}: {{comment.text}}</p>
+  <div *ngIf="post.comments.length > 0">
+    <hr>
+    <div> Exibir todos comentarios </div>
+    <div class="comments" *ngFor="let comment of post.comments">
+      <p><span style="font-weight: 500">{{comment?.person?.username}}:</span> {{comment.text}}</p>
+    </div>
   </div>
 
   <hr>
 
   <ion-row class="ion-no-padding ion-justify-content-center">
-    <ion-col size="10" class="ion-text-left" style="display:flex">
-      <ion-input [(ngModel)]="commentText" name="username" required>
+    <ion-col size="" class="ion-text-left" style="display:flex">
+      <ion-input [(ngModel)]="commentText" placeholder="Adicione um comentario..." name="username" required>
       </ion-input>
     </ion-col>
-    <ion-col size="2" lass="ion-text-right">
+    <ion-col size="3" lass="ion-text-right">
       <ion-button fill="clear" size="small" color="primary" (click)="sendComment(post)">
-        <ion-icon name="chatboxes" slot="start"></ion-icon>
+        <p>Enviar</p>
+        <!-- <ion-icon name="chatboxes" slot="start"></ion-icon> -->
       </ion-button>
     </ion-col>
   </ion-row>

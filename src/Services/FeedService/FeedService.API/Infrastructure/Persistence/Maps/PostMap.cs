@@ -13,6 +13,7 @@ namespace FeedService.Infrastructure.Persistence.Maps
             
             Map(x => x.Text);
             Map(x => x.Deleted);
+            Map(x => x.CreatedDate).Not.Nullable();
             
             References(x => x.Person, "PersonId");
 

@@ -34,6 +34,7 @@ namespace FeedService.Infrastructure.Broker
         public void DoWork(IServiceProvider services)
         {
             _logger.LogInformation("Scoped Processing Service is working.");
+            
             Channel.QueueDeclare(queue: "rpc_queue", durable: false,
                 exclusive: false, autoDelete: false, arguments: null);
             Channel.BasicQos(0, 1, false);

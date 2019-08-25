@@ -27,7 +27,8 @@ namespace FeedService.Domain.Aggregates
                 PostId = cmd.Id,
                 Person = GetState(),
                 Text = cmd.Text,
-                Comments = new List<Comment>()
+                Comments = new List<Comment>(),
+                CreatedDate = DateTime.Now
             };
             GetState().Posts.Add(post);
         }
@@ -66,6 +67,7 @@ namespace FeedService.Domain.Aggregates
                     CommentId = cmd.Id,
                     Text = cmd.Text,
                     Person = commentator,
+                    CreatedDate = DateTime.Now,
                     Post = post
                 });
         }

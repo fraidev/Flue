@@ -87,13 +87,16 @@ namespace FeedService.Domain.Repositories
                     comment.IsMyComment = comment.Person.PersonId == person.PersonId;
                 }
             }
+            
+            posts = posts.OrderByDescending(x => x.CreatedDate);
 
             return posts;
         }
 
         public IEnumerable<Post> GetMyPosts(Guid personId)
         {
-            return _unitOfWork.Query<Post>().Where(x => !x.Deleted && x.Person.PersonId == personId);
+            return _unitOfWork.Query<Post>().Where(x => !x.Deleted && x.Person.PersonId == personId)
+                .OrderByDescending(x => x.CreatedDate);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace FeedService.Domain.States
         public string Text { get; set; }
         public Person Person { get; set; }
         public Post Post { get; set; }
+        public DateTime CreatedDate { get; set; }
         public bool IsMyComment { get; set; }
     }
 }

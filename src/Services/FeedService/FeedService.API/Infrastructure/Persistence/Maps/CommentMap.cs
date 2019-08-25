@@ -11,6 +11,8 @@ namespace FeedService.Infrastructure.Persistence.Maps
             Id(x => x.CommentId).GeneratedBy.Assigned();
             
             Map(x => x.Text);
+            Map(x => x.CreatedDate).Not.Nullable();
+            
             References(x => x.Person, "PersonId");
             References(x => x.Post, "PostId");
         }

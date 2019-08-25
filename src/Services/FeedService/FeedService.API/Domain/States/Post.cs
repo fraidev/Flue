@@ -10,6 +10,7 @@ namespace FeedService.Domain.States
         public string Text { get; set; }
         public bool Deleted { get; set; }
         public bool IsMyPost { get; set; }
+        public DateTime CreatedDate { get; set; }
         public IList<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
