@@ -11,16 +11,24 @@ import { v4 as uuid } from 'uuid';
 export class PostComponent implements OnInit {
     @Input()
     public post: Post;
-
     public commentText: string;
+    public moreComments: boolean;
+
+    constructor(private feedService: FeedService) { }
+
+    ngOnInit(): void { }
 
     get getAvatar() {
         return this.post.person.profilePicture ? this.post.person.profilePicture : `/assets/img/profile.png`;
     }
 
-    constructor(private feedService: FeedService) { }
+    get comments() {
+        return this.moreComments ? this.post.comments : this.post.comments.slice(0, 3);
+    }
 
-    ngOnInit(): void { }
+    showMoreComments() {
+        this.moreComments = true;
+    }
 
     sendComment() {
         const cmd = {
@@ -28,10 +36,9 @@ export class PostComponent implements OnInit {
             postId: this.post.postId,
             text: this.commentText
         };
-        this.feedService.addComment(cmd).subscribe();
+        this.feedService.addComment(cmd).subscribe(() =>
+            this.feedService.getPostById(this.post.postId)
+                .subscribe(post => this.post = post)
+        );
     }
-
-
-
-
 }

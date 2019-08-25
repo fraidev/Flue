@@ -18,8 +18,8 @@
 
   <div *ngIf="post.comments.length > 0">
     <hr>
-    <div> Exibir todos comentarios </div>
-    <div class="comments" *ngFor="let comment of post.comments">
+    <div *ngIf="post.comments.length > 2 && !moreComments" (click)="showMoreComments()"> Exibir todos comentarios </div>
+    <div class="comments" *ngFor="let comment of comments">
       <p><span style="font-weight: 500">{{comment?.person?.username}}:</span> {{comment.text}}</p>
     </div>
   </div>

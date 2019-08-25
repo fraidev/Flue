@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '.';
 import { environment } from '../../environments/environment';
+import { post } from 'selenium-webdriver/http';
 
 @Injectable({ providedIn: 'root' })
 export class FeedService {
@@ -12,6 +13,12 @@ export class FeedService {
 
   public getMyFeed(): Observable<any> {
     return this.http.get(environment.feedApiUrl + `posts/Feed/`, {
+      headers: this.authenticationService.currentUserHeader
+    });
+  }
+
+  public getPostById(postId: string): Observable<any> {
+    return this.http.get(environment.feedApiUrl + `posts/` + postId, {
       headers: this.authenticationService.currentUserHeader
     });
   }
