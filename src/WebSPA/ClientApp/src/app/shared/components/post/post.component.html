@@ -4,21 +4,25 @@
       <ion-avatar slot="start">
         <img [src]="getAvatar" alt="Speaker profile pic">
       </ion-avatar>
-      {{ getPerson?.name }}
+      <div style="display: block;">
+        <ion-card-subtitle>{{ this.post.person?.username }}</ion-card-subtitle>
+        <ion-card-title>{{ this.post.person?.name }}</ion-card-title>
+      </div>
     </ion-item>
+
   </ion-card-header>
 
-  <ion-card-content>
+  <ion-card-content class="content">
     {{ post.text }}
   </ion-card-content>
 
-  <hr>
+  <hr *ngIf="post.comments.length > 0">
 
-  <div *ngFor="let comment of post.comments">
-    <p>{{comment.text}}</p>
+  <div class="comments" *ngFor="let comment of post.comments">
+    <p>{{comment?.person?.username}}: {{comment.text}}</p>
   </div>
 
-
+  <hr>
 
   <ion-row class="ion-no-padding ion-justify-content-center">
     <ion-col size="10" class="ion-text-left" style="display:flex">

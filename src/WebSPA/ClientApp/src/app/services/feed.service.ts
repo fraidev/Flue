@@ -16,6 +16,12 @@ export class FeedService {
     });
   }
 
+  public getMyPosts(): Observable<any> {
+    return this.http.get(environment.feedApiUrl + `posts/MyPosts/`, {
+      headers: this.authenticationService.currentUserHeader
+    });
+  }
+
   public createPost(post: any): Observable<any> {
     return this.http.post(environment.feedApiUrl + `posts/`, post, {
       headers: this.authenticationService.currentUserHeader

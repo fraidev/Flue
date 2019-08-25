@@ -11,17 +11,11 @@ import { v4 as uuid } from 'uuid';
 export class PostComponent implements OnInit {
     @Input()
     public post: Post;
-    @Input()
-    public person: Person;
 
     public commentText: string;
 
-    get getPerson() {
-        return this.person ? this.person : this.post.person;
-    }
-
     get getAvatar() {
-        return this.getPerson.profilePicture ? this.getPerson.profilePicture : `/assets/img/profile.png`;
+        return this.post.person.profilePicture ? this.post.person.profilePicture : `/assets/img/profile.png`;
     }
 
     constructor(private feedService: FeedService) { }

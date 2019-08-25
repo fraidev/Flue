@@ -2,7 +2,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { UserDataService } from '../../providers/user-data';
-import { User, Person } from '../../shared/models';
+import { User, Person, Post } from '../../shared/models';
 import { PeopleService } from '../../services';
 import { FeedService } from '../../services/feed.service';
 import { AccountPopover } from './account-popover/account-popover';
@@ -20,6 +20,7 @@ export class AccountPage implements AfterViewInit {
   postsCount: number;
   followingCount: any;
   followersCount: any;
+  posts: Post[];
 
   constructor(
     public alertCtrl: AlertController,
@@ -29,15 +30,16 @@ export class AccountPage implements AfterViewInit {
     public peopleApi: PeopleService,
     public popoverCtrl: PopoverController) { }
 
-    async presentPopover(event: Event) {
-      const popover = await this.popoverCtrl.create({
-        component: AccountPopover,
-        event
-      });
-      await popover.present();
-    }
+  async presentPopover(event: Event) {
+    const popover = await this.popoverCtrl.create({
+      component: AccountPopover,
+      event
+    });
+    await popover.present();
+  }
   ngAfterViewInit() {
     this.getPerson();
+    this.getPosts();
   }
 
   updatePicture() {
@@ -47,6 +49,12 @@ export class AccountPage implements AfterViewInit {
   getPerson() {
     this.peopleApi.getMe().subscribe((person) => {
       this.person = person;
+    });
+  }
+
+  getPosts() {
+    this.feedApi.getMyFeed().subscribe((posts) => {
+      this.posts = posts;
     });
   }
 
