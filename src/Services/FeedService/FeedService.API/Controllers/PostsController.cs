@@ -89,7 +89,6 @@ namespace FeedService.Controllers
         public void Post([FromBody] CreatePost cmd)
         {
             cmd.Id = Guid.NewGuid();
-            cmd.Person = _personRepository.GetByUserId(this.GetUserId());
             _mediatorHandler.SendCommand(cmd);
         }
 
@@ -108,7 +107,6 @@ namespace FeedService.Controllers
         [HttpPost("Comment")]
         public IActionResult AddComment([FromBody] AddComment cmd)
         {
-            cmd.Person = _personRepository.GetByUserId(this.GetUserId());
             _mediatorHandler.SendCommand(cmd);
             return Ok();
         }

@@ -2,19 +2,21 @@
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { PostModule } from './components/post/post.module';
 
 // const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 //   suppressScrollX: true
 // };
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     FormsModule
   ],
+  declarations: [],
   exports: [
-      CommonModule,
-      FormsModule
+    CommonModule,
+    FormsModule,
+    PostModule
   ],
   providers: [
     // {
@@ -23,4 +25,4 @@ import { NgModule } from '@angular/core';
     // }
   ]
 })
-export class SharedModule {}
+export class SharedModule { }

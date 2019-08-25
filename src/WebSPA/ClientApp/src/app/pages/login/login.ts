@@ -8,7 +8,7 @@ import { UserOptions } from '../../interfaces/user-options';
 import { User } from '../../shared/models';
 import { async } from '@angular/core/testing';
 import { ToastController, Events } from '@ionic/angular';
-import { AuthenticationService } from '../../providers/services';
+import { AuthenticationService } from '../../services';
 
 
 

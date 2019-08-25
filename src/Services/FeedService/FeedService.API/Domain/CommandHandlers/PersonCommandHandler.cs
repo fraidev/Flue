@@ -56,7 +56,7 @@ namespace FeedService.Domain.CommandHandlers
                 throw new Exception("Esse não está sendo seguido");
             };
             var aggregate = new PersonAggregate(user);
-            aggregate.Follow(unfollow);
+            aggregate.Unfollow(unfollow);
             
             _personRepository.Update(aggregate);
 

@@ -4,9 +4,9 @@ import { ActionSheetController, ModalController } from '@ionic/angular';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { FeedService } from '../../providers/services/feed.service';
+import { FeedService } from '../../services/feed.service';
 import { Person } from '../../shared/models';
-import { PeopleService } from '../../providers/services';
+import { PeopleService } from '../../services';
 
 @Component({
   selector: 'page-search',

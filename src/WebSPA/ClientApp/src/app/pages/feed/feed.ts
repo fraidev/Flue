@@ -4,18 +4,16 @@ import { ActionSheetController, ModalController } from '@ionic/angular';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { FeedService } from '../../providers/services/feed.service';
+import { FeedService } from '../../services/feed.service';
 
 @Component({
   selector: 'page-schedule',
   templateUrl: 'feed.html',
   styleUrls: ['./feed.scss'],
 })
-export class FeedPage implements OnInit {
-
-  speakers: any[] = [];
+export class FeedPage {
   public posts: any[] = [];
-  excludeTracks: any = [];
+  public comment: any;
 
   constructor(
     public actionSheetCtrl: ActionSheetController,
@@ -35,73 +33,5 @@ export class FeedPage implements OnInit {
       `https://twitter.com/${speaker.twitter}`,
       '_blank'
     );
-  }
-
-  ngOnInit(): void {
-    // this.feedApi.getMyFeed().subscribe(x => x.posts = x);
-  }
-  
-  async openSpeakerShare(speaker: any) {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Share ' + speaker.name,
-      buttons: [
-        {
-          text: 'Copy Link',
-          handler: () => {
-            console.log(
-              'Copy link clicked on https://twitter.com/' + speaker.twitter
-            );
-            if (
-              (window as any)['cordova'] &&
-              (window as any)['cordova'].plugins.clipboard
-            ) {
-              (window as any)['cordova'].plugins.clipboard.copy(
-                'https://twitter.com/' + speaker.twitter
-              );
-            }
-          }
-        },
-        {
-          text: 'Share via ...'
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        }
-      ]
-    });
-
-    await actionSheet.present();
-  }
-
-  async openContact(speaker: any) {
-    const mode = 'ios'; // this.config.get('mode');
-
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Contact ' + speaker.name,
-      buttons: [
-        {
-          text: `Email ( ${speaker.email} )`,
-          icon: mode !== 'ios' ? 'mail' : null,
-          handler: () => {
-            window.open('mailto:' + speaker.email);
-          }
-        },
-        {
-          text: `Call ( ${speaker.phone} )`,
-          icon: mode !== 'ios' ? 'call' : null,
-          handler: () => {
-            window.open('tel:' + speaker.phone);
-          }
-        }
-      ]
-    });
-
-    await actionSheet.present();
-  }
-
-
-  private getAvatar(post) {
-    return post.person.profilePicture ? post.person.profilePicture : `/assets/img/profile.png`;
   }
 }

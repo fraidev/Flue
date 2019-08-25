@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +14,9 @@ using FeedService.Domain.Repositories;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.Broker;
 using FeedService.Infrastructure.CQRS;
+using FeedService.Infrastructure.InfraServices;
 using FeedService.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Http;
 using NHibernate;
 
 namespace FeedService
@@ -76,6 +79,8 @@ namespace FeedService
             services.AddScoped<PostCommandHandler>();
             services.AddScoped<PersonCommandHandler>();
             services.AddHostedService<ConsumeRabbitListenerService>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRabbitListenerService, RabbitListenerService>();
         }
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { AlertController, ToastController } from '@ionic/angular';
-import { FeedService } from '../../providers/services/feed.service';
+import { FeedService } from '../../services/feed.service';
 import { Router } from '@angular/router';
 
 

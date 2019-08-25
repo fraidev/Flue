@@ -12,7 +12,6 @@ namespace FeedService.Infrastructure.Persistence.Maps
             Id(x => x.PostId).GeneratedBy.Assigned();
             
             Map(x => x.Text);
-            Map(x => x.Likes);
             Map(x => x.Deleted);
             
             References(x => x.Person, "PersonId");

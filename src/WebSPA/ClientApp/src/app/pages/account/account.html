@@ -4,12 +4,17 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Account</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon slot="icon-only" name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="outer-content">
   <div *ngIf="person" class="ion-padding-top ion-text-center">
-    <img src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
+    <img (click)="updatePicture()" src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
     <h2>{{person.name}}</h2>
     <p>{{person.description}}</p>
 
@@ -22,9 +27,16 @@
     </div>
 
     <ion-list inset>
-      <ion-item (click)="updatePicture()">Update Picture</ion-item>
-      <ion-item (click)="support()">Support</ion-item>
-      <ion-item (click)="logout()">Logout</ion-item>
+
+      <ion-grid fixed>
+        <ion-row class="ion-align-items-stretch">
+          <ion-col size="12" size-md="6" *ngFor="let post of person.posts">
+
+            <flue-post [post]="post" [person]="person"></flue-post>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-list>
   </div>
 </ion-content>

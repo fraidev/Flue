@@ -7,7 +7,6 @@ namespace FeedService.Domain.Commands.PostCommands
     public class CreatePost: Command
     {
         public Guid Id { get; set; }
-        public Person Person { get; set; }
         public string Text { get; set; }
     }
 }

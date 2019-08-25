@@ -10,7 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserDataService } from './providers/user-data';
-import { UserService, AuthenticationService } from './providers/services';
+import { UserService, AuthenticationService } from './services';
 import { User } from './shared/models';
 
 @Component({

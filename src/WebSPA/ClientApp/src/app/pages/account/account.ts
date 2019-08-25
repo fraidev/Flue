@@ -1,10 +1,11 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { UserDataService } from '../../providers/user-data';
 import { User, Person } from '../../shared/models';
-import { PeopleService } from '../../providers/services';
-import { FeedService } from '../../providers/services/feed.service';
+import { PeopleService } from '../../services';
+import { FeedService } from '../../services/feed.service';
+import { AccountPopover } from './account-popover/account-popover';
 
 
 @Component({
@@ -25,9 +26,16 @@ export class AccountPage implements AfterViewInit {
     public router: Router,
     public userData: UserDataService,
     public feedApi: FeedService,
-    public peopleApi: PeopleService
-  ) { }
+    public peopleApi: PeopleService,
+    public popoverCtrl: PopoverController) { }
 
+    async presentPopover(event: Event) {
+      const popover = await this.popoverCtrl.create({
+        component: AccountPopover,
+        event
+      });
+      await popover.present();
+    }
   ngAfterViewInit() {
     this.getPerson();
   }
@@ -42,12 +50,4 @@ export class AccountPage implements AfterViewInit {
     });
   }
 
-  logout() {
-    this.userData.logout();
-    this.router.navigateByUrl('/login');
-  }
-
-  support() {
-    this.router.navigateByUrl('/support');
-  }
 }

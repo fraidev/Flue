@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { User } from '../shared/models';
-import { AuthenticationService, UserService } from './services';
+import { AuthenticationService, UserService } from '../services';
 import { first } from 'rxjs/operators';
 
 

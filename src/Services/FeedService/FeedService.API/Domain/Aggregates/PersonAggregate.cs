@@ -25,7 +25,7 @@ namespace FeedService.Domain.Aggregates
             var post = new Post
             {
                 PostId = cmd.Id,
-                Person = cmd.Person,
+                Person = GetState(),
                 Text = cmd.Text,
                 Comments = new List<Comment>()
             };
@@ -55,18 +55,18 @@ namespace FeedService.Domain.Aggregates
 
         public void Unfollow(Person person)
         {
-            GetState().Following.Remove(person);
+            GetState().Following = GetState().Following.Where(x => x.PersonId != person.PersonId).ToList();
         }
 
-        public void AddComment(AddComment cmd)
+        public void AddComment(AddComment cmd, Person commentator)
         {
-            GetState().Posts.FirstOrDefault(x => x.PostId == cmd.PostId)
-                ?.Comments.Add(new Comment
+            var post = GetState().Posts.FirstOrDefault(x => x.PostId == cmd.PostId);
+            post?.Comments.Add(new Comment
                 {
                     CommentId = cmd.Id,
                     Text = cmd.Text,
-                    Person = cmd.Person,
-                    Post = GetState().Posts.FirstOrDefault(x => x.PostId == cmd.PostId)
+                    Person = commentator,
+                    Post = post
                 });
         }
 

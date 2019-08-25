@@ -1,13 +1,14 @@
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using FeedService.Domain.Aggregates;
 using FeedService.Domain.Commands.PostCommands;
 using FeedService.Domain.Commands.PostCommands.Comment;
 using FeedService.Domain.Repositories;
-using FeedService.Domain.States;
+using FeedService.Infrastructure.InfraServices;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace FeedService.Domain.CommandHandlers
 {
@@ -18,17 +19,25 @@ namespace FeedService.Domain.CommandHandlers
         IRequestHandler<RemoveComment>
     {
         private readonly IPersonRepository _personRepository;
+        private readonly IPostRepository _postRepository;
+        private readonly IUserService _userService;
 
-        public PostCommandHandler(IPersonRepository personRepository)
+        public PostCommandHandler(IPersonRepository personRepository,
+            IPostRepository postRepository,
+            IUserService userService)
         {
             _personRepository = personRepository;
+            _postRepository = postRepository;
+            _userService = userService;
         }
+        
 
         public Task<Unit> Handle(CreatePost request, CancellationToken cancellationToken)
         {
-            var person = _personRepository.GetAggregateById(request.Person.PersonId);
+            var person = _personRepository.GetAggregateByUserId(_userService.UserId);
             person.AddPost(request);
             _personRepository.Save(person);
+
             return Unit.Task;
         }
 
@@ -48,8 +57,10 @@ namespace FeedService.Domain.CommandHandlers
 
         public Task<Unit> Handle(AddComment request, CancellationToken cancellationToken)
         {
-            var aggregate = _personRepository.GetAggregateById(request.Person.UserId);
-            aggregate.AddComment(request);
+            var commentator = _personRepository.GetByUserId(_userService.UserId);
+            var post = _postRepository.GetById(request.PostId);
+            var aggregate = _personRepository.GetAggregateById(post.Person.PersonId);
+            aggregate.AddComment(request, commentator);
             
             _personRepository.Save(aggregate);
             return Unit.Task;
