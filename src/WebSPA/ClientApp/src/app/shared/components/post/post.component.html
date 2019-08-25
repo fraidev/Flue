@@ -1,0 +1,34 @@
+<ion-card class="speaker-card">
+  <ion-card-header>
+    <ion-item detail="false" lines="none">
+      <ion-avatar slot="start">
+        <img [src]="getAvatar" alt="Speaker profile pic">
+      </ion-avatar>
+      {{ getPerson?.name }}
+    </ion-item>
+  </ion-card-header>
+
+  <ion-card-content>
+    {{ post.text }}
+  </ion-card-content>
+
+  <hr>
+
+  <div *ngFor="let comment of post.comments">
+    <p>{{comment.text}}</p>
+  </div>
+
+
+
+  <ion-row class="ion-no-padding ion-justify-content-center">
+    <ion-col size="10" class="ion-text-left" style="display:flex">
+      <ion-input [(ngModel)]="commentText" name="username" required>
+      </ion-input>
+    </ion-col>
+    <ion-col size="2" lass="ion-text-right">
+      <ion-button fill="clear" size="small" color="primary" (click)="sendComment(post)">
+        <ion-icon name="chatboxes" slot="start"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
     }
   ];
   loggedIn = false;
+  _darkmode = false;
 
   constructor(
     private events: Events,
@@ -58,7 +59,22 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private authenticationService: AuthenticationService
   ) {
+    this.detectColorScheme();
     this.initializeApp();
+  }
+
+  get darkMode(): boolean {
+    return this._darkmode;
+  }
+
+  set darkMode(res: boolean) {
+    this.storage.set('darkMode', res);
+    if (res) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+    this._darkmode = res;
   }
 
   async ngOnInit() {
@@ -89,6 +105,28 @@ export class AppComponent implements OnInit {
     });
   }
 
+  detectColorScheme() {
+    let theme = 'light';    // default to light
+
+    // local storage is used to override OS theme settings
+    this.storage.get('darkMode').then(res => {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // OS theme setting detected as dark
+        theme = 'dark';
+      }
+
+      res ? theme = 'dark' : theme = 'light';
+
+      // dark theme preferred, set document with a `data-theme` attribute
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        this.darkMode = true;
+      } else {
+        this._darkmode = false;
+      }
+    });
+  }
+
   checkLoginStatus() {
     return this.userData.isLoggedIn().then(loggedIn => {
       return this.updateLoggedInStatus(loggedIn);
@@ -96,7 +134,7 @@ export class AppComponent implements OnInit {
   }
 
   updateLoggedInStatus(loggedIn: boolean) {
-      this.loggedIn = loggedIn;
+    this.loggedIn = loggedIn;
   }
 
   listenForLoginEvents() {
