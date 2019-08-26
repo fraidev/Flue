@@ -63,13 +63,13 @@ namespace FeedService.Domain.Aggregates
         {
             var post = GetState().Posts.FirstOrDefault(x => x.PostId == cmd.PostId);
             post?.Comments.Add(new Comment
-                {
-                    CommentId = cmd.Id,
-                    Text = cmd.Text,
-                    Person = commentator,
-                    CreatedDate = DateTime.Now,
-                    Post = post
-                });
+            {
+                CommentId = cmd.Id,
+                Text = cmd.Text,
+                Person = commentator,
+                CreatedDate = DateTime.Now,
+                Post = post
+            });
         }
 
         public void DeletePost(Guid postId)
@@ -80,8 +80,8 @@ namespace FeedService.Domain.Aggregates
 
         public void DeleteComment(RemoveComment cmd)
         {
-//            var spell = GetState().Posts.FirstOrDefault(x => x.PostId == cmd.).Comments.FirstOrDefault(x => x.CommentId == cmd.Id);
-//            State.Comments.Remove(spell);
+            GetState().Posts.FirstOrDefault(x => x.PostId == cmd.PostId)?.Comments
+                .Remove(GetComment(cmd.PostId, cmd.CommentId));
         }
 
 

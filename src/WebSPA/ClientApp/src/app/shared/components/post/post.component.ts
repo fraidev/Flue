@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Post, Person } from '../../models';
+import { Post, Person, Comment } from '../../models';
 import { FeedService } from '../../../services/feed.service';
 import { v4 as uuid } from 'uuid';
+import { AlertController } from '@ionic/angular';
 
 @Component({
     selector: 'flue-post',
@@ -14,7 +15,7 @@ export class PostComponent implements OnInit {
     public commentText: string;
     public moreComments: boolean;
 
-    constructor(private feedService: FeedService) { }
+    constructor(private feedService: FeedService, private alertController: AlertController) { }
 
     ngOnInit(): void { }
 
@@ -40,5 +41,55 @@ export class PostComponent implements OnInit {
             this.feedService.getPostById(this.post.postId)
                 .subscribe(post => this.post = post)
         );
+    }
+
+    async deletePost() {
+        const alert = await this.alertController.create({
+            header: 'Deletar Post!',
+            message: 'Tem certeza sobre a <strong>Remoção</strong> do seu Post?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: (blah) => {
+                        console.log('Confirm Cancel: blah');
+                    }
+                }, {
+                    text: 'Okay',
+                    handler: () => {
+                        this.feedService.deletePost(this.post.postId).subscribe();
+
+                        // call event father to refresh
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
+    async deleteComment(comment: Comment) {
+        const alert = await this.alertController.create({
+            header: 'Deletar Comentario!',
+            message: 'Tem certeza sobre a <strong>Remoção</strong> do seu Comentario?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: (blah) => {
+                        console.log('Confirm Cancel: blah');
+                    }
+                }, {
+                    text: 'Okay',
+                    handler: () => {
+                        this.feedService.removeComment(this.post.postId, comment.commentId).subscribe();
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
     }
 }

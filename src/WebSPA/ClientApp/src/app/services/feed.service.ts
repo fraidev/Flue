@@ -47,8 +47,13 @@ export class FeedService {
     });
   }
 
-  public removeComment(id: string): Observable<any> {
-    return this.http.delete(environment.feedApiUrl + `posts/comment/` + id, {
+  public removeComment(postId: string, commentId: string): Observable<any> {
+    const cmd = {
+      postId: postId,
+      commentId: commentId
+    };
+
+    return this.http.post(environment.feedApiUrl + `posts/RemoveComment/`, cmd, {
       headers: this.authenticationService.currentUserHeader
     });
   }

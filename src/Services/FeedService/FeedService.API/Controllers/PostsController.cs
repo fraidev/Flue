@@ -96,7 +96,6 @@ namespace FeedService.Controllers
             var cmd = new DeletePost
             {
                 Id = id,
-                UserId = _userService.UserId
             };
             _mediatorHandler.SendCommand(cmd);
             return Ok();
@@ -109,14 +108,9 @@ namespace FeedService.Controllers
             return Ok();
         }
 
-        [HttpDelete("Comment/{id}")]
-        public IActionResult RemoveComment(Guid id)
+        [HttpPost("RemoveComment")]
+        public IActionResult RemoveComment(RemoveComment cmd)
         {
-            var cmd = new RemoveComment
-            {
-                Id = id,
-                UserId = _userService.UserId
-            };
             _mediatorHandler.SendCommand(cmd);
             return Ok();
         }

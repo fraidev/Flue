@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FeedService.Domain.Commands.PostCommands;
@@ -8,11 +6,10 @@ using FeedService.Domain.Commands.PostCommands.Comment;
 using FeedService.Domain.Repositories;
 using FeedService.Infrastructure.InfraServices;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace FeedService.Domain.CommandHandlers
 {
-    public class PostCommandHandler:
+    public class PostCommandHandler :
         IRequestHandler<CreatePost>,
         IRequestHandler<DeletePost>,
         IRequestHandler<AddComment>,
@@ -30,7 +27,18 @@ namespace FeedService.Domain.CommandHandlers
             _postRepository = postRepository;
             _userService = userService;
         }
-        
+
+        public Task<Unit> Handle(AddComment request, CancellationToken cancellationToken)
+        {
+            var commentator = _personRepository.GetByUserId(_userService.UserId);
+            var post = _postRepository.GetById(request.PostId);
+            var aggregate = _personRepository.GetAggregateById(post.Person.PersonId);
+            aggregate.AddComment(request, commentator);
+
+            _personRepository.Save(aggregate);
+            return Unit.Task;
+        }
+
 
         public Task<Unit> Handle(CreatePost request, CancellationToken cancellationToken)
         {
@@ -43,41 +51,30 @@ namespace FeedService.Domain.CommandHandlers
 
         public Task<Unit> Handle(DeletePost request, CancellationToken cancellationToken)
         {
-            var aggregate = _personRepository.GetAggregateById(request.UserId);
+            var userId = _userService.UserId;
+            var aggregate = _personRepository.GetAggregateByUserId(userId);
 
-            if (aggregate.GetState().UserId != request.UserId)
-            {
+            if (aggregate.GetState().UserId != userId)
                 throw new Exception("Não é possivel deletar um post de outro usuario");
-            }
-                
-            aggregate.DeletePost(request.Id);
-            _personRepository.Save(aggregate);
-            return Unit.Task;
-        }
 
-        public Task<Unit> Handle(AddComment request, CancellationToken cancellationToken)
-        {
-            var commentator = _personRepository.GetByUserId(_userService.UserId);
-            var post = _postRepository.GetById(request.PostId);
-            var aggregate = _personRepository.GetAggregateById(post.Person.PersonId);
-            aggregate.AddComment(request, commentator);
-            
+            aggregate.DeletePost(request.Id);
             _personRepository.Save(aggregate);
             return Unit.Task;
         }
 
         public Task<Unit> Handle(RemoveComment request, CancellationToken cancellationToken)
         {
-            var aggregate = _personRepository.GetAggregateById(request.UserId);
-            
-            if (aggregate.GetComment(request.UserId, request.Id)
-                    ?.Person.UserId != request.UserId)
-            {
-                throw new Exception("Não é possivel deletar um post de outro usuario");
-            }
-            
+            var userId = _userService.UserId;
+
+            var post = _postRepository.GetById(request.PostId);
+
+            var aggregate = _personRepository.GetAggregateById(post.Person.PersonId);
+
+            if (aggregate.GetComment(request.PostId, request.CommentId)?.Person.UserId != userId)
+                throw new Exception("Não é possivel deletar um comentario de outro usuario");
+
             aggregate.DeleteComment(request);
-            
+
             _personRepository.Save(aggregate);
             return Unit.Task;
         }
