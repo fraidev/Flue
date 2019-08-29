@@ -1,4 +1,4 @@
-<ion-card class="speaker-card">
+<ion-card class="speaker-card" *ngIf="!deleted">
   <!-- <ion-item class="close-btn">
     <ion-icon name="close-circle" item-right ></ion-icon>
   </ion-item> -->
@@ -25,7 +25,7 @@
 
   <div *ngIf="post.comments.length > 0" style="padding: 0px 10px;">
     <hr>
-    <div style="font-weight: 500" *ngIf="post.comments.length > 2 && !moreComments" (click)="showMoreComments()"> Exibir
+    <div style="font-weight: 500" *ngIf="post.comments.length > 3 && !moreComments" (click)="showMoreComments()"> Exibir
       todos comentarios </div>
     <div class="comments" style="display: flex;" *ngFor="let comment of comments">
       <span style="font-weight: 500">{{comment?.person?.username}}:</span> {{comment.text}}

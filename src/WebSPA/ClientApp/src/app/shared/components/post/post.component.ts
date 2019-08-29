@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Post, Person, Comment } from '../../models';
 import { FeedService } from '../../../services/feed.service';
 import { v4 as uuid } from 'uuid';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Events } from '@ionic/angular';
 
 @Component({
     selector: 'flue-post',
@@ -14,8 +14,11 @@ export class PostComponent implements OnInit {
     public post: Post;
     public commentText: string;
     public moreComments: boolean;
+    public deleted: boolean;
 
-    constructor(private feedService: FeedService, private alertController: AlertController) { }
+    constructor(private feedService: FeedService,
+        private alertController: AlertController,
+        public events: Events) { }
 
     ngOnInit(): void { }
 
@@ -53,14 +56,13 @@ export class PostComponent implements OnInit {
                     role: 'cancel',
                     cssClass: 'secondary',
                     handler: (blah) => {
-                        console.log('Confirm Cancel: blah');
                     }
                 }, {
                     text: 'Okay',
                     handler: () => {
-                        this.feedService.deletePost(this.post.postId).subscribe();
-
-                        // call event father to refresh
+                        this.feedService.deletePost(this.post.postId).subscribe(() =>
+                            this.deleted = true
+                        );
                     }
                 }
             ]
@@ -79,12 +81,13 @@ export class PostComponent implements OnInit {
                     role: 'cancel',
                     cssClass: 'secondary',
                     handler: (blah) => {
-                        console.log('Confirm Cancel: blah');
                     }
                 }, {
                     text: 'Okay',
                     handler: () => {
-                        this.feedService.removeComment(this.post.postId, comment.commentId).subscribe();
+                        this.feedService.removeComment(this.post.postId, comment.commentId).subscribe(() =>
+                            this.feedService.getPostById(this.post.postId).subscribe(x => this.post = x)
+                        );
                     }
                 }
             ]

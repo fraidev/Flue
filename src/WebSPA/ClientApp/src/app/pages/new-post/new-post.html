@@ -13,12 +13,12 @@
     <ion-list lines="none">
       <ion-item>
         <ion-label position="stacked" color="primary">Escreva o que quiser:</ion-label>
-        <ion-textarea [(ngModel)]="text" name="supportQuestion" #supportQuestion="ngModel" rows="6" required></ion-textarea>
+        <ion-textarea [(ngModel)]="text" name="postInput" #postInput="ngModel" rows="6" required></ion-textarea>
       </ion-item>
     </ion-list>
 
     <ion-text color="danger">
-      <p [hidden]="supportQuestion.valid || submitted === false" class="ion-padding-start">
+      <p [hidden]="postInput.valid || submitted === false" class="ion-padding-start">
         Mensagem é requerida
       </p>
     </ion-text>

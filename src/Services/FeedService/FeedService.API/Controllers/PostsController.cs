@@ -9,8 +9,6 @@ using FeedService.Infrastructure.InfraServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace FeedService.Controllers
 {
     [Authorize]
@@ -80,7 +78,8 @@ namespace FeedService.Controllers
         [HttpGet("{id}")]
         public IActionResult GetPostById(Guid id)
         {
-            return Ok(_postRepository.GetById(id));
+            var me = _personRepository.GetByUserId(_userService.UserId); 
+            return Ok(_postRepository.GetByIdAndPersonId(id, me.PersonId));
         }
 
         [HttpPost]

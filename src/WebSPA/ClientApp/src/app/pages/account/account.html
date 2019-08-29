@@ -18,7 +18,7 @@
     <h2>{{person.name}}</h2>
     <p>{{person.description}}</p>
 
-    <div style="display: flex">
+    <div style="display: inline-flex;">
 
       <ion-item button>Posts {{person.postsCount}} </ion-item>
       <ion-item button>Following {{person.followingCount}} </ion-item>
@@ -30,7 +30,7 @@
 
       <ion-grid fixed>
         <ion-row class="ion-align-items-stretch">
-          <ion-col size="12" size-md="6" *ngFor="let post of posts">
+          <ion-col size="12" size-md="12" *ngFor="let post of posts">
 
             <flue-post [post]="post"></flue-post>
 

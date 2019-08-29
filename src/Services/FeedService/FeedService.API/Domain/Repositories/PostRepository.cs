@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FeedService.Domain.Aggregates;
 using FeedService.Domain.States;
 using FeedService.Infrastructure.Persistence;
 
@@ -10,27 +9,34 @@ namespace FeedService.Domain.Repositories
     public interface IPostRepository
     {
         Post GetById(Guid id);
+        Post GetByIdAndPersonId(Guid id, Guid personId);
         Comment GetCommentById(Guid id);
-//        PostAggregate GetAggregateById(Guid id);
-//        void Save(PostAggregate postAggregate);
         void Delete(Guid id);
-//        void Update(PostAggregate postAggregate);
         IQueryable<Post> GetAll();
         IEnumerable<Post> GetMyFeed(Person person);
         IEnumerable<Post> GetMyPosts(Guid personId);
     }
 
-    public class PostRepository: IPostRepository
+    public class PostRepository : IPostRepository
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public PostRepository(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
+
         public Post GetById(Guid id)
         {
             return _unitOfWork.GetById<Post>(id);
+        }
+
+        public Post GetByIdAndPersonId(Guid id, Guid personId)
+        {
+            var post = _unitOfWork.GetById<Post>(id);
+            MarkMyPostAndComment(post, personId);
+
+            return post;
         }
 
         public Comment GetCommentById(Guid id)
@@ -38,56 +44,28 @@ namespace FeedService.Domain.Repositories
             return _unitOfWork.GetById<Comment>(id);
         }
 
-//        public PostAggregate GetAggregateById(Guid id)
-//        {
-//            return new PostAggregate(_unitOfWork.GetById<Post>(id));
-//        }
-//    
-//        public void Save(PostAggregate postAggregate)
-//        {
-//            _unitOfWork.Save(postAggregate.GetState());
-//            _unitOfWork.Flush();
-//        }
-
         public void Delete(Guid id)
         {
             _unitOfWork.Delete(GetById(id));
             _unitOfWork.Flush();
         }
-        
-//        public void Update(PostAggregate postAggregate)
-//        {
-//            var state = postAggregate.GetState();
-//            _unitOfWork.Update(state);
-//            _unitOfWork.Flush();
-//        }
 
         public IQueryable<Post> GetAll()
         {
-            throw new NotImplementedException();
+            return _unitOfWork.Query<Post>();
         }
 
         public IEnumerable<Post> GetMyFeed(Person person)
         {
-            if (person == null)
-            {
-                throw new Exception();
-            }
-            
+            if (person == null) throw new Exception();
+
             var followersPersonId = person.Following.Select(x => x.PersonId);
             var posts = _unitOfWork.Query<Post>()
                 .Where(x => followersPersonId.Contains(x.Person.PersonId) &&
                             !x.Deleted);
 
-            foreach (var post in posts)
-            {
-                post.IsMyPost = post.Person.PersonId == person.PersonId;
-                foreach (var comment in post.Comments)
-                {
-                    comment.IsMyComment = comment.Person.PersonId == person.PersonId;
-                }
-            }
-            
+            posts = MarkMyPostsAndComments(posts, person.PersonId);
+
             posts = posts.OrderByDescending(x => x.CreatedDate);
 
             return posts;
@@ -95,8 +73,24 @@ namespace FeedService.Domain.Repositories
 
         public IEnumerable<Post> GetMyPosts(Guid personId)
         {
-            return _unitOfWork.Query<Post>().Where(x => !x.Deleted && x.Person.PersonId == personId)
-                .OrderByDescending(x => x.CreatedDate);
+            var posts = _unitOfWork.Query<Post>().Where(x => !x.Deleted && x.Person.PersonId == personId);
+
+            posts = MarkMyPostsAndComments(posts, personId);
+
+            return posts.OrderByDescending(x => x.CreatedDate);
+        }
+
+        private static IQueryable<Post> MarkMyPostsAndComments(IQueryable<Post> posts, Guid personId)
+        {
+            foreach (var post in posts) MarkMyPostAndComment(post, personId);
+
+            return posts;
+        }
+
+        private static void MarkMyPostAndComment(Post post, Guid personId)
+        {
+            post.IsMyPost = post.Person.PersonId == personId;
+            foreach (var comment in post.Comments) comment.IsMyComment = comment.Person.PersonId == personId;
         }
     }
 }

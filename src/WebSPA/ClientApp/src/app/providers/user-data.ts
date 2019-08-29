@@ -37,31 +37,18 @@ export class UserDataService {
   }
 
   public login(user: User): Promise<any> {
-    // return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-    //   this.setUsername(user.username);
-    //   return this.events.publish('user:login', user);
-    // });
     return this.authenticationService.login(user.username, user.password).toPromise().then(() =>
       this.events.publish('user:login', user)
     );
   }
 
   public signup(user: User): Promise<any> {
-    // return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-    //   this.setUsername(user.username);
-    //   return this.events.publish('user:signup', user);
-    // });
     return this.userService.register(user).toPromise().then(() =>
       this.events.publish('user:signup', user)
     );
   }
 
   logout(): Promise<any> {
-    // return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
-    //   return this.storage.remove('username');
-    // }).then(() => {
-    //   this.events.publish('user:logout');
-    // });
     return this.authenticationService.logout().then(() =>
       this.events.publish('user:logout')
     );
@@ -78,9 +65,6 @@ export class UserDataService {
   }
 
   isLoggedIn(): Promise<boolean> {
-    // return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-    //   return value === true;
-    // });
     return this.authenticationService.isLoggedIn;
   }
 

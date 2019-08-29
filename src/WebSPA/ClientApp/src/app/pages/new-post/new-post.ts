@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, IonTextarea } from '@ionic/angular';
 import { FeedService } from '../../services/feed.service';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: 'new-post.html',
   styleUrls: ['./new-post.scss'],
 })
-export class NewPostPage {
+export class NewPostPage implements AfterViewInit {
   submitted = false;
   text: string;
 
@@ -21,6 +21,14 @@ export class NewPostPage {
     public toastCtrl: ToastController,
     public feedApi: FeedService
   ) { }
+
+  @ViewChild('postInput', { static: false }) postInput: IonTextarea;
+
+  async ngAfterViewInit() {
+    setTimeout(() => {
+      this.postInput.setFocus();
+    }, 400);
+  }
 
   async submit(form: NgForm) {
     this.submitted = true;
