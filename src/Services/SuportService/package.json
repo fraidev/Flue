@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node dist/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --no-cache"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,25 @@
     "typescript": "^3.6.2"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "@types/jest": "^24.0.18",
+    "@types/supertest": "^2.0.8",
+    "express": "^4.17.1",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.0.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "\\.test\\.ts",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }

@@ -1,13 +1,6 @@
-import express from "express";
+// node-typescript/src/entry.ts
+import server from "./server";
 
-const app = express();
-const port = 3000;
-app.get("/", (req, res) => {
-  res.send("The sedulous hyena ate the antelope!");
-});
-app.listen(port, (err) => {
-  if (err) {
-    return console.error(err);
-  }
-  return console.log(`server is listening on ${port}`);
+server.listen(3000, () => {
+  console.log(`[SERVER] Running at http://localhost:3000`);
 });
