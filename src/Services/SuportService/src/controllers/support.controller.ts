@@ -16,9 +16,8 @@ router.get('/all', async (req, res): Promise<void> => {
 });
 
 router.post('/', async (req, res): Promise<void> => {
-  const { text, userId } = req.body;
-
   try {
+    const { text, userId } = req.body;
     const message = new Message();
     message.text = text;
     message.userId = userId;

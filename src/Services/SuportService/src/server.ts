@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -25,8 +26,8 @@ class Server {
     // this.express.use(helmet());
     // this.express.use(compression());
     // this.express.use(errorHandler());
-    // this.express.use(bodyParser.json());
-    // this.express.use(bodyParser.urlencoded({ extended: true }));
+    this.express.use(bodyParser.json());
+    this.express.use(bodyParser.urlencoded({ extended: true }));
 
     if (process.env.NODE_ENV === 'development') {
       this.express.use(cors());

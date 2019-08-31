@@ -28,8 +28,8 @@ router.get('/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 }));
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { text, userId } = req.body;
     try {
+        const { text, userId } = req.body;
         const message = new message_model_1.Message();
         message.text = text;
         message.userId = userId;
