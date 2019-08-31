@@ -5,6 +5,19 @@
     ],
     "jsRules": {},
     "rules": {
-        "no-console": false},
-    "rulesDirectory": []
+        "no-console": false,
+        "quotemark": [true, "single"]
+    },
+    "rulesDirectory": [],
+    "compilerOptions": {
+        "target": "ES2018",
+        "module": "ESNext",
+        "outDir": "./dist/",
+        "rootDir": "./src/",
+        "strict": true,           
+        "noImplicitAny": false,   
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "sourceMap": true
+      }
 }
