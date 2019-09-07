@@ -16,7 +16,6 @@ using FeedService.Infrastructure.Broker;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.InfraServices;
 using FeedService.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Http;
 using NHibernate;
 
 namespace FeedService

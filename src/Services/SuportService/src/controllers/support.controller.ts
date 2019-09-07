@@ -2,7 +2,7 @@ import express from 'express';
 import { Message } from '../models/message.model';
 const router = express.Router();
 
-router.get('/all', async (req, res): Promise<void> => {
+router.get('/api/supportMessages', async (req, res): Promise<void> => {
   try {
     const messages = await Message.find();
     res.json(messages);
@@ -15,7 +15,7 @@ router.get('/all', async (req, res): Promise<void> => {
   }
 });
 
-router.post('/', async (req, res): Promise<void> => {
+router.post('/api/createSuportMessage', async (req, res): Promise<void> => {
   try {
     const { text, userId } = req.body;
     const message = new Message();
@@ -24,7 +24,7 @@ router.post('/', async (req, res): Promise<void> => {
     message.save();
 
     res.json({
-      message: 'Successfully saved user',
+      message: 'Successfully saved suport message',
       status: 200,
     });
 

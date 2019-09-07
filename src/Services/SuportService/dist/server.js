@@ -1,4 +1,5 @@
-"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }Object.defineProperty(exports, "__esModule", {value: true});var _cors = require('cors'); var _cors2 = _interopRequireDefault(_cors);
+"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }Object.defineProperty(exports, "__esModule", {value: true});var _bodyparser = require('body-parser'); var _bodyparser2 = _interopRequireDefault(_bodyparser);
+var _cors = require('cors'); var _cors2 = _interopRequireDefault(_cors);
 var _express = require('express'); var _express2 = _interopRequireDefault(_express);
 var _mongoose = require('mongoose'); var _mongoose2 = _interopRequireDefault(_mongoose);
 var _controllers = require('./controllers'); var _controllers2 = _interopRequireDefault(_controllers);
@@ -25,13 +26,13 @@ class Server {
     // this.express.use(helmet());
     // this.express.use(compression());
     // this.express.use(errorHandler());
-    // this.express.use(bodyParser.json());
-    // this.express.use(bodyParser.urlencoded({ extended: true }));
+    this.express.use(_bodyparser2.default.json());
+    this.express.use(_bodyparser2.default.urlencoded({ extended: true }));
 
-    if (process.env.NODE_ENV === 'development') {
-      this.express.use(_cors2.default.call(void 0, ));
+    // if (process.env.NODE_ENV === 'development') {
+    this.express.use(_cors2.default.call(void 0, ));
       // this.express.use(morgan('tiny'));
-    }
+    // }
   }
 
    database() {

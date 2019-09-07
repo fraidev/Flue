@@ -2,7 +2,7 @@
 var _messagemodel = require('../models/message.model');
 const router = _express2.default.Router();
 
-router.get('/all', async (req, res) => {
+router.get('/api/supportMessages', async (req, res) => {
   try {
     const messages = await _messagemodel.Message.find();
     res.json(messages);
@@ -15,17 +15,16 @@ router.get('/all', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-  const { text, userId } = req.body;
-
+router.post('/api/createSuportMessage', async (req, res) => {
   try {
+    const { text, userId } = req.body;
     const message = new (0, _messagemodel.Message)();
     message.text = text;
     message.userId = userId;
     message.save();
 
     res.json({
-      message: 'Successfully saved user',
+      message: 'Successfully saved suport message',
       status: 200,
     });
 

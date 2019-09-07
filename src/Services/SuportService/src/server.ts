@@ -29,10 +29,10 @@ class Server {
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: true }));
 
-    if (process.env.NODE_ENV === 'development') {
-      this.express.use(cors());
+    // if (process.env.NODE_ENV === 'development') {
+    this.express.use(cors());
       // this.express.use(morgan('tiny'));
-    }
+    // }
   }
 
   private database(): void {

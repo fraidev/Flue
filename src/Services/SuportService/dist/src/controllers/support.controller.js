@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const message_model_1 = require("../models/message.model");
 const router = express_1.default.Router();
-router.get('/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/api/supportMessages', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const messages = yield message_model_1.Message.find();
         res.json(messages);
@@ -27,7 +27,7 @@ router.get('/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 }));
-router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/api/createSuportMessage', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { text, userId } = req.body;
         const message = new message_model_1.Message();
@@ -35,7 +35,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         message.userId = userId;
         message.save();
         res.json({
-            message: 'Successfully saved user',
+            message: 'Successfully saved suport message',
             status: 200,
         });
     }

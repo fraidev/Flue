@@ -16,12 +16,12 @@
   <form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
     <ion-list lines="none">
       <ion-item>
-        <ion-label position="stacked" color="primary">Enter your support message below</ion-label>
+        <ion-label position="stacked" color="primary">Escreva sua mensagem de suporte:</ion-label>
         <ion-textarea [(ngModel)]="supportMessage" name="supportQuestion" #supportQuestion="ngModel" rows="6" required></ion-textarea>
       </ion-item>
     </ion-list>
 
-    <ion-text color="danger">
+    <ion-text color="danger"> 
       <p [hidden]="supportQuestion.valid || submitted === false" class="ion-padding-start">
         Support message is required
       </p>
