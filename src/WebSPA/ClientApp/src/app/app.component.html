@@ -9,7 +9,7 @@
       </ion-header>
       <ion-content>
 
-        <ion-list>
+        <ion-list *ngIf="loggedIn">
           <ion-list-header>
             Navigate
           </ion-list-header>
@@ -20,33 +20,8 @@
                 {{p.title}}
               </ion-label>
             </ion-item>
-
           </ion-menu-toggle>
-        </ion-list>
-
-        <ion-list *ngIf="loggedIn">
-          <ion-list-header>
-            Account
-          </ion-list-header>
-
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/account" routerDirection="root">
-              <ion-icon slot="start" name="person"></ion-icon>
-              <ion-label>
-                Account
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/support" routerDirection="root">
-              <ion-icon slot="start" name="help"></ion-icon>
-              <ion-label>
-                Support
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
+          
           <ion-menu-toggle autoHide="false">
             <ion-item button (click)="logout()">
               <ion-icon slot="start" name="log-out"></ion-icon>
@@ -55,41 +30,6 @@
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
-
-        </ion-list>
-
-        <ion-list *ngIf="!loggedIn">
-          <ion-list-header>
-            Account
-          </ion-list-header>
-
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/login" routerDirection="root">
-              <ion-icon slot="start" name="log-in"></ion-icon>
-              <ion-label>
-                Login
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/support" routerDirection="root">
-              <ion-icon slot="start" name="help"></ion-icon>
-              <ion-label>
-                Support
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/signup" routerDirection="root">
-              <ion-icon slot="start" name="person-add"></ion-icon>
-              <ion-label>
-                Signup
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
         </ion-list>
 
         <ion-item>

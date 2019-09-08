@@ -27,19 +27,29 @@ export class AppComponent implements OnInit {
       icon: 'home'
     },
     {
-      title: 'Chat',
-      url: '/app/tabs/speakers',
-      icon: 'contacts'
-    },
-    {
-      title: 'Search',
+      title: 'Procurar',
       url: '/app/tabs/search',
       icon: 'search'
     },
     {
+      title: 'Account',
+      url: '/app/tabs/account',
+      icon: 'person'
+    },
+    {
+      title: 'Novo Post',
+      url: '/app/tabs/new-post',
+      icon: 'add-circle'
+    },
+    {
       title: 'About',
-      url: '/app/tabs/about',
+      url: '/about',
       icon: 'information-circle'
+    },
+    {
+      title: 'Support',
+      url: '/support',
+      icon: 'help'
     }
   ];
   loggedIn = false;

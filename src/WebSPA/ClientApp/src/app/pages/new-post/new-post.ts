@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: 'new-post.html',
   styleUrls: ['./new-post.scss'],
 })
-export class NewPostPage implements AfterViewInit {
+export class NewPostPage {
   submitted = false;
   text: string;
 
@@ -23,12 +23,6 @@ export class NewPostPage implements AfterViewInit {
   ) { }
 
   @ViewChild('postInput', { static: false }) postInput: IonTextarea;
-
-  async ngAfterViewInit() {
-    setTimeout(() => {
-      this.postInput.setFocus();
-    }, 400);
-  }
 
   async submit(form: NgForm) {
     this.submitted = true;

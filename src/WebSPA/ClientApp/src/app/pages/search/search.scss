@@ -1,5 +1,4 @@
-$categories: (
-  ionic: var(--ion-color-primary),
+$categories: (ionic: var(--ion-color-primary),
   angular: #ac282b,
   communication: #8e8d93,
   tooling: #fe4c52,
@@ -8,12 +7,21 @@ $categories: (
   workshop: #69bb7b,
   food: #3bc7c4,
   documentation: #b16be3,
-  navigation: #6600cc
-);
+  navigation: #6600cc);
 
-@each $track, $value in map-remove($categories) {
+@each $track,
+$value in map-remove($categories) {
   ion-item-sliding[track='#{$track}'] ion-label {
     border-left: 2px solid $value;
     padding-left: 10px;
+  }
+}
+
+.person-card-header {
+  padding: 10px 0px 0px;
+
+  .follow-btn {
+    padding: 0px;
+    margin: 0px;
   }
 }

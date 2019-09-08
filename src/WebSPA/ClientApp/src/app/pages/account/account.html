@@ -18,15 +18,13 @@
     <h2>{{person.name}}</h2>
     <p>{{person.description}}</p>
 
-    <div style="display: inline-flex;">
-
-      <ion-item button>Posts {{person.postsCount}} </ion-item>
-      <ion-item button>Following {{person.followingCount}} </ion-item>
-      <ion-item button>Followers {{person.followersCount}} </ion-item>
-
+    <div>
+      <ion-label text-wrap color="primary">Posts {{person.postsCount}} </ion-label>
+      <ion-label text-wrap color="primary" style="padding: 0px 10px;">Following {{person.followingCount}} </ion-label>
+      <ion-label text-wrap color="primary">Followers {{person.followersCount}} </ion-label>
     </div>
 
-    <ion-list inset>
+    <ion-list style="height: 100%; margin: 0">
 
       <ion-grid fixed>
         <ion-row class="ion-align-items-stretch">

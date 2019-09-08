@@ -14,29 +14,8 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: FeedPage,
+            loadChildren: () => import('../feed/feed.module').then(m => m.FeedModule)
           },
-          {
-            path: 'session/:sessionId',
-            loadChildren: () => import('../session-detail/session-detail.module').then(m => m.SessionDetailModule)
-          }
-        ]
-      },
-      {
-        path: 'speakers',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../speaker-list/speaker-list.module').then(m => m.SpeakerListModule)
-          },
-          {
-            path: 'session/:sessionId',
-            loadChildren: () => import('../session-detail/session-detail.module').then(m => m.SessionDetailModule)
-          },
-          {
-            path: 'speaker-details/:speakerId',
-            loadChildren: () => import('../speaker-detail/speaker-detail.module').then(m => m.SpeakerDetailModule)
-          }
         ]
       },
       {
@@ -63,15 +42,6 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../account/account.module').then(m => m.AccountModule)
-          }
-        ]
-      },
-      {
-        path: 'about',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../about/about.module').then(m => m.AboutModule)
           }
         ]
       },

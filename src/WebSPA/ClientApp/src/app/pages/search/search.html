@@ -4,9 +4,8 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
-    <ion-toolbar>
-      <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateSearch()" placeholder="Search"></ion-searchbar>
-    </ion-toolbar>
+    <ion-searchbar style="padding: 0;height: 33px;" [(ngModel)]="queryText" (ionChange)="updateSearch()"
+      placeholder="Search"></ion-searchbar>
   </ion-toolbar>
 
 </ion-header>
@@ -15,21 +14,17 @@
     <ion-grid fixed>
       <ion-row class="ion-align-items-stretch">
         <ion-col size="12" size-md="6" *ngFor="let person of people">
-          <ion-card class="speaker-card">
-            <ion-card-header>
+          <ion-card class="person-card">
+            <ion-card-header class="person-card-header">
               <ion-item detail="false" lines="none">
                 <ion-avatar slot="start">
                   <img [src]="getAvatar(person)" alt="Speaker profile pic">
                 </ion-avatar>
                 <div style="display: block">
-                  <div>
-                    {{person.name}}
-                  </div>
-                  <div>
-                    {{person?.username}}
-                  </div>
+                  <ion-card-title>{{ person?.name }}</ion-card-title>
+                  <ion-card-subtitle>{{ person?.username }}</ion-card-subtitle>
                 </div>
-                <div slot="end">
+                <div slot="end" class="follow-btn">
                   <ion-col size="4" lass="ion-text-right">
                     <ion-button fill="clear" size="small" color="primary" *ngIf="!person.isFollowing"
                       (click)="follow(person)">
