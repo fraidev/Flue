@@ -29,7 +29,7 @@ export class SupportPage {
     if (form.valid) {
       this.submitted = false;
 
-      this.supportService.createSuportMessage(this.supportMessage, userId)
+      this.supportService.createSupportMessage(this.supportMessage, userId)
         .subscribe(async () => {
           const toast = await this.toastCtrl.create({
             message: 'Sua solicitação de suporte foi enviada.',

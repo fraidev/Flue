@@ -10,14 +10,14 @@ export class SupportService {
     }
 
     public getSupportMessages(): Observable<SupportMessage[]> {
-        return this.http.get<SupportMessage[]>(environment.suportApiUrl + 'supportMessages');
+        return this.http.get<SupportMessage[]>(environment.supportApiUrl + 'supportMessages');
     }
 
-    public createSuportMessage(text: string, userId: string) {
+    public createSupportMessage(text: string, userId: string) {
         const cmd = {
             text: text,
             userId: userId
         };
-        return this.http.post(environment.suportApiUrl + 'createSuportMessage', cmd);
+        return this.http.post(environment.supportApiUrl + 'createSupportMessage', cmd);
    }
 }

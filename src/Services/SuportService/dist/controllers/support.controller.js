@@ -2,7 +2,7 @@
 var _messagemodel = require('../models/message.model');
 const router = _express2.default.Router();
 
-router.get('/api/supportMessages', async (req, res) => {
+router.get('/supportMessages', async (req, res) => {
   try {
     const messages = await _messagemodel.Message.find();
     res.json(messages);
@@ -15,7 +15,7 @@ router.get('/api/supportMessages', async (req, res) => {
   }
 });
 
-router.post('/api/createSuportMessage', async (req, res) => {
+router.post('/createSupportMessage', async (req, res) => {
   try {
     const { text, userId } = req.body;
     const message = new (0, _messagemodel.Message)();
