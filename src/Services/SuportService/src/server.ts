@@ -23,8 +23,7 @@ class Server {
 
   private database(): void {
     mongoose.connect(
-       `mongodb://flue-support:pqcjaCmNfatenQtuHUcsUWCsK7tzNpB3e5S18Xow7eepu30zkA2GNDqN5kzYDzI5BNeFMS9BVUNAmw88y9wdpA%3D%3D@flue-support.documents.azure.com:10255/{flue-support}?ssl=true`,
-      // `mongodb://localhost:27017/support`,
+      `mongodb://localhost:27017/support`,
       { useNewUrlParser: true },
       (err): void => {
         if (!err) {
