@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FeedService.Domain.States
 {
@@ -16,7 +17,7 @@ namespace FeedService.Domain.States
         public IList<Person> Followers { get; set; } = new List<Person>();
         public int FollowersCount => Followers.Count;
         public IList<Post> Posts { get; set; } = new List<Post>();
-        public int PostsCount => Posts.Count;
+        public int PostsCount => Posts.Count(x => !x.Deleted);
         public bool IsFollowing { get; set; }
     }
 }
