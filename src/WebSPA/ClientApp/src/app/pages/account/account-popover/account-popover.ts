@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
   `
 })
 export class AccountPopover {
-  constructor(public popoverCtrl: PopoverController, private router: Router) {}
- 
+  constructor(public popoverCtrl: PopoverController, private router: Router) { }
+
   close(url: string) {
     window.open(url, '_blank');
     this.popoverCtrl.dismiss();

@@ -4,7 +4,7 @@
       <ion-menu-button [hidden]="anotherAccount"></ion-menu-button>
       <ion-back-button [hidden]="!anotherAccount"></ion-back-button>
     </ion-buttons>
-    <ion-title>Account</ion-title>
+    <ion-title>Conta</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="presentPopover($event)">
         <ion-icon slot="icon-only" name="more"></ion-icon>
@@ -21,9 +21,9 @@
 
     <div>
       <ion-label text-wrap color="primary">Posts {{person.postsCount}} </ion-label>
-      <ion-label text-wrap color="primary" (click)="onShowFollowings()" style="padding: 0px 10px;">Following
+      <ion-label text-wrap color="primary" (click)="onShowFollowings()" style="padding: 0px 10px;">Seguindo
         {{person.followingCount}} </ion-label>
-      <ion-label text-wrap color="primary" (click)="onShowFollowers()">Followers {{person.followersCount}} </ion-label>
+      <ion-label text-wrap color="primary" (click)="onShowFollowers()">Seguidores {{person.followersCount}} </ion-label>
     </div>
 
     <ion-list style="min-height: 100%; margin: 0">

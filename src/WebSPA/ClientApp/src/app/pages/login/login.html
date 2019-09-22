@@ -12,37 +12,37 @@
   <form #loginForm="ngForm" novalidate>
     <ion-list>
       <ion-item>
-        <ion-label position="stacked" color="primary">Username</ion-label>
-        <ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
-          required>
+        <ion-label position="stacked" color="primary">Usuario</ion-label>
+        <ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false"
+          autocapitalize="off" required>
         </ion-input>
       </ion-item>
 
       <ion-text color="danger">
         <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
-          Username is required
+          É obrigatório preencher usuario
         </p>
       </ion-text>
 
       <ion-item>
-        <ion-label position="stacked" color="primary">Password</ion-label>
+        <ion-label position="stacked" color="primary">Senha</ion-label>
         <ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required>
         </ion-input>
       </ion-item>
 
       <ion-text color="danger">
         <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
-          Password is required
+          É obrigatório preencher senha
         </p>
       </ion-text>
     </ion-list>
 
     <ion-row>
       <ion-col>
-        <ion-button (click)="onLogin(loginForm)" type="submit" expand="block">Login</ion-button>
+        <ion-button (click)="onLogin(loginForm)" type="submit" expand="block">Entrar</ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="onSignup()" color="light" expand="block">Signup</ion-button>
+        <ion-button (click)="onSignup()" color="light" expand="block">Registrar</ion-button>
       </ion-col>
     </ion-row>
   </form>
