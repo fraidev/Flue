@@ -1,12 +1,11 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, PopoverController, ModalController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { UserDataService } from '../../providers/user-data';
 import { User, Person, Post } from '../../shared/models';
 import { PeopleService } from '../../services';
 import { FeedService } from '../../services/feed.service';
 import { AccountPopover } from './account-popover/account-popover';
-import { SearchPage } from '../search/search';
 
 
 @Component({
@@ -65,9 +64,13 @@ export class AccountPage {
 
   ionViewDidEnter() {
     if (!this.anotherAccount) {
-      this.peopleApi.getMe().subscribe(x => this.person = x);
+      this.peopleApi.getMe().subscribe((x) => {
+        this.person = x;
+        this.getPosts();
+      });
+    } else {
+      this.getPosts();
     }
-    this.getPosts();
   }
 
   getPosts() {
