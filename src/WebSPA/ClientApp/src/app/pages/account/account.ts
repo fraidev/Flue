@@ -17,10 +17,10 @@ export class AccountPage {
   username: string;
   user: User;
   person: Person;
+  posts: Post[];
   postsCount: number;
   followingCount: any;
   followersCount: any;
-  posts: Post[];
 
   constructor(
     public alertCtrl: AlertController,
@@ -28,7 +28,16 @@ export class AccountPage {
     public userData: UserDataService,
     public feedApi: FeedService,
     public peopleApi: PeopleService,
-    public popoverCtrl: PopoverController) { }
+    public popoverCtrl: PopoverController) {
+    const currentNavigation = this.router.getCurrentNavigation();
+    if (currentNavigation
+      && currentNavigation.extras
+      && currentNavigation.extras.state
+      && currentNavigation.extras.state.person) {
+      this.person = currentNavigation.extras.state.person;
+      this.getPosts();
+    }
+  }
 
   async presentPopover(event: Event) {
     const popover = await this.popoverCtrl.create({
@@ -43,18 +52,18 @@ export class AccountPage {
   }
 
   ionViewDidEnter() {
-    this.getPerson();
-    this.getPosts();
-  }
-
-  getPerson() {
-    this.peopleApi.getMe().subscribe(x => this.person = x);
+    if (!this.person) {
+      this.peopleApi.getMe().subscribe(x => this.person = x);
+      this.getPosts();
+    }
   }
 
   getPosts() {
-    this.feedApi.getMyFeed().subscribe((posts) => {
-      this.posts = posts;
-    });
+    if (this.person && this.person.personId) {
+      this.feedApi.getPostsByPersonId(this.person.personId).subscribe((posts) => {
+        this.posts = posts;
+      });
+    }
   }
 
 }

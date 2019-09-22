@@ -14,7 +14,7 @@ namespace FeedService.Domain.Repositories
         void Delete(Guid id);
         IQueryable<Post> GetAll();
         IEnumerable<Post> GetMyFeed(Person person);
-        IEnumerable<Post> GetMyPosts(Guid personId);
+        IEnumerable<Post> GetPostsByPersonId(Guid personId);
     }
 
     public class PostRepository : IPostRepository
@@ -71,7 +71,7 @@ namespace FeedService.Domain.Repositories
             return posts;
         }
 
-        public IEnumerable<Post> GetMyPosts(Guid personId)
+        public IEnumerable<Post> GetPostsByPersonId(Guid personId)
         {
             var posts = _unitOfWork.Query<Post>().Where(x => !x.Deleted && x.Person.PersonId == personId);
 

@@ -14,7 +14,7 @@
     <ion-grid fixed>
       <ion-row class="ion-align-items-stretch">
         <ion-col size="12" size-md="6" *ngFor="let person of people">
-          <ion-card class="person-card">
+          <ion-card class="person-card" (click)="onVisitProfile(person)">
             <ion-card-header class="person-card-header">
               <ion-item detail="false" lines="none">
                 <ion-avatar slot="start">

@@ -31,18 +31,7 @@ namespace FeedService.Controllers
             _personRepository = personRepository;
             _userService = userService;
         }
-
-        [HttpGet("Identity")]
-        public IActionResult Identity()
-        {
-            var claim = (ClaimsIdentity) User.Identity;
-            var nameIdentifier = claim.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value)
-                .SingleOrDefault();
-            var role = claim.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault();
-            var name = claim.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault();
-            return Ok(nameIdentifier + role + name);
-        }
-
+        
         [HttpGet("")]
         public IActionResult GetAll()
         {
@@ -58,21 +47,11 @@ namespace FeedService.Controllers
             return Ok(feed);
         }
 
-        [HttpGet("MyPosts")]
-        public IActionResult GetMyPosts()
+        [HttpGet("person/{id}")]
+        public IActionResult GetPostsByPersonId(Guid id)
         {
-            var myPosts = _postRepository.GetMyPosts(_userService.UserId);
+            var myPosts = _postRepository.GetPostsByPersonId(id);
             return Ok(myPosts);
-        }
-
-        [HttpGet("MyPostCount")]
-        public IActionResult GetMyPostCount()
-        {
-            var me = _personRepository.GetByUserId(_userService.UserId);
-            if (me == null) return Ok();
-
-            var myPostsCount = _postRepository.GetMyPosts(me.PersonId).Count();
-            return Ok(myPostsCount);
         }
 
         [HttpGet("{id}")]
