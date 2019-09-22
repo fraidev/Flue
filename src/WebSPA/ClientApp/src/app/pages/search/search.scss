@@ -17,11 +17,17 @@ $value in map-remove($categories) {
   }
 }
 
-.person-card-header {
-  padding: 10px 0px 0px;
 
-  .follow-btn {
-    padding: 0px;
-    margin: 0px;
+.person-card {
+
+  
+
+  .person-card-header {
+    padding: 10px 0px 0px;
+
+    .follow-btn {
+      padding: 0px;
+      margin: 0px;
+    }
   }
 }

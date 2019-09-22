@@ -53,12 +53,14 @@ export class SearchPage implements OnInit {
     this.router.navigateByUrl('account', { state: { person } });
   }
 
-  async follow(person: Person) {
+  async follow(evt, person: Person) {
+    evt.stopPropagation();
     this.peopleService.follow(person.personId)
       .subscribe(() => person.isFollowing = true);
   }
 
-  async unfollow(person: Person) {
+  async unfollow(evt, person: Person) {
+    evt.stopPropagation();
     this.peopleService.unfollow(person.personId)
       .subscribe(() => person.isFollowing = false);
   }

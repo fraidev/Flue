@@ -1,7 +1,8 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button [hidden]="anotherAccount"></ion-menu-button>
+      <ion-back-button [hidden]="!anotherAccount"></ion-back-button>
     </ion-buttons>
     <ion-title>Account</ion-title>
     <ion-buttons slot="end">
@@ -20,11 +21,12 @@
 
     <div>
       <ion-label text-wrap color="primary">Posts {{person.postsCount}} </ion-label>
-      <ion-label text-wrap color="primary" (click)="onShowFollowings()" style="padding: 0px 10px;">Following {{person.followingCount}} </ion-label>
-      <ion-label text-wrap color="primary" (click)="onShowFollowers()" >Followers {{person.followersCount}} </ion-label>
+      <ion-label text-wrap color="primary" (click)="onShowFollowings()" style="padding: 0px 10px;">Following
+        {{person.followingCount}} </ion-label>
+      <ion-label text-wrap color="primary" (click)="onShowFollowers()">Followers {{person.followersCount}} </ion-label>
     </div>
 
-    <ion-list style="height: 100%; margin: 0">
+    <ion-list style="min-height: 100%; margin: 0">
 
       <ion-grid fixed>
         <ion-row class="ion-align-items-stretch">
