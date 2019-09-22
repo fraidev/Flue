@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionSheetController, ModalController } from '@ionic/angular';
-
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { ModalController } from '@ionic/angular';
 import { FeedService } from '../../services/feed.service';
 import { Person } from '../../shared/models';
 import { PeopleService } from '../../services';
@@ -13,8 +11,13 @@ import { PeopleService } from '../../services';
   styleUrls: ['./search.scss'],
 })
 export class SearchPage implements OnInit {
-  public queryText: string;
+  public queryText = '';
   public people: Person[];
+  public page = 1;
+  public itemsPerPage = 10;
+  public searchPeopleType: 'All' | 'Followings' | 'Followers' = 'All';
+  public personId: string;
+
 
   constructor(
     public router: Router,
@@ -22,17 +25,25 @@ export class SearchPage implements OnInit {
     public modalCtrl: ModalController,
     private peopleService: PeopleService
   ) {
-  }
-
-  ionViewDidEnter() {
+    const currentNavigation = this.router.getCurrentNavigation();
+    if (currentNavigation
+      && currentNavigation.extras
+      && currentNavigation.extras.state
+      && currentNavigation.extras.state.searchPeopleType
+      && currentNavigation.extras.state.personId) {
+      this.searchPeopleType = currentNavigation.extras.state.searchPeopleType;
+      this.personId = currentNavigation.extras.state.personId;
+      this.updateSearch();
+    }
   }
 
   ngOnInit(): void {
-    this.peopleService.getPeople(this.queryText).subscribe(x => this.people = x);
+    this.updateSearch();
   }
 
   updateSearch() {
-    this.peopleService.getPeople(this.queryText).subscribe(x => this.people = x);
+    this.peopleService.getPeople(this.queryText, this.page, this.itemsPerPage,
+      this.searchPeopleType, this.personId).subscribe(x => this.people = x);
   }
 
   public getAvatar(post) {
@@ -41,7 +52,7 @@ export class SearchPage implements OnInit {
 
   public onVisitProfile(person: Person) {
     this.router.navigateByUrl('account', { state: { person } });
-  };
+  }
 
   async follow(person: Person) {
     this.peopleService.follow(person.personId)

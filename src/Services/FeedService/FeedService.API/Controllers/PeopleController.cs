@@ -5,7 +5,6 @@ using FeedService.Domain.Repositories;
 using FeedService.Infrastructure;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Extensions;
-using FlueShared.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -31,16 +30,37 @@ namespace FeedService.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetPeople(string searchText, int page = 1, int count = 10)
+        public IActionResult GetPeople(string searchText, int page = 1, int itemsPerPage = 10,
+            SearchPeopleType searchPeopleType = SearchPeopleType.All, Guid? personId = null)
         {
             var me = _personRepository.GetByUserId(this.GetUserId());
             var people = _personRepository.GetAll();
 
+            if (personId.HasValue)
+            {
+                var person = _personRepository.GetById(personId.Value);
+                switch (searchPeopleType)
+                {
+                    case SearchPeopleType.Followers:
+                        people = _personRepository.GetAll().Where(x => x.Following.Contains(person));
+                        break;
+                    case SearchPeopleType.Followings:
+                        people = _personRepository.GetAll().Where(x => x.Followers.Contains(person));
+                        break;
+                    case SearchPeopleType.All:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(searchPeopleType), searchPeopleType, null);
+                }
+            }
+
             if (!string.IsNullOrEmpty(searchText))
-                people = people.Where(x => x.Name.ToLower().Contains(searchText)
-                                           || x.Username.ToLower().Contains(searchText));
+                people = people.Where(x => x.Name.Contains(searchText)
+                                           || x.Username.Contains(searchText));
 
             foreach (var person in people) person.IsFollowing = me.Following.Contains(person);
+
+            people = people.Skip((page - 1)  * itemsPerPage).Take(itemsPerPage);
             return Ok(people);
         }
 
@@ -85,5 +105,12 @@ namespace FeedService.Controllers
             _mediatorHandler.SendCommand(cmd);
             return Ok();
         }
+    }
+
+    public enum SearchPeopleType
+    {
+        All,
+        Followings,
+        Followers
     }
 }

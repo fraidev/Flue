@@ -20,8 +20,8 @@
 
     <div>
       <ion-label text-wrap color="primary">Posts {{person.postsCount}} </ion-label>
-      <ion-label text-wrap color="primary" style="padding: 0px 10px;">Following {{person.followingCount}} </ion-label>
-      <ion-label text-wrap color="primary">Followers {{person.followersCount}} </ion-label>
+      <ion-label text-wrap color="primary" (click)="onShowFollowings()" style="padding: 0px 10px;">Following {{person.followingCount}} </ion-label>
+      <ion-label text-wrap color="primary" (click)="onShowFollowers()" >Followers {{person.followersCount}} </ion-label>
     </div>
 
     <ion-list style="height: 100%; margin: 0">

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { Person } from '../shared/models';
 import { environment } from '../../environments/environment';
@@ -18,9 +18,18 @@ export class PeopleService {
         });
     }
 
-    public getPeople(searchText: string): Observable<Person[]> {
+    public getPeople(searchText: string, page: number, itemsPerPage: number,
+        searchPeopleType?: 'All' | 'Followings' | 'Followers', personId?: string): Observable<Person[]> {
         let params = new HttpParams();
         params = params.append('searchText', searchText);
+        params = params.append('page', page.toString());
+        params = params.append('itemsPerPage', itemsPerPage.toString());
+        if (searchPeopleType) {
+            params = params.append('searchPeopleType', searchPeopleType);
+        }
+        if (personId) {
+            params = params.append('personId', personId);
+        }
         return this.http.get<Person[]>(environment.feedApiUrl + `people/`, {
             params,
             headers: this.authenticationService.currentUserHeader

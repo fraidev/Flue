@@ -39,6 +39,16 @@ export class AccountPage {
     }
   }
 
+  onShowFollowings() {
+    this.router.navigateByUrl('search',
+      { state: { searchPeopleType: 'Followings', personId: this.person.personId } });
+  }
+
+  onShowFollowers() {
+    this.router.navigateByUrl('search',
+      { state: { searchPeopleType: 'Followers', personId: this.person.personId } });
+  }
+
   async presentPopover(event: Event) {
     const popover = await this.popoverCtrl.create({
       component: AccountPopover,

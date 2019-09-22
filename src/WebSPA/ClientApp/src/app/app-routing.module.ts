@@ -10,6 +10,11 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'search',
+    loadChildren: () => import('./pages/search/search.module').then(m => m.SearchModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'account',
     loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule),
     canActivate: [AuthGuard]

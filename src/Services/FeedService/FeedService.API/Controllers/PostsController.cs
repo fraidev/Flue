@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Claims;
 using FeedService.Domain.Commands.PostCommands;
 using FeedService.Domain.Commands.PostCommands.Comment;
 using FeedService.Domain.Repositories;
@@ -32,25 +31,22 @@ namespace FeedService.Controllers
             _userService = userService;
         }
         
-        [HttpGet("")]
-        public IActionResult GetAll()
-        {
-            return Ok(_postRepository.GetAll());
-        }
-
         [HttpGet("Feed")]
-        public IActionResult GetMyFeed()
+        public IActionResult GetMyFeed(int page = 1, int itemsPerPage = 10)
         {
             var me = _personRepository.GetByUserId(_userService.UserId);
             var feed = _postRepository.GetMyFeed(me);
 
+            feed = feed.Skip(page * itemsPerPage).Take(itemsPerPage);
             return Ok(feed);
         }
 
         [HttpGet("person/{id}")]
-        public IActionResult GetPostsByPersonId(Guid id)
+        public IActionResult GetPostsByPersonId(Guid id, int page = 1, int itemsPerPage = 10)
         {
             var myPosts = _postRepository.GetPostsByPersonId(id);
+            
+            myPosts = myPosts.Skip(page * itemsPerPage).Take(itemsPerPage);
             return Ok(myPosts);
         }
 
