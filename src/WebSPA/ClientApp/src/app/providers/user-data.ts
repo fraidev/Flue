@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { User } from '../shared/models';
-import { AuthenticationService, UserService } from '../services';
+import { User, Person } from '../shared/models';
+import { AuthenticationService, UserService, PeopleService } from '../services';
 import { first } from 'rxjs/operators';
 
 
@@ -10,7 +10,6 @@ import { first } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserDataService {
-  _favorites: string[] = [];
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
 
@@ -18,59 +17,40 @@ export class UserDataService {
     public events: Events,
     public storage: Storage,
     public authenticationService: AuthenticationService,
-    public userService: UserService
+    public userService: UserService,
+    public peopleService: PeopleService
   ) { }
 
-  hasFavorite(sessionName: string): boolean {
-    return (this._favorites.indexOf(sessionName) > -1);
+  public async login(user: User): Promise<any> {
+    await this.authenticationService.login(user.username, user.password).toPromise();
+    return this.events.publish('user:login', user);
   }
 
-  addFavorite(sessionName: string): void {
-    this._favorites.push(sessionName);
+  public async signup(user: User): Promise<any> {
+    await this.userService.register(user).toPromise();
+    return this.events.publish('user:signup', user);
   }
 
-  removeFavorite(sessionName: string): void {
-    const index = this._favorites.indexOf(sessionName);
-    if (index > -1) {
-      this._favorites.splice(index, 1);
-    }
-  }
-
-  public login(user: User): Promise<any> {
-    return this.authenticationService.login(user.username, user.password).toPromise().then(() =>
-      this.events.publish('user:login', user)
-    );
-  }
-
-  public signup(user: User): Promise<any> {
-    return this.userService.register(user).toPromise().then(() =>
-      this.events.publish('user:signup', user)
-    );
-  }
-
-  logout(): Promise<any> {
-    return this.authenticationService.logout().then(() =>
-      this.events.publish('user:logout')
-    );
+  async logout(): Promise<any> {
+    await this.authenticationService.logout();
+    return this.events.publish('user:logout');
   }
 
   setUsername(username: string): Promise<any> {
     return this.storage.set('username', username);
   }
 
-  getUser(): Promise<User> {
-    return this.storage.get('currentUser').then((value: User) => {
-      return value;
-    });
+  async getUser(): Promise<User> {
+    const value = await this.storage.get('currentUser');
+    return value;
   }
 
   isLoggedIn(): Promise<boolean> {
     return this.authenticationService.isLoggedIn;
   }
 
-  checkHasSeenTutorial(): Promise<string> {
-    return this.storage.get(this.HAS_SEEN_TUTORIAL).then((value) => {
-      return value;
-    });
+  async checkHasSeenTutorial(): Promise<string> {
+    const value = await this.storage.get(this.HAS_SEEN_TUTORIAL);
+    return value;
   }
 }

@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController, ModalController } from '@ionic/angular';
-
-import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FeedService } from '../../services/feed.service';
 
@@ -17,7 +15,6 @@ export class FeedPage {
 
   constructor(
     public actionSheetCtrl: ActionSheetController,
-    public confData: ConferenceData,
     public inAppBrowser: InAppBrowser,
     public router: Router,
     public feedApi: FeedService,
@@ -26,12 +23,5 @@ export class FeedPage {
 
   ionViewDidEnter() {
     this.feedApi.getMyFeed().subscribe(x => this.posts = x);
-  }
-
-  goToSpeakerTwitter(speaker: any) {
-    this.inAppBrowser.create(
-      `https://twitter.com/${speaker.twitter}`,
-      '_blank'
-    );
   }
 }

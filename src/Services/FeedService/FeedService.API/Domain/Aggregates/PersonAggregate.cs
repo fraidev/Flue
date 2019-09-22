@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FeedService.Domain.Commands.PersonCommands;
 using FeedService.Domain.Commands.PostCommands;
 using FeedService.Domain.Commands.PostCommands.Comment;
 using FeedService.Domain.States;
@@ -15,9 +16,43 @@ namespace FeedService.Domain.Aggregates
         private Person State { get; }
         public Guid Id { get; }
 
+        #region Constructors
+
+        public PersonAggregate(Person state)
+        {
+            Id = Guid.NewGuid();
+            State = state;
+        }
+
+        public PersonAggregate(CreatePersonCommand cmd)
+        {
+            Id = Guid.NewGuid();
+            State = new Person
+            {
+                PersonId = Id,
+                UserId = cmd.IdentifierId,
+                Username = cmd.Username,
+                Name = cmd.Name.Capitalize(),
+                Description = "Eu sou novo no Flue!",
+                Email = cmd.Email,
+                Following = new List<Person>(),
+                Followers = new List<Person>()
+            };
+        }
+
+        #endregion
+        
         public Person GetState()
         {
             return State;
+        }
+
+        public void UpdatePerson(UpdatePersonCommand cmd)
+        {
+            State.Name = cmd.Name;
+            State.Email = cmd.Email;
+            State.Description = cmd.Description;
+            State.ProfilePicture = cmd.ProfilePicture;
         }
 
         public void AddPost(CreatePost cmd)
@@ -83,32 +118,5 @@ namespace FeedService.Domain.Aggregates
             GetState().Posts.FirstOrDefault(x => x.PostId == cmd.PostId)?.Comments
                 .Remove(GetComment(cmd.PostId, cmd.CommentId));
         }
-
-
-        #region Constructors
-
-        public PersonAggregate(Person state)
-        {
-            Id = Guid.NewGuid();
-            State = state;
-        }
-
-        public PersonAggregate(CreatePersonCommand cmd)
-        {
-            Id = Guid.NewGuid();
-            State = new Person
-            {
-                PersonId = Id,
-                UserId = cmd.IdentifierId,
-                Username = cmd.Username,
-                Name = cmd.Name.Capitalize(),
-                Description = "Eu sou novo no Flue!",
-                Email = cmd.Email,
-                Following = new List<Person>(),
-                Followers = new List<Person>()
-            };
-        }
-
-        #endregion
     }
 }

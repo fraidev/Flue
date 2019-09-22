@@ -15,13 +15,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'support',
-    loadChildren: () => import('./pages/support/support.module').then(m => m.SupportModule),
+    path: 'account/edit',
+    loadChildren: () => import('./pages/edit-account/edit-account.module').then(m => m.EditAccountModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'about',
-    loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule),
+    path: 'support',
+    loadChildren: () => import('./pages/support/support.module').then(m => m.SupportModule),
     canActivate: [AuthGuard]
   },
   {

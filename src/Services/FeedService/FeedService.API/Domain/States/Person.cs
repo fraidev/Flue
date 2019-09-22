@@ -19,5 +19,6 @@ namespace FeedService.Domain.States
         public IList<Post> Posts { get; set; } = new List<Post>();
         public int PostsCount => Posts.Count(x => !x.Deleted);
         public bool IsFollowing { get; set; }
+        public string ProfilePicture { get; set; }
     }
 }

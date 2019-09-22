@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: AccountPage
+  },
+  {
+    path: '/edit',
+    loadChildren: () => import('../edit-account/edit-account').then(m => m.EditAccountPage)
   }
 ];
 

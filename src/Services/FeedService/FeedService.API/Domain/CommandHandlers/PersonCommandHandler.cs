@@ -11,6 +11,7 @@ namespace FeedService.Domain.CommandHandlers
 {
     public class PersonCommandHandler:
         IRequestHandler<CreatePersonCommand>,
+        IRequestHandler<UpdatePersonCommand>,
         IRequestHandler<FollowPersonCommand>,
         IRequestHandler<UnfollowPersonCommand>
     {
@@ -25,6 +26,17 @@ namespace FeedService.Domain.CommandHandlers
         {
             var aggregate = new PersonAggregate(request);
             _personRepository.Save(aggregate);
+
+            return Unit.Task;
+        }
+       
+        public Task<Unit> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
+        {
+            var user = _personRepository.GetById(request.PersonId);
+            var aggregate = new PersonAggregate(user);
+            aggregate.UpdatePerson(request); 
+            
+            _personRepository.Update(aggregate);
 
             return Unit.Task;
         }

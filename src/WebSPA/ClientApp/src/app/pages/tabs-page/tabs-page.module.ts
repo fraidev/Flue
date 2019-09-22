@@ -5,14 +5,12 @@ import { IonicModule } from '@ionic/angular';
 import { TabsPage } from './tabs-page';
 import { TabsPageRoutingModule } from './tabs-page-routing.module';
 
-import { AboutModule } from '../about/about.module';
 import { FeedModule } from '../feed/feed.module';
 import { SearchModule } from '../search/search.module';
 import { SupportModule } from '../support/support.module';
 
 @NgModule({
   imports: [
-    AboutModule,
     CommonModule,
     IonicModule,
     SearchModule,

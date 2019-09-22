@@ -18,7 +18,7 @@ namespace FeedService.Domain.Repositories
         void Update(PersonAggregate personAggregate);
 
         //Read
-        IEnumerable<Person> GetAll();
+        IQueryable<Person> GetAll();
         Person GetByUserId(Guid id);
     }
 
@@ -49,34 +49,26 @@ namespace FeedService.Domain.Repositories
         public void Save(PersonAggregate personAggregate)
         {
             _unitOfWork.Save(personAggregate.GetState());
-//            _unitOfWork.Flush();
         }
 
         public void Delete(Guid id)
         {
             _unitOfWork.Delete(GetById(id));
-//            _unitOfWork.Flush();
         }
 
         public void Update(PersonAggregate personAggregate)
         {
             _unitOfWork.Update(personAggregate.GetState());
-//            _unitOfWork.Flush();
         }
 
-        public IEnumerable<Person> GetAll()
+        public IQueryable<Person> GetAll()
         {
             return _unitOfWork.Query<Person>();
         }
 
         public Person GetByUserId(Guid userId)
         {
-            var person = _unitOfWork.Query<Person>().FirstOrDefault(x => x.UserId == userId);
-//            if (person == null) return null;
-//            person.FollowersCount = GetAll().Count(x => x.Following.Contains(person));
-//            person.PostsCount = _postRepository.GetMyPosts(person.PersonId).Count();
-
-            return person;
+            return _unitOfWork.Query<Person>().FirstOrDefault(x => x.UserId == userId);
         }
     }
 }

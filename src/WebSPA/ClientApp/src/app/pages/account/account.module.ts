@@ -6,20 +6,22 @@ import { AccountPage } from './account';
 import { AccountPageRoutingModule } from './account-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AccountPopover } from './account-popover/account-popover';
+import { EditAccountModule } from '../edit-account/edit-account.module';
 
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
     AccountPageRoutingModule,
-    SharedModule
+    SharedModule,
+    EditAccountModule
   ],
   declarations: [
     AccountPage,
-    AccountPopover
+    AccountPopover,
   ],
   entryComponents: [
-    AccountPopover
+    AccountPopover,
   ]
 })
 export class AccountModule { }

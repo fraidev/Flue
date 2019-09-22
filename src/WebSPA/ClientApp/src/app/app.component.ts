@@ -10,7 +10,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserDataService } from './providers/user-data';
-import { UserService, AuthenticationService } from './services';
 import { User } from './shared/models';
 
 @Component({
@@ -42,11 +41,6 @@ export class AppComponent implements OnInit {
       icon: 'add-circle'
     },
     {
-      title: 'About',
-      url: '/about',
-      icon: 'information-circle'
-    },
-    {
       title: 'Support',
       url: '/support',
       icon: 'help'
@@ -66,8 +60,6 @@ export class AppComponent implements OnInit {
     private userData: UserDataService,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
-    private userService: UserService,
-    private authenticationService: AuthenticationService
   ) {
     this.detectColorScheme();
     this.initializeApp();
@@ -137,10 +129,9 @@ export class AppComponent implements OnInit {
     });
   }
 
-  checkLoginStatus() {
-    return this.userData.isLoggedIn().then(loggedIn => {
-      return this.updateLoggedInStatus(loggedIn);
-    });
+  async checkLoginStatus() {
+    const loggedIn = await this.userData.isLoggedIn();
+    return this.updateLoggedInStatus(loggedIn);
   }
 
   updateLoggedInStatus(loggedIn: boolean) {

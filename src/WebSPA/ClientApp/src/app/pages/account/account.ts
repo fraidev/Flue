@@ -13,7 +13,7 @@ import { AccountPopover } from './account-popover/account-popover';
   templateUrl: 'account.html',
   styleUrls: ['./account.scss'],
 })
-export class AccountPage implements AfterViewInit {
+export class AccountPage {
   username: string;
   user: User;
   person: Person;
@@ -37,19 +37,18 @@ export class AccountPage implements AfterViewInit {
     });
     await popover.present();
   }
-  ngAfterViewInit() {
+
+  get getAvatar() {
+    return this.person.profilePicture ? this.person.profilePicture : `/assets/img/profile.png`;
+  }
+
+  ionViewDidEnter() {
     this.getPerson();
     this.getPosts();
   }
 
-  updatePicture() {
-    console.log('Clicked to update picture');
-  }
-
   getPerson() {
-    this.peopleApi.getMe().subscribe((person) => {
-      this.person = person;
-    });
+    this.peopleApi.getMe().subscribe(x => this.person = x);
   }
 
   getPosts() {

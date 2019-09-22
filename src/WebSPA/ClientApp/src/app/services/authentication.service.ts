@@ -19,7 +19,6 @@ export class AuthenticationService {
             this.currentUserSubject = new BehaviorSubject<User>(user);
             this.currentUser = this.currentUserSubject.asObservable();
         });
-        // this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     }
 
     public get isLoggedIn() {

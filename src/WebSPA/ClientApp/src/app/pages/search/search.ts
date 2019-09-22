@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 
-import { ConferenceData } from '../../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FeedService } from '../../services/feed.service';
 import { Person } from '../../shared/models';
@@ -24,7 +23,6 @@ export class SearchPage implements OnInit {
 
   constructor(
     public actionSheetCtrl: ActionSheetController,
-    public confData: ConferenceData,
     public inAppBrowser: InAppBrowser,
     public router: Router,
     public feedApi: FeedService,
@@ -37,19 +35,10 @@ export class SearchPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    // this.feedApi.getMyFeed().subscribe(x => this.posts = x);
-  }
-
-  goToSpeakerTwitter(speaker: any) {
-    this.inAppBrowser.create(
-      `https://twitter.com/${speaker.twitter}`,
-      '_blank'
-    );
   }
 
   ngOnInit(): void {
     this.peopleService.getPeople(this.queryText).subscribe(x => this.people = x);
-    // this.feedApi.getMyFeed().subscribe(x => x.posts = x);
   }
 
   async openSpeakerShare(speaker: any) {
@@ -118,12 +107,12 @@ export class SearchPage implements OnInit {
 
 
   async follow(person: Person) {
-    await this.peopleService.follow(person.personId);
-    person.isFollowing = true;
+    this.peopleService.follow(person.personId)
+      .subscribe(() => person.isFollowing = true);
   }
 
   async unfollow(person: Person) {
-    await this.peopleService.unfollow(person.personId);
-    person.isFollowing = false;
+    this.peopleService.unfollow(person.personId)
+      .subscribe(() => person.isFollowing = false);
   }
 }

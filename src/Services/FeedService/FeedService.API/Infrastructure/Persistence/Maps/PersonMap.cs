@@ -14,6 +14,7 @@ namespace FeedService.Infrastructure.Persistence.Maps
             Map(x => x.Name);
             Map(x => x.Description);
             Map(x => x.Email);
+            Map(x => x.ProfilePicture);
 
             HasManyToMany(x => x.Following)
                 .ParentKeyColumn("FollowingId")
