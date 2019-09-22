@@ -33,7 +33,6 @@ export class SearchPage implements OnInit {
       && currentNavigation.extras.state.personId) {
       this.searchPeopleType = currentNavigation.extras.state.searchPeopleType;
       this.personId = currentNavigation.extras.state.personId;
-      this.updateSearch();
     }
   }
 

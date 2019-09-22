@@ -21,6 +21,7 @@ export class AccountPage {
   postsCount: number;
   followingCount: any;
   followersCount: any;
+  anotherAccount: boolean;
 
   constructor(
     public alertCtrl: AlertController,
@@ -35,7 +36,7 @@ export class AccountPage {
       && currentNavigation.extras.state
       && currentNavigation.extras.state.person) {
       this.person = currentNavigation.extras.state.person;
-      this.getPosts();
+      this.anotherAccount = true;
     }
   }
 
@@ -62,10 +63,10 @@ export class AccountPage {
   }
 
   ionViewDidEnter() {
-    if (!this.person) {
+    if (!this.anotherAccount) {
       this.peopleApi.getMe().subscribe(x => this.person = x);
-      this.getPosts();
     }
+    this.getPosts();
   }
 
   getPosts() {

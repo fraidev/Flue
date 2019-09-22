@@ -37,7 +37,7 @@ namespace FeedService.Controllers
             var me = _personRepository.GetByUserId(_userService.UserId);
             var feed = _postRepository.GetMyFeed(me);
 
-            feed = feed.Skip(page * itemsPerPage).Take(itemsPerPage);
+            feed = feed.Skip((page - 1) * itemsPerPage).Take(itemsPerPage);
             return Ok(feed);
         }
 
@@ -46,7 +46,7 @@ namespace FeedService.Controllers
         {
             var myPosts = _postRepository.GetPostsByPersonId(id);
             
-            myPosts = myPosts.Skip(page * itemsPerPage).Take(itemsPerPage);
+            myPosts = myPosts.Skip((page - 1) * itemsPerPage).Take(itemsPerPage);
             return Ok(myPosts);
         }
 
