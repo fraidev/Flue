@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '.';
 import { environment } from '../../environments/environment';
@@ -10,8 +10,13 @@ export class FeedService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
   }
 
-  public getMyFeed(): Observable<any> {
+  public getMyFeed(page: number, itemsPerPage: number): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('page', page.toString());
+    params = params.append('itemsPerPage', itemsPerPage.toString());
+
     return this.http.get(environment.feedApiUrl + `posts/Feed/`, {
+      params,
       headers: this.authenticationService.currentUserHeader
     });
   }

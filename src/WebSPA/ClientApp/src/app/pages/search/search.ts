@@ -40,6 +40,20 @@ export class SearchPage implements OnInit {
     this.updateSearch();
   }
 
+  loadData(event) {
+    if (this.people.length >= (this.page * this.itemsPerPage)) {
+      this.page++;
+      this.peopleService.getPeople(this.queryText, this.page, this.itemsPerPage,
+        this.searchPeopleType, this.personId)
+        .subscribe(x => {
+          this.people.push(...x);
+          event.target.complete();
+        });
+    } else {
+      event.target.complete();
+    }
+  }
+
   updateSearch() {
     this.peopleService.getPeople(this.queryText, this.page, this.itemsPerPage,
       this.searchPeopleType, this.personId).subscribe(x => this.people = x);
