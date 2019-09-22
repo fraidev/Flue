@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-icon slot="start" name="arrow-back" (click)="onBack()"></ion-icon>
     </ion-buttons>
-    <ion-title>Signup</ion-title>
+    <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,33 +22,33 @@
       </ion-item>
       <ion-text color="danger">
         <p [hidden]="name.valid || submitted == false" class="ion-padding-start">
-          Name is required
+          É obrigatório preencher seu nome
         </p>
       </ion-text>
 
       <ion-item>
-        <ion-label position="stacked" color="primary">Username</ion-label>
+        <ion-label position="stacked" color="primary">Usuário</ion-label>
         <ion-input [(ngModel)]="signup.username" name="username" type="text" #name="ngModel" required>
         </ion-input>
       </ion-item>
       <ion-text color="danger">
         <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
-          Username is required
+          É obrigatório preencher seu usuário
         </p>
       </ion-text>
 
       <ion-item>
-        <ion-label position="stacked" color="primary">Password</ion-label>
+        <ion-label position="stacked" color="primary">Senha</ion-label>
         <ion-input [(ngModel)]="signup.password" name="password" type="password" #password="ngModel" required>
         </ion-input>
       </ion-item>
       <ion-text color="danger">
         <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
-          Password is required
+          É obrigatório preencher sua senha
         </p>
       </ion-text>
     </ion-list>
- 
+
     <ion-item>
       <ion-label position="stacked" color="primary">Email</ion-label>
       <ion-input [(ngModel)]="signup.email" name="email" type="text" #email="ngModel" required>

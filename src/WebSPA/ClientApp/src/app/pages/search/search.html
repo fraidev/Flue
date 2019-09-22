@@ -29,12 +29,12 @@
                   <ion-col size="4" lass="ion-text-right">
                     <ion-button fill="clear" size="small" color="primary" *ngIf="!person.isFollowing"
                       (click)="follow($event, person)">
-                      <ion-label>Follow</ion-label>
+                      <ion-label>Seguir</ion-label>
                     </ion-button>
 
                     <ion-button fill="clear" size="small" color="primary" *ngIf="person.isFollowing"
                       (click)="unfollow($event, person)">
-                      <ion-label>Unfollow</ion-label>
+                      <ion-label>Deixar de Seguir</ion-label>
                     </ion-button>
                   </ion-col>
                 </div>
@@ -51,7 +51,7 @@
   </ion-list>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Carregando...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

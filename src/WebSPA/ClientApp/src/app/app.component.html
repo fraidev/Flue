@@ -11,22 +11,13 @@
 
         <ion-list *ngIf="loggedIn">
           <ion-list-header>
-            Navigate
+            Flue
           </ion-list-header>
           <ion-menu-toggle autoHide="false" *ngFor="let p of appPages; let i = index">
             <ion-item [routerLink]="p.url" routerLinkActive="active" routerDirection="root">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
                 {{p.title}}
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          
-          <ion-menu-toggle autoHide="false">
-            <ion-item button (click)="logout()">
-              <ion-icon slot="start" name="log-out"></ion-icon>
-              <ion-label>
-                Logout
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
@@ -41,12 +32,21 @@
 
         <ion-list>
           <ion-list-header>
-            Tutorial
+            Outros
           </ion-list-header>
           <ion-menu-toggle autoHide="false">
             <ion-item button (click)="openTutorial()">
               <ion-icon slot="start" name="hammer"></ion-icon>
-              <ion-label>Show Tutorial</ion-label>
+              <ion-label>Tela de boas vindas</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle autoHide="false">
+            <ion-item button (click)="logout()">
+              <ion-icon slot="start" name="log-out"></ion-icon>
+              <ion-label>
+                Sair
+              </ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

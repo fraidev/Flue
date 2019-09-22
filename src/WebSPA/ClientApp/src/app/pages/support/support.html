@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Support</ion-title>
+    <ion-title>Suporte</ion-title>
   </ion-toolbar>
 
 </ion-header>
@@ -17,18 +17,19 @@
     <ion-list lines="none">
       <ion-item>
         <ion-label position="stacked" color="primary">Escreva sua mensagem de suporte:</ion-label>
-        <ion-textarea [(ngModel)]="supportMessage" name="supportQuestion" #supportQuestion="ngModel" rows="6" required></ion-textarea>
+        <ion-textarea [(ngModel)]="supportMessage" name="supportQuestion" #supportQuestion="ngModel" rows="6" required>
+        </ion-textarea>
       </ion-item>
     </ion-list>
 
-    <ion-text color="danger"> 
+    <ion-text color="danger">
       <p [hidden]="supportQuestion.valid || submitted === false" class="ion-padding-start">
-        Support message is required
+        É obrigatório preencher sua mensagem
       </p>
     </ion-text>
 
     <div class="ion-padding">
-      <ion-button expand="block" type="submit">Submit</ion-button>
+      <ion-button expand="block" type="submit">Enviar</ion-button>
     </div>
   </form>
 </ion-content>
