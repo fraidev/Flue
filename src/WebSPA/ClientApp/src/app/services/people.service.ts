@@ -8,14 +8,11 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class PeopleService {
-    constructor(private http: HttpClient,
-        private authenticationService: AuthenticationService) {
+    constructor(private http: HttpClient) {
     }
 
     public getMe(): Observable<Person> {
-        return this.http.get<Person>(environment.feedApiUrl + `people/Me`, {
-            headers: this.authenticationService.currentUserHeader
-        });
+        return this.http.get<Person>(environment.feedApiUrl + `people/Me`);
     }
 
     public getPeople(searchText: string, page: number, itemsPerPage: number,
@@ -30,32 +27,21 @@ export class PeopleService {
         if (personId) {
             params = params.append('personId', personId);
         }
-        return this.http.get<Person[]>(environment.feedApiUrl + `people/`, {
-            params,
-            headers: this.authenticationService.currentUserHeader
-        });
+        return this.http.get<Person[]>(environment.feedApiUrl + `people/`, { params });
     }
 
     public getAll(): Observable<Person[]> {
-        return this.http.get<Person[]>(environment.feedApiUrl + `people`, {
-            headers: this.authenticationService.currentUserHeader
-        });
+        return this.http.get<Person[]>(environment.feedApiUrl + `people`);
     }
     public follow(userId: string) {
-        return this.http.post(environment.feedApiUrl + `people/Follow/${userId}`, {}, {
-            headers: this.authenticationService.currentUserHeader
-        });
+        return this.http.post(environment.feedApiUrl + `people/Follow/${userId}`, {});
     }
     public unfollow(userId: string) {
-        return this.http.post(environment.feedApiUrl + `people/Unfollow/${userId}`, {}, {
-            headers: this.authenticationService.currentUserHeader
-        });
+        return this.http.post(environment.feedApiUrl + `people/Unfollow/${userId}`, {});
     }
 
     public updatePerson(cmd: { name: string; email: string; description: string; profilePicture: string; }) {
-        return this.http.post(environment.feedApiUrl + `people/UpdatePerson/`, cmd, {
-            headers: this.authenticationService.currentUserHeader
-        });
+        return this.http.post(environment.feedApiUrl + `people/UpdatePerson/`, cmd);
     }
 
 }
