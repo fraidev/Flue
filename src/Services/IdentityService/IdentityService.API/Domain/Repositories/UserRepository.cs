@@ -9,7 +9,7 @@ namespace IdentityService.Domain.Repositories
     public interface IUserRepository
     {
         User GetById(Guid id);
-        User GetByUser(string id);
+        User GetByUsername(string id);
         IEnumerable<User> GetAll();
         void Save(User user);
         void Update(User user);
@@ -29,7 +29,7 @@ namespace IdentityService.Domain.Repositories
             return _unitOfWork.GetById<User>(id);
         }
 
-        public User GetByUser(string username)
+        public User GetByUsername(string username)
         {
             return _unitOfWork.Query<User>().FirstOrDefault(x => x.Username == username);
         }

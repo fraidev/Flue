@@ -49,7 +49,7 @@ namespace IdentityService.Domain.Services
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _userRepository.GetByUser(username);
+            var user = _userRepository.GetByUsername(username);
 
             // check if username exists
             if (user == null)
@@ -100,7 +100,7 @@ namespace IdentityService.Domain.Services
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            if(_userRepository.GetByUser(identifierState.Username).IsAny())  
+            if(_userRepository.GetByUsername(identifierState.Username).IsAny())  
                 throw new AppException("Username \"" + identifierState.Username + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
@@ -137,7 +137,7 @@ namespace IdentityService.Domain.Services
 
             if (userParam.Username != user.Username)
             {
-                if(_userRepository.GetByUser(userParam.Username).IsAny())  
+                if(_userRepository.GetByUsername(userParam.Username).IsAny())  
                     throw new AppException("Username " + userParam.Username + " is already taken");
             }
             
