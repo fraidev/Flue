@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using IdentityService.Domain.Repositories;
