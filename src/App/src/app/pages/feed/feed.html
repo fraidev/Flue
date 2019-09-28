@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Flue</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content>
+  <ion-list style="min-height: 100%; margin: 0">
+    <ion-grid fixed>
+      <ion-row class="ion-align-items-stretch">
+        <ion-col size="12" size-md="12" *ngFor="let post of posts">
+
+          <flue-post [post]="post"></flue-post>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Carregando...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

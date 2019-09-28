@@ -1,0 +1,51 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="false">
+    <ion-slide>
+      <img src="assets/img/ica-slidebox-img-1.png" class="slide-image" />
+      <h2 class="slide-title">
+        Bem vindo ao
+        <b>Flue</b>
+      </h2>
+      <p>
+        A
+        <b>Rede Social Flue</b> é uma demonstração pratica do trabalho de conclusão de Felipe Cardozo sobre arquitetura de
+        microsserviços.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/ica-slidebox-img-2.png" class="slide-image" />
+      <h2 class="slide-title">Por que uma rede social?</h2>
+      <p>
+        Foi escolhido utilizar uma <b>rede social</b> porque é um 
+        dos tipos de produtos que permitem uma demonstração fiel de uma arquitetura de microsserviços.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/ica-slidebox-img-3.png" class="slide-image" />
+      <h2 class="slide-title">O que é arquitetura de microsserviços?</h2>
+      <p>
+        <b>Arquitetura de Microsserviços</b> é sobre separar serviços de pequenos escopos e desacoplados para que eles
+        formem um ecossistema e trabalhem juntos.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/ica-slidebox-img-4.png" class="slide-image" />
+      <h2 class="slide-title">Vamos lá?</h2>
+      <ion-button fill="clear" (click)="startApp()">
+        Continue
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

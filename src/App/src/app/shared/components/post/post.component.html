@@ -1,0 +1,47 @@
+<ion-card class="speaker-card" *ngIf="!deleted">
+  <ion-card-header style="padding: 5px 0px;">
+    <ion-item detail="false" lines="none">
+      <ion-avatar slot="start">
+        <img [src]="getAvatar" alt="Speaker profile pic">
+      </ion-avatar>
+      <div style="display: flex; flex: 1; padding: 0">
+        <div style="display: block">
+          <ion-card-title>{{ post.person?.name }}</ion-card-title>
+          <ion-card-subtitle>{{ post.person?.username }}</ion-card-subtitle>
+        </div>
+        <div style="flex: 1"></div>
+        <ion-icon *ngIf="post.isMyPost" (click)="deletePost()" name="close" slot="start" item-right></ion-icon>
+      </div>
+    </ion-item>
+
+  </ion-card-header>
+
+  <ion-card-content class="content">
+    {{ post.text }}
+  </ion-card-content>
+
+  <div *ngIf="post.comments.length > 0" style="padding: 0px 10px;">
+    <hr>
+    <div style="font-weight: 500" *ngIf="post.comments.length > 3 && !moreComments" (click)="showMoreComments()"> Exibir
+      todos comentarios </div>
+    <div class="comments" style="display: flex;" *ngFor="let comment of comments">
+      <span style="font-weight: 500">{{comment?.person?.username}}:</span> {{comment.text}}
+      <div style="flex: 1"></div>
+      <ion-icon *ngIf="comment.isMyComment" (click)="deleteComment(comment)" name="close" slot="start"></ion-icon>
+    </div>
+  </div>
+
+  <hr>
+
+  <ion-row class="ion-no-padding ion-justify-content-center">
+    <ion-col size="" class="ion-text-left" style="display:flex">
+      <ion-input [(ngModel)]="commentText" placeholder="Adicione um comentario..." name="username" required>
+      </ion-input>
+    </ion-col>
+    <ion-col size="3" lass="ion-text-right">
+      <ion-button fill="clear" size="small" color="primary" (click)="sendComment(post)">
+        <p>Enviar</p>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>
