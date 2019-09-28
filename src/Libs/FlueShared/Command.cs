@@ -15,6 +15,11 @@ namespace FlueShared
     {
         public Command Command { get; set; }
         public Type TypeCommand { get; set; }
+
+        public WrapperCommand()
+        {
+            
+        }
         
         public WrapperCommand(Command command)
         {

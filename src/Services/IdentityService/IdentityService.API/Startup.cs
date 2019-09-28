@@ -32,10 +32,11 @@ namespace IdentityService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
             services.AddCors();
-            services.AddMvc();
+//            services.AddMvc();
             services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
             
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -90,11 +91,6 @@ namespace IdentityService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // global cors policy
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
             
             if (env.IsDevelopment())
             {
@@ -108,9 +104,22 @@ namespace IdentityService
 
             app.UseHttpsRedirection();
 
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            app.UseRouting();
+            
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+//            app.UseMvc();
         }
     }
 }

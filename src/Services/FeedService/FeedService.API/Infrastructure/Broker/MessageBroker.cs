@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Text;
-using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 

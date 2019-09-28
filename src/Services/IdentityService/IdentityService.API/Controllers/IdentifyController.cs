@@ -33,9 +33,9 @@ namespace IdentityService.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]UserCommand userCommand)
+        public IActionResult Authenticate([FromBody]LoginModel loginModel)
         {
-            var user = _userService.Authenticate(userCommand.Username, userCommand.Password);
+            var user = _userService.Authenticate(loginModel.Username, loginModel.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });

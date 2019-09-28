@@ -3,6 +3,8 @@ using System.Text;
 using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
+using FlueShared;
+using IdentityService.Domain.Command;
 using IdentityService.Domain.Repositories;
 using IdentityService.Domain.Services;
 using IdentityService.Domain.State;
@@ -16,6 +18,13 @@ namespace IdentityService.UnitTests.Domain.Services
 {
     public class UserServiceTests
     {
+        private readonly IOptions<AppSettings> _appSettings;
+        private readonly IMapper _mapper;
+        private readonly IMessageBroker _messageBroker;
+        private readonly IUserRepository _userRepository;
+        private readonly UserService _sut;
+        private readonly Fixture _fixture;
+        
         public UserServiceTests()
         {
             _fixture = new Fixture();
@@ -27,13 +36,6 @@ namespace IdentityService.UnitTests.Domain.Services
 
             _sut = new UserService(_appSettings, _userRepository, _messageBroker, _mapper);
         }
-
-        private readonly IOptions<AppSettings> _appSettings;
-        private readonly IMapper _mapper;
-        private readonly IMessageBroker _messageBroker;
-        private readonly IUserRepository _userRepository;
-        private readonly UserService _sut;
-        private readonly Fixture _fixture;
 
         [Fact]
         public void AuthenticateMustReturnAUser()
@@ -84,7 +86,17 @@ namespace IdentityService.UnitTests.Domain.Services
         [Fact]
         public void CreateMustCreateANewUser()
         {
+            //given
+            var userCommand = _fixture.Create<UserCommand>();
+            var password = _fixture.Create<string>();
+
+            _mapper.Map<User>(userCommand).Returns(_fixture.Create<User>());
             
+            //when
+            _sut.Create(userCommand, password);
+            
+            //then
+            _messageBroker.Call(Arg.Any<string>());
         }
 
         [Fact]

@@ -55,7 +55,7 @@ namespace FeedService.Infrastructure.Broker
                     var message = Encoding.UTF8.GetString(body);
                     var wrapper = JsonConvert.DeserializeObject<WrapperCommand>(message);
                     var cmd = JsonConvert.DeserializeObject(JObject.Parse(message)["Command"].ToString(), wrapper.TypeCommand);
-                    
+                   
                     using (var scope = services.CreateScope())
                     {
                         var handler = scope.ServiceProvider.GetRequiredService<IMediatorHandler>();

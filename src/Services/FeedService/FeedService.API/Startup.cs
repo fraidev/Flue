@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 using System.Threading.Tasks;
 using FeedService.Domain.CommandHandlers;
@@ -16,6 +15,8 @@ using FeedService.Infrastructure.Broker;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.InfraServices;
 using FeedService.Infrastructure.Persistence;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NHibernate;
 
 namespace FeedService
@@ -32,17 +33,16 @@ namespace FeedService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            services.AddControllers().AddNewtonsoftJson(options => {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.AddCors();
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = 
-                                           Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            });
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "FeedService.API API", Description = "FeedService.API API" });
-            });
+//            services.AddMvc()
 
             // configure jwt authentication
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -86,11 +86,6 @@ namespace FeedService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // global cors policy
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
 
             if (env.IsDevelopment())
             {
@@ -104,15 +99,25 @@ namespace FeedService
 
             app.UseHttpsRedirection();
 
-            app.UseSwagger();
-
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core API"); });
-
+            app.UseRouting();
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            
             app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
             
 //            app.UseRabbitListener();
 
-            app.UseMvc();
+//            app.UseMvc();
         }
     }
 }

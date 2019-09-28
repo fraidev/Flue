@@ -30,7 +30,7 @@ namespace FeedService.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetPeople(string searchText, int page = 1, int itemsPerPage = 10,
+        public IActionResult GetPeople(string? searchText = null, int page = 1, int itemsPerPage = 10,
             SearchPeopleType searchPeopleType = SearchPeopleType.All, Guid? personId = null)
         {
             var me = _personRepository.GetByUserId(this.GetUserId());
