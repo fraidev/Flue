@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const puppeteer = require('puppeteer');
 const fs = require('fs');
 const args = process.argv.slice(2);
 const host = args[0] || 'http://127.0.0.1:8080';
@@ -18,22 +17,6 @@ const indexMatches = [
 ];
 let results = '';
 async function main() {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page._client.send('ServiceWorker.disable')
-
-  page.on('console', msg => console.log(msg.text()));
-
-  console.log('Page: loaded');
-  await page.goto(host);
-
-  const allRequests = new Map();
-  page.on('request', req => {
-    allRequests.set(req.url(), req);
-  });
-
-  await page.reload({ waitUntil: 'networkidle2' });
-
   Array.from(allRequests.values()).forEach(req => {
     const url = req.url();
 
