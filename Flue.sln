@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSPA", "src\WebSPA\WebSPA.csproj", "{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlueShared", "src\Libs\FlueShared\FlueShared.csproj", "{1EEE1D1C-69A2-4A69-941A-426232AB109C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.API", "src\Services\IdentityService\IdentityService.API\IdentityService.API.csproj", "{3123F8A2-CF4A-49CF-B0EB-21A9630A0C4F}"
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B09E832-5BFE-4E1E-AAFE-FA50D3792891}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1EEE1D1C-69A2-4A69-941A-426232AB109C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1EEE1D1C-69A2-4A69-941A-426232AB109C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EEE1D1C-69A2-4A69-941A-426232AB109C}.Release|Any CPU.ActiveCfg = Release|Any CPU
