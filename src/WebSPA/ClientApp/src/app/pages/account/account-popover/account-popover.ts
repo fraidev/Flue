@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   template: `
     <ion-list>
       <ion-item button (click)="goToEditAccount()">
-        <ion-label>Editar Conta</ion-label>
+        <ion-label>Editar Perfil</ion-label>
       </ion-item>
     </ion-list>
   `

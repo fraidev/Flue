@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
       icon: 'search'
     },
     {
-      title: 'Account',
+      title: 'Perfil',
       url: '/app/tabs/account',
       icon: 'person'
     },
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
       icon: 'add-circle'
     },
     {
-      title: 'Support',
+      title: 'Suporte',
       url: '/support',
       icon: 'help'
     }

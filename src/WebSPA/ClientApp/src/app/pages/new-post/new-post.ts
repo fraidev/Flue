@@ -34,7 +34,7 @@ export class NewPostPage {
       };
       this.feedApi.createPost(post).subscribe(async () => {
         const toast = await this.toastCtrl.create({
-          message: 'Your support request has been sent.',
+          message: 'Seu post foi criado.',
           duration: 3000
         });
         await toast.present();
