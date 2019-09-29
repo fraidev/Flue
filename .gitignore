@@ -273,3 +273,4 @@ pub/
 *healthchecksdb*
 /src/App/www/
 /src/Services/IdentityService/IdentityService.API/out/
+/src/Services/FeedService/FeedService.API/out/
