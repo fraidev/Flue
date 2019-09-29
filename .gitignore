@@ -271,3 +271,4 @@ pub/
 
 # Ignore HealthCheckdb
 *healthchecksdb*
+/src/App/www/

@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon slot="start" name="arrow-back" (click)="onBack()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="sign-up-logo">
+    <img src="assets/img/appicon.svg" alt="Ionic Logo">
+  </div>
+
+  <form #signUpForm="ngForm" novalidate>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label position="stacked" color="primary">Name</ion-label>
+        <ion-input [(ngModel)]="signUp.name" name="name" type="text" #username="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="name.valid || submitted == false" class="ion-padding-start">
+          É obrigatório preencher seu nome
+        </p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Usuário</ion-label>
+        <ion-input [(ngModel)]="signUp.username" name="username" type="text" #name="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
+          É obrigatório preencher seu usuário
+        </p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Senha</ion-label>
+        <ion-input [(ngModel)]="signUp.password" name="password" type="password" #password="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
+          É obrigatório preencher sua senha
+        </p>
+      </ion-text>
+    </ion-list>
+
+    <ion-item>
+      <ion-label position="stacked" color="primary">Email</ion-label>
+      <ion-input [(ngModel)]="signUp.email" name="email" type="text" #email="ngModel" required>
+      </ion-input>
+    </ion-item>
+    <ion-text color="danger">
+      <p [hidden]="email.valid || submitted == false" class="ion-padding-start">
+        Email is required
+      </p>
+    </ion-text>
+
+    <div class="ion-padding">
+      <ion-button (click)="onSignUp(signUpForm)" type="submit" expand="block">Create</ion-button>
+    </div>
+  </form>
+
+</ion-content>
