@@ -20,6 +20,9 @@
     <PackageReference Include="NHibernate" Version="5.2.6" />
     <PackageReference Include="FluentNHibernate" Version="2.1.2" />
     <PackageReference Include="RabbitMQ.Client" Version="6.0.0-pre3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.0.0-rc3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.0.0-rc3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
   </ItemGroup>

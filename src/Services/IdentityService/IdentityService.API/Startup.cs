@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -16,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using NHibernate;
 
 namespace IdentityService
@@ -33,8 +35,20 @@ namespace IdentityService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            // Configurando o serviço de documentação do Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Identity Service",
+                        Version = "v1",
+                        Description = "Serviço de Identificação do Flue",
+                    });
+            });
+            
             services.AddCors();
-//            services.AddMvc();
             services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
             services.AddAutoMapper(typeof(Startup));
             
@@ -118,8 +132,14 @@ namespace IdentityService
             {
                 endpoints.MapControllers();
             });
-
-//            app.UseMvc();
+            
+            // Ativando middlewares para uso do Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "Identity Service");
+            });
         }
     }
 }
