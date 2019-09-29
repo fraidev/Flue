@@ -272,3 +272,4 @@ pub/
 # Ignore HealthCheckdb
 *healthchecksdb*
 /src/App/www/
+/src/Services/IdentityService/IdentityService.API/out/
