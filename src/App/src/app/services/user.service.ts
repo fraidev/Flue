@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { User } from '../shared/models';
+import { UserCommand } from '../shared/models/commands';
 
 
 @Injectable({ providedIn: 'root' })
@@ -14,8 +15,8 @@ export class UserService {
         return this.http.get(environment.identityApiUrl + `identify/` + id);
     }
 
-    public register(user: User) {
-        return this.http.post(environment.identityApiUrl + `identify/register`, user);
+    public register(cmd: UserCommand) {
+        return this.http.post(environment.identityApiUrl + `identify/register`, cmd);
     }
 
     public update(user: User) {

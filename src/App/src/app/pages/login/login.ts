@@ -47,7 +47,7 @@ export class LoginPage {
     this.events.publish('login:loginInit');
   }
 
-  onSignup() {
-    this.router.navigateByUrl('/signup');
+  onSignUp() {
+    this.router.navigateByUrl('/sign-up');
   }
 }

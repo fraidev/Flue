@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import { User, Person } from '../shared/models';
 import { AuthenticationService, UserService, PeopleService } from '../services';
 import { first } from 'rxjs/operators';
+import { UserCommand } from '../shared/models/commands';
 
 
 @Injectable({
@@ -26,9 +27,9 @@ export class UserDataService {
     return this.events.publish('user:login', user);
   }
 
-  public async signup(user: User): Promise<any> {
-    await this.userService.register(user).toPromise();
-    return this.events.publish('user:signup', user);
+  public async signUp(cmd: UserCommand): Promise<any> {
+    await this.userService.register(cmd).toPromise();
+    return this.events.publish('user:signUp', cmd);
   }
 
   async logout(): Promise<any> {

@@ -150,7 +150,7 @@ export class AppComponent implements OnInit {
       this.router.navigateByUrl('/app/tabs/feed');
     });
 
-    this.events.subscribe('user:signup', user => {
+    this.events.subscribe('user:sign-up', user => {
       this.updateLoggedInStatus(true);
       this.router.navigateByUrl('/login');
     });
