@@ -24,7 +24,7 @@ router.post('/createSupportMessage', async (req, res): Promise<void> => {
     message.save();
 
     res.json({
-      message: 'Successfully saved suport message',
+      message: 'Successfully saved support message',
       status: 200,
     });
 

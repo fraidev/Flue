@@ -1,10 +1,9 @@
 ﻿using System;
-using System.IO;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using IdentityService.Domain.Repositories;
 using IdentityService.Domain.Services;
 using IdentityService.Infrastructure.Broker;
@@ -13,7 +12,6 @@ using IdentityService.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -22,6 +20,7 @@ using NHibernate;
 
 namespace IdentityService
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -49,8 +48,6 @@ namespace IdentityService
             });
             
             services.AddCors();
-            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
-            services.AddAutoMapper(typeof(Startup));
             
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -95,11 +92,11 @@ namespace IdentityService
                 });
             
             // configure DI for application services
-            services.AddSingleton<ISessionFactory>(x => new NHibernateFactory(appSettings.ConnectionString).CreateSessionFactory());
+            services.AddSingleton(x => new NHibernateFactory(appSettings.ConnectionString).CreateSessionFactory());
+            services.AddScoped<IMessageBroker, MessageBroker>();
             services.AddScoped<IUnitOfWork, UnitOfWork>(x => new UnitOfWork(x.GetService<ISessionFactory>().OpenSession()));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IMessageBroker, MessageBroker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -122,8 +119,7 @@ namespace IdentityService
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
+                .AllowAnyHeader());
             app.UseRouting();
             
             app.UseAuthentication();

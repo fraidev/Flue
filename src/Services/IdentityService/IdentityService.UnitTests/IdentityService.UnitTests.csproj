@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure" />
+    <ProjectReference Include="..\IdentityService.API\IdentityService.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentityService.API\IdentityService.API.csproj" />
+    <Folder Include="Infrastructure\Persistence" />
   </ItemGroup>
 
 </Project>

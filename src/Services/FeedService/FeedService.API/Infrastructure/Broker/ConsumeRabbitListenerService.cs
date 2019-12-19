@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FeedService.Infrastructure.Broker
 {
+    [ExcludeFromCodeCoverage]
     internal class ConsumeRabbitListenerService : IHostedService
     {
         private readonly ILogger _logger;

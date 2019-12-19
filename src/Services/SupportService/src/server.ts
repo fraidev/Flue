@@ -23,7 +23,7 @@ class Server {
 
   private database(): void {
     mongoose.connect(
-      `mongodb://localhost:27017/support`,
+      `KEEP_YOUR_MONGO_HOST_HERE`,
       { useNewUrlParser: true },
       (err): void => {
         if (!err) {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FeedService.Domain.Commands.PostCommands;
 using FeedService.Domain.Commands.PostCommands.Comment;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FeedService.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]

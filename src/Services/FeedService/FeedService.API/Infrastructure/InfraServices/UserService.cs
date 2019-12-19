@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
 namespace FeedService.Infrastructure.InfraServices
 {
+    [ExcludeFromCodeCoverage]
     public class UserService: IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

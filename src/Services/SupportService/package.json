@@ -1,22 +1,17 @@
 {
-  "name": "suport_service",
+  "name": "support_service",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
+    "start": "sucrase-node src/app.ts",
+    "start:prod": "sucrase-node src/app.ts",
     "test": "jest --no-cache",
-    "dev": "sucrase-node src/app.ts",
-    "prebuild": "rimraf dist",
-    "build": "sucrase ./src -d ./dist --transforms typescript,imports",
-    "build:tsc": "tsc"
+    "build": "sucrase ./src -d ./dist --transforms typescript,imports"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@types/express": "^4.17.1",
-    "@types/mongoose": "^5.5.16",
-    "cors": "^2.8.5",
     "express": "^4.16.4",
     "sucrase": "^3.10.1",
     "tslint": "^5.19.0",
@@ -26,6 +21,9 @@
     "@types/cors": "^2.8.6",
     "@types/jest": "^24.0.18",
     "@types/supertest": "^2.0.8",
+    "@types/express": "^4.17.1",
+    "@types/mongoose": "^5.5.16",
+    "cors": "^2.8.5",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "jest": "^24.9.0",

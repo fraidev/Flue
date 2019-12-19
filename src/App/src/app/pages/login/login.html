@@ -12,7 +12,7 @@
   <form #loginForm="ngForm" novalidate>
     <ion-list>
       <ion-item>
-        <ion-label position="stacked" color="primary">Usuario</ion-label>
+        <ion-label position="stacked" color="primary">Usuário</ion-label>
         <ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false"
           autocapitalize="off" required>
         </ion-input>
@@ -20,7 +20,7 @@
 
       <ion-text color="danger">
         <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
-          É obrigatório preencher usuario
+          É obrigatório preencher usuário
         </p>
       </ion-text>
 

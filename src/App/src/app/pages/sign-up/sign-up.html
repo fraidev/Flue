@@ -16,7 +16,7 @@
   <form #signUpForm="ngForm" novalidate>
     <ion-list lines="none">
       <ion-item>
-        <ion-label position="stacked" color="primary">Name</ion-label>
+        <ion-label position="stacked" color="primary">Nome</ion-label>
         <ion-input [(ngModel)]="signUp.name" name="name" type="text" #username="ngModel" required>
         </ion-input>
       </ion-item>
@@ -47,21 +47,21 @@
           É obrigatório preencher sua senha
         </p>
       </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Email</ion-label>
+        <ion-input [(ngModel)]="signUp.email" name="email" type="text" #email="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="email.valid || submitted == false" class="ion-padding-start">
+          Email is required
+        </p>
+      </ion-text>
     </ion-list>
 
-    <ion-item>
-      <ion-label position="stacked" color="primary">Email</ion-label>
-      <ion-input [(ngModel)]="signUp.email" name="email" type="text" #email="ngModel" required>
-      </ion-input>
-    </ion-item>
-    <ion-text color="danger">
-      <p [hidden]="email.valid || submitted == false" class="ion-padding-start">
-        Email is required
-      </p>
-    </ion-text>
-
     <div class="ion-padding">
-      <ion-button (click)="onSignUp(signUpForm)" type="submit" expand="block">Create</ion-button>
+      <ion-button (click)="onSignUp(signUpForm)" type="submit" expand="block">Criar Conta</ion-button>
     </div>
   </form>
 

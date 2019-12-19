@@ -43,14 +43,14 @@ namespace FeedService.Domain.CommandHandlers
 
         public Task<Unit> Handle(FollowPersonCommand request, CancellationToken cancellationToken)
         {
-            var user = _personRepository.GetById(request.PersonId);
+            var person = _personRepository.GetById(request.PersonId);
             var follow = _personRepository.GetById(request.FollowId);
             
-            if (user.Following.Contains(follow))
+            if (person.Following.Contains(follow))
             {
                 throw new Exception("Esse usuario já esta sendo seguido");
             };
-            var aggregate = new PersonAggregate(user);
+            var aggregate = new PersonAggregate(person);
             aggregate.Follow(follow);
             
             _personRepository.Update(aggregate);

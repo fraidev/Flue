@@ -1,32 +1,28 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FeedService.Domain.Commands.PersonCommands;
 using FeedService.Domain.Repositories;
-using FeedService.Infrastructure;
 using FeedService.Infrastructure.CQRS;
 using FeedService.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace FeedService.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PeopleController : ControllerBase
     {
-        private readonly AppSettings _appSettings;
         private readonly IMediatorHandler _mediatorHandler;
         private readonly IPersonRepository _personRepository;
 
-        public PeopleController(IOptions<AppSettings> appSettings,
-            IMediatorHandler mediatorHandler,
-            IPersonRepository personRepository)
+        public PeopleController(IMediatorHandler mediatorHandler, IPersonRepository personRepository)
         {
             _mediatorHandler = mediatorHandler;
             _personRepository = personRepository;
-            _appSettings = appSettings.Value;
         }
 
         [HttpGet("")]
@@ -60,7 +56,7 @@ namespace FeedService.Controllers
 
             foreach (var person in people) person.IsFollowing = me.Following.Contains(person);
 
-            people = people.Skip((page - 1)  * itemsPerPage).Take(itemsPerPage);
+            people = people.Skip((page - 1) * itemsPerPage).Take(itemsPerPage);
             return Ok(people);
         }
 

@@ -11,10 +11,10 @@ using FlueShared;
 
 namespace FeedService.Domain.Aggregates
 {
-    public class PersonAggregate : IBaseAggregate<Person>
+    public class PersonAggregate
     {
         private Person State { get; }
-        public Guid Id { get; }
+        private Guid Id { get; }
 
         #region Constructors
 

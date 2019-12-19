@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FeedService.Domain.States;
 using FluentNHibernate.Mapping;
 
 namespace FeedService.Infrastructure.Persistence.Maps
 {
+    [ExcludeFromCodeCoverage]
     public class PersonMap : ClassMap<Person>
     {
         public PersonMap()

@@ -5,8 +5,8 @@ namespace FlueShared
     public class Command: Message
     {
         public DateTime TimeStamp { get; set; }
-        
-        protected Command()
+
+        public Command()
         {
             TimeStamp = DateTime.Now;
         }
@@ -15,11 +15,6 @@ namespace FlueShared
     {
         public Command Command { get; set; }
         public Type TypeCommand { get; set; }
-
-        public WrapperCommand()
-        {
-            
-        }
         
         public WrapperCommand(Command command)
         {

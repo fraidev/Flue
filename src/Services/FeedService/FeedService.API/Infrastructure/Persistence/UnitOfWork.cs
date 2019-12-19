@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NHibernate;
 
@@ -8,14 +9,13 @@ namespace FeedService.Infrastructure.Persistence
     {
         void Save<TEntity>(TEntity entity) where TEntity : class;
         void Update(object entity);
-        void SaveOrUpdate(object entity);
         void Delete(object entity);
         void Flush();
         T GetById<T>(Guid id);
         IQueryable<T> Query<T>();
-        bool Contains(object entity);
     }
-
+    
+    [ExcludeFromCodeCoverage]
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ISession _session;
@@ -39,13 +39,6 @@ namespace FeedService.Infrastructure.Persistence
             _session.Transaction.Commit();
         }
 
-        public void SaveOrUpdate(object entity)
-        {
-            _session.BeginTransaction();
-            _session.SaveOrUpdate(entity);
-            _session.Transaction.Commit();
-        }
-
         public void Delete(object entity)
         {
             _session.BeginTransaction();
@@ -66,11 +59,6 @@ namespace FeedService.Infrastructure.Persistence
         public IQueryable<T> Query<T>()
         {
             return _session.Query<T>();
-        }
-
-        public bool Contains(object entity)
-        {
-            return _session.Contains(entity);
         }
     }
 }

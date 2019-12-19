@@ -1,103 +1,63 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
-using AutoMapper;
 using IdentityService.Domain.Command;
 using IdentityService.Domain.Services;
-using IdentityService.Domain.State;
 using IdentityService.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace IdentityService.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class IdentifyController : ControllerBase
     {
-        private IUserService _userService;
-        private IMapper _mapper;
-        private readonly AppSettings _appSettings;
+        private readonly IUserService _userService;
 
-        public IdentifyController(
-            IUserService userService,
-            IMapper mapper,
-            IOptions<AppSettings> appSettings)
+        public IdentifyController(IUserService userService)
         {
             _userService = userService;
-            _mapper = mapper;
-            _appSettings = appSettings.Value;
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]LoginModel loginModel)
         {
-            var user = _userService.Authenticate(loginModel.Username, loginModel.Password);
-
-            if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
-            
-            // return basic user info (without password) and token to store client side
-            return Ok(new {
-                UserId = user.UserId,
-                Username = user.Username,
-                Token = user.Token
-            });
+            var user = _userService.Authenticate(loginModel);
+            return Ok(new { user.UserId, user.Username, user.Token });
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]UserCommand userCommand)
+        public IActionResult Register([FromBody]UserModel userModel)
         {
             try 
             {
-                // save 
-                _userService.Create(userCommand, userCommand.Password);
+                _userService.Create(userModel);
                 return Ok();
             } 
             catch(AppException ex)
             {
-                // return error message if there was an exception
                 return BadRequest(new { message = ex.Message });
             }
         }
 
-        [AllowAnonymous]
-        [HttpGet("[action]")]
-        public IActionResult MyEmail()
-        {
-            var claim = ((ClaimsIdentity)User.Identity);
-            var email = claim.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault();
-            return Ok(email);
-        }
-        
-        [HttpGet("{id}")]
-        public IActionResult GetById(Guid id)
-        {
-            var user =  _userService.GetById(id);
-            var userDto = _mapper.Map<UserCommand>(user);
-            return Ok(userDto);
-        }
-
         [HttpPut("{id}")]
-        public IActionResult Update(Guid id, [FromBody]UserCommand userCommand)
+        public IActionResult Update(Guid id, [FromBody]UserModel userModel)
         {
-            // map dto to entity and set id
-            var user = _mapper.Map<User>(userCommand);
-            user.UserId = id;
+            var user = _userService.GetById(id);
 
             try 
             {
-                // save 
-                _userService.Update(user, userCommand.Password);
+                _userService.Update(user, userModel.Password);
                 return Ok();
             } 
             catch(AppException ex)
             {
-                // return error message if there was an exception
                 return BadRequest(new { message = ex.Message });
             }
         }

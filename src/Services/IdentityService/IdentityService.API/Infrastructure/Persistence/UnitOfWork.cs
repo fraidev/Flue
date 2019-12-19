@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NHibernate;
 
@@ -8,14 +9,12 @@ namespace IdentityService.Infrastructure.Persistence
     {
         void Save<TEntity>(TEntity entity) where TEntity : class;
         void Update(object entity);
-        void SaveOrUpdate(object entity);
         void Delete(object entity);
-        void Flush();
         T GetById<T>(Guid id);
         IQueryable<T> Query<T>();
-        bool Contains(object entity);
     }
 
+    [ExcludeFromCodeCoverage]
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ISession _session;
@@ -38,21 +37,10 @@ namespace IdentityService.Infrastructure.Persistence
             _session.Transaction.Commit();
         }
 
-        public void SaveOrUpdate(object entity)
-        {
-            _session.SaveOrUpdate(entity);
-            _session.Transaction.Commit();
-        }
-
         public void Delete(object entity)
         {
             _session.Delete(entity);
             _session.Transaction.Commit();
-        }
-
-        public void Flush()
-        {
-            _session.Flush();
         }
 
         public T GetById<T>(Guid id)
@@ -65,9 +53,5 @@ namespace IdentityService.Infrastructure.Persistence
             return _session.Query<T>();
         }
 
-        public bool Contains(object entity)
-        {
-            return _session.Contains(entity);
-        }
     }
 }

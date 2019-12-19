@@ -42,9 +42,9 @@ namespace FeedService.Domain.CommandHandlers
 
         public Task<Unit> Handle(CreatePost request, CancellationToken cancellationToken)
         {
-            var person = _personRepository.GetAggregateByUserId(_userService.UserId);
-            person.AddPost(request);
-            _personRepository.Save(person);
+            var personAggregate = _personRepository.GetAggregateByUserId(_userService.UserId);
+            personAggregate.AddPost(request);
+            _personRepository.Save(personAggregate);
 
             return Unit.Task;
         }

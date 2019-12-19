@@ -274,3 +274,7 @@ pub/
 /src/App/www/
 /src/Services/IdentityService/IdentityService.API/out/
 /src/Services/FeedService/FeedService.API/out/
+/src/Services/SupportService/dist/
+/src/App/plugins/
+/src/App/platforms/android/app/
+/src/App/platforms/android/

@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FeedService.Infrastructure.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ControllerBaseExtensions
     {
         public static Guid GetUserId(this ControllerBase controllerBase)

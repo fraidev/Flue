@@ -4,16 +4,17 @@ using MediatR;
 
 namespace FeedService.Infrastructure.CQRS
 {
+    public interface IMediatorHandler
+    {
+        Task SendCommand<T>(T command) where T : Command;
+    }
+
     public class InMemoryBus : IMediatorHandler
     {
         private readonly IMediator _mediator;
-        //private readonly IEventStore _eventStore;
 
-        public InMemoryBus(
-            //IEventStore eventStore, 
-            IMediator mediator)
+        public InMemoryBus(IMediator mediator)
         {
-            //_eventStore = eventStore;
             _mediator = mediator;
         }
 
@@ -21,18 +22,5 @@ namespace FeedService.Infrastructure.CQRS
         {
             return _mediator.Send(command);
         }
-
-        /*public Task RaiseEvent<T>(T @event) where T : Event
-        {
-            if (!@event.MessageType.Equals("DomainNotification"))
-                _eventStore?.Save(@event);
-
-            return _mediator.Publish(@event);
-        }*/
-    }
-
-    public interface IMediatorHandler
-    {
-        Task SendCommand<T>(T command) where T : Command;
     }
 }

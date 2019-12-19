@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using IdentityService.Infrastructure.Helpers;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -14,9 +17,9 @@ namespace IdentityService.Infrastructure.Broker
         void Close();
     }
     
+    [ExcludeFromCodeCoverage]
     public class MessageBroker: IMessageBroker
     {
-        
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly string _replyQueueName;
@@ -24,9 +27,9 @@ namespace IdentityService.Infrastructure.Broker
         private readonly BlockingCollection<string> _respQueue = new BlockingCollection<string>();
         private readonly IBasicProperties _props;
 
-        public MessageBroker()
+        public MessageBroker(IOptions<AppSettings> appSettings)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var factory = new ConnectionFactory() { HostName = appSettings.Value.RabbitHost };
 
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();

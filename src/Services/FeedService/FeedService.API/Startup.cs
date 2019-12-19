@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +22,7 @@ using NHibernate;
 
 namespace FeedService
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -70,7 +72,7 @@ namespace FeedService
                 };
             });
             services.AddMediatR(typeof(Startup));
-            services.AddSingleton<ISessionFactory>(x => new NHibernateFactory(appSettings.ConnectionString).CreateSessionFactory());
+            services.AddSingleton(x => new NHibernateFactory(appSettings.ConnectionString).CreateSessionFactory());
             services.AddScoped<IUnitOfWork, UnitOfWork>(x => new UnitOfWork(x.GetService<ISessionFactory>().OpenSession()));
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
