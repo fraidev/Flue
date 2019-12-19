@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Conta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="person" class="ion-padding-top ion-text-center">
+    <div class="image-upload">
+      <label for="file-input">
+        <img [src]="getAvatar" alt="avatar">
+      </label>
+      <input style="display: none" #fileinput id="file-input" type="file" accept="image/*"
+        (change)="fileChangeListener($event)">
+    </div>
+
+    <form #signUpForm="ngForm" novalidate>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label position="stacked" color="primary">Nome</ion-label>
+          <ion-input [(ngModel)]="person.name" name="name" type="text" #name="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger">
+          <p [hidden]="name.valid || submitted == false" class="ion-padding-start">
+            É obrigatório preencher seu nome
+          </p>
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="stacked" color="primary">Email</ion-label>
+          <ion-input [(ngModel)]="person.email" name="email" type="text" #email="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger">
+          <p [hidden]="email.valid || submitted == false" class="ion-padding-start">
+            É obrigatório preencher seu email
+          </p>
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="stacked" color="primary">Descrição</ion-label>
+          <ion-input [(ngModel)]="person.description" name="description" type="text" #description="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger">
+          <p [hidden]="description.valid || submitted == false" class="ion-padding-start">
+              É obrigatório preencher sua descrição 
+          </p>
+        </ion-text>
+      </ion-list>
+
+      <div class="ion-padding">
+        <ion-button (click)="onUpdatePerson()" type="submit" expand="block">Atualizar</ion-button>
+      </div>
+    </form>
+
+  </div>
+</ion-content>

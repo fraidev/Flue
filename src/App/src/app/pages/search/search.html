@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button [hidden]="searchPeopleType !== 'All'"></ion-menu-button>
+      <ion-back-button [hidden]="searchPeopleType === 'All'"></ion-back-button>
+    </ion-buttons>
+
+    <ion-searchbar style="padding: 0;height: 33px;" [(ngModel)]="queryText" (ionChange)="updateSearch()"
+      placeholder="Search"></ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content>
+  <ion-list style="min-height: 100%;">
+    <ion-grid fixed>
+      <ion-row class="ion-align-items-stretch">
+        <ion-col size="12" size-md="6" *ngFor="let person of people">
+          <ion-card class="person-card" (click)="onVisitProfile(person)">
+            <ion-card-header class="person-card-header">
+              <ion-item detail="false" lines="none">
+                <ion-avatar slot="start">
+                  <img [src]="getAvatar(person)" alt="Speaker profile pic">
+                </ion-avatar>
+                <div style="display: block">
+                  <ion-card-title>{{ person?.name }}</ion-card-title>
+                  <ion-card-subtitle>{{ person?.username }}</ion-card-subtitle>
+                </div>
+                <div slot="end" class="follow-btn">
+                  <ion-col size="4" lass="ion-text-right">
+                    <ion-button fill="clear" size="small" color="primary" *ngIf="!person.isFollowing"
+                      (click)="follow($event, person)">
+                      <ion-label>Seguir</ion-label>
+                    </ion-button>
+
+                    <ion-button fill="clear" size="small" color="primary" *ngIf="person.isFollowing"
+                      (click)="unfollow($event, person)">
+                      <ion-label>Deixar de Seguir</ion-label>
+                    </ion-button>
+                  </ion-col>
+                </div>
+              </ion-item>
+            </ion-card-header>
+
+            <ion-card-content>
+              {{person.description}}
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Carregando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
