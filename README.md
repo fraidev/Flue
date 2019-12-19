@@ -1,7 +1,7 @@
 # Flue 
 A Social Network build with microservices architecture.
 
-### Paper Document
+### Term Paper
 For read my term paper in brazilian portuguese [click here](https://github.com/fcrcardozo/Flue/blob/master/docs/TCC.pdf)
 
 ### Architecture 
